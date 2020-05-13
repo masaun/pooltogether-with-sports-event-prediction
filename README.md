@@ -1,35 +1,16 @@
-# Social Impact Bond for developing vaccines of COVID19
+# PoolTogether NYBW Hack 2020
 
 ***
-## 【Introduction of Social Impact Bond for developing vaccines of COVID19】
-- This is a dApp of Social Impact Bond for developing vaccines of COVID19
-  - This dApp aim to support institution which try to develop vaccines of COVID19 by structure of Social Impact Bond.
+## 【Introduction of PoolTogether NYBW Hack 2020】
+- This is a dApp
 
 &nbsp;
 
 ## 【User Flow】
-- ① Institutions of developing vaccines set (define) a `objective for evaluation` .
-  - Estimated budget amount
-  - Requested budget amount
-  - `Objective of saving cost` （=Substract `requested budget amount` from `estimated budget amount` ）
-  - start date & end date of developing vaccines
-    etc,...
-
-
-- ② Government stake funds which is equal to `"estimated budget amount"` above
-  - Staked amount are lended to `idle.finance`
-
-<br>
-
-- ③ Investors invest funds for institutions of developing vaccines as investment of principal
-  （Maximum invested amount is until `"requested budget amount"` above）
-
-- ④ Evaluate outcome of institution towards objective.
-  - If outcome of institution is achieved to objective, staked funds from government is disributed to investors. (Investors receieve `investment of principal amount` and `interest amount` )
-    - `Investment of principal amount` is amount which is divided that interest amount by number of investors.
-    - `Interest amount` is amount which is redeemed from `idle.finance` and divided that interest amount by number of investors.
-
-  - If outcome of institution is not achieved to objective, staked funds is refund to government.
+- ① 
+- ②
+- ③
+- ④
 
 &nbsp;
 
@@ -82,24 +63,21 @@ http://127.0.0.1:3000/idle-insurance-fund
 ***
 
 ## 【References】
-- [Social Impact Bond]
-  - https://medium.com/bhpn-crosswalk/what-to-make-of-social-impact-bonds-f2274210235c#.sl2ipi49w
-  - https://www.thestandard.com.hk/breaking-news/section/3/117016/Pay-for-Success-for-the-Success-of-Social-Innovation-in-Hong-Kong
-  - http://healthmovement.eu/service/health-impact-bonds/
+- [PoolTogether]：
+  - Bounty of "Best PoolTogether Project" at Gitcoin
+    https://gitcoin.co/issue/pooltogether/pooltogether-contracts/30/4308
 
+  - Repos
+    - pooltogether-contracts
+      https://github.com/pooltogether/pooltogether-contracts
+    - pods
+      https://github.com/pooltogether/pods
+    - pooltogether-contracts-mock
+      https://github.com/pooltogether/pooltogether-contracts-mock
+    - pooltogether.js
+      https://github.com/pooltogether/pooltogetherjs
 
 <br>
 
-- [idle.finance]
-  - https://idle.finance/#/
-  - https://developers.idle.finance/
-  - https://github.com/bugduino/idle-contracts
-
-<br>
-
-- [Gnosis / Contract Proxy Kit (CPK)]
-  - https://explorer.bounties.network/bounty/3937
-  - https://github.com/gnosis/contract-proxy-kit
-  - https://github.com/gnosis/safe-demo (Truffle box📦)
-  - https://docs.gnosis.io/safe/docs/sdks_cpk/
-  - https://docs.gnosis.io/safe/docs/cpktutorial1/
+  - Article abount "v2"
+    https://medium.com/pooltogether/inside-pooltogether-v2-0-e7d0e1b90a08
