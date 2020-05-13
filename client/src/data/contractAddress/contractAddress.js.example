@@ -1,0 +1,9 @@
+export const contractAddressList = {
+    "Kovan": {
+        "exampleContract": {
+            "exampleContract1": "",
+            "exampleContract2": "",
+            "exampleContract3": ""
+        }
+    }
+}

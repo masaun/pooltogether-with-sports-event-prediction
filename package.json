@@ -1,0 +1,29 @@
+{
+  "name": "pooltogether-nybw-hack-2020",
+  "version": "1.0.0",
+  "description": "",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test:truffle": "truffle test ./test/*",
+    "start-blank": "rm -rf client/src && cp -rf barebones/src client/",
+    "client": "cd client && npm run start",
+    "console:kovan": "truffle console --network kovan",
+    "compile:kovan": "truffle compile --reset --network kovan",
+    "migrate:kovan": "truffle migrate --reset --network kovan",
+    "console:rinkeby": "truffle console --network rinkeby",
+    "compile:rinkeby": "truffle compile --reset --network rinkeby",
+    "migrate:rinkeby": "truffle migrate --reset --network rinkeby"
+  },
+  "author": "masaun",
+  "license": "MIT",
+  "dependencies": {
+    "@truffle/hdwallet-provider": "^1.0.29",
+    "dotenv": "^8.2.0",
+    "eth-block-tracker": "^4.4.3",
+    "@openzeppelin/contracts": "^2.4.0"
+  },
+  "devDependencies": {}
+}

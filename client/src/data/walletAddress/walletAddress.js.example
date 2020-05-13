@@ -1,0 +1,8 @@
+export const walletAddressList = {
+    "addressList": {
+        "address1": "",
+        "address2": "",
+        "address3": "",
+        "address4": "",
+    },
+}
