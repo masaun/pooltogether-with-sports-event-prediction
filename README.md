@@ -63,21 +63,19 @@ http://127.0.0.1:3000/idle-insurance-fund
 ***
 
 ## 【References】
-- [PoolTogether]：
-  - Bounty of "Best PoolTogether Project" at Gitcoin
+- [PoolTogether]：  
+  - Bounty of "Best PoolTogether Project" at Gitcoin   
     https://gitcoin.co/issue/pooltogether/pooltogether-contracts/30/4308
 
-  - Repos
-    - pooltogether-contracts
-      https://github.com/pooltogether/pooltogether-contracts
-    - pods
-      https://github.com/pooltogether/pods
-    - pooltogether-contracts-mock
-      https://github.com/pooltogether/pooltogether-contracts-mock
-    - pooltogether.js
-      https://github.com/pooltogether/pooltogetherjs
+  - Repos  
+    - pooltogether-contracts  
+      https://github.com/pooltogether/pooltogether-contracts  
+    - pods  
+      https://github.com/pooltogether/pods  
+    - pooltogether-contracts-mock  
+      https://github.com/pooltogether/pooltogether-contracts-mock  
+    - pooltogether.js  
+      https://github.com/pooltogether/pooltogetherjs  
 
-<br>
-
-  - Article abount "v2"
+  - Article abount "v2"  
     https://medium.com/pooltogether/inside-pooltogether-v2-0-e7d0e1b90a08
