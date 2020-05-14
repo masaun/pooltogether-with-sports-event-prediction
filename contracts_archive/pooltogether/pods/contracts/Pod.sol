@@ -24,9 +24,12 @@ import "@openzeppelin/contracts-ethereum-package/contracts/token/ERC777/IERC777R
 import "@openzeppelin/contracts-ethereum-package/contracts/token/ERC777/ERC777.sol";
 import "@openzeppelin/contracts-ethereum-package/contracts/utils/ReentrancyGuard.sol";
 import "@kleros/kleros/contracts/data-structures/SortitionSumTreeFactory.sol";
-import "@pooltogether/pooltogether-contracts/contracts/UniformRandomNumber.sol";
-import "@pooltogether/pooltogether-contracts/contracts/MCDAwarePool.sol";
-import "@pooltogether/pooltogether-contracts/contracts/IRewardListener.sol";
+import "../../contracts_archive/pooltogether/pooltogether-contracts/contracts/UniformRandomNumber.sol";
+import "../../contracts_archive/pooltogether/pooltogether-contracts/contracts/MCDAwarePool.sol";
+import "../../contracts_archive/pooltogether/pooltogether-contracts/contracts/IRewardListener.sol";
+// import "@pooltogether/pooltogether-contracts/contracts/UniformRandomNumber.sol";
+// import "@pooltogether/pooltogether-contracts/contracts/MCDAwarePool.sol";
+// import "@pooltogether/pooltogether-contracts/contracts/IRewardListener.sol";
 
 import "./ScheduledBalance.sol";
 import "./ExchangeRateTracker.sol";
