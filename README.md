@@ -59,7 +59,7 @@ $ npm run client
 
 4. Access to browser by using link 
 ```
-http://127.0.0.1:3000/idle-insurance-fund
+http://127.0.0.1:3000/pooltogether-nybw-hack-2020
 ```
 
 &nbsp;
