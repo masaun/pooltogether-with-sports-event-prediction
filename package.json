@@ -20,10 +20,10 @@
   "author": "masaun",
   "license": "MIT",
   "dependencies": {
+    "@openzeppelin/contracts": "^2.4.0",
     "@truffle/hdwallet-provider": "^1.0.29",
     "dotenv": "^8.2.0",
-    "eth-block-tracker": "^4.4.3",
-    "@openzeppelin/contracts": "^2.4.0"
+    "eth-block-tracker": "^4.4.3"
   },
   "devDependencies": {}
 }

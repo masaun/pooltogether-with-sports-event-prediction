@@ -42,10 +42,15 @@ $ npm run migrate:Kovan
 
 
 ### Setup frontend
-1. Add an `.env` file under the directory of `./client`.
+1. Move to `./client`
+```
+$ cd client
+```
 
-2. Add `SKIP_PREFLIGHT_CHECK=true` to an `.env` file under the directory of `./client`.    
-（Recommend to reference from `./client/.env.example`）
+2. Add an `.env` file under the directory of `./client`.
+```
+$ cp .env.example .env
+```
 
 3. Execute command below in root directory.
 ```
