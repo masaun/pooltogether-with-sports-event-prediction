@@ -20,6 +20,7 @@
   "author": "masaun",
   "license": "MIT",
   "dependencies": {
+    "@kleros/kleros": "^0.1.5",
     "@openzeppelin/contracts": "^2.4.0",
     "@openzeppelin/contracts-ethereum-package": "^2.5.0",
     "@openzeppelin/upgrades": "^2.8.0",
