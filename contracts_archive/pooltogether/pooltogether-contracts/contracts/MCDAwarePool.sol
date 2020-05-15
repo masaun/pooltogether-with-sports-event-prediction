@@ -19,7 +19,7 @@ along with PoolTogether.  If not, see <https://www.gnu.org/licenses/>.
 pragma solidity 0.5.12;
 
 import "./BasePool.sol";
-import "scd-mcd-migration/src/ScdMcdMigration.sol";
+import "../../scd-mcd-migration/src/ScdMcdMigration.sol";
 import { GemLike } from "scd-mcd-migration/src/Interfaces.sol";
 import "@openzeppelin/contracts-ethereum-package/contracts/token/ERC777/IERC777Recipient.sol";
 
