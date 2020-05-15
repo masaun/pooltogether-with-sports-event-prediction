@@ -1,4 +1,5 @@
 var PodMock = artifacts.require("PodMock");
+var FixedPoint = artifacts.require("FixedPoint");
 var IERC20 = artifacts.require("IERC20");
 
 //@dev - Import from exported file
@@ -12,6 +13,10 @@ const _erc20 = tokenAddressList["Kovan"]["DAI"];     // DAI address on Kovan
 module.exports = async function(deployer, network, accounts) {
     // Initialize owner address if you want to transfer ownership of contract to some other address
     let ownerAddress = walletAddressList["WalletAddress1"];
+
+    // Deploy library and then link library with contract
+    deployer.deploy(FixedPoint);
+    deployer.link(FixedPoint, PodMock);
 
     await deployer.deploy(PodMock, _erc20).then(async function(podMock) {
         if(ownerAddress && ownerAddress!="") {
