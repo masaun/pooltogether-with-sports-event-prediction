@@ -1,7 +1,7 @@
 pragma solidity 0.5.12;
 
 import "@openzeppelin/upgrades/contracts/Initializable.sol";
-import { GemLike } from "scd-mcd-migration/src/Interfaces.sol";
+import { GemLike } from "../../../../scd-mcd-migration/src/Interfaces.sol";
 import "./MockJoinLike.sol";
 import "../Token.sol";
 
