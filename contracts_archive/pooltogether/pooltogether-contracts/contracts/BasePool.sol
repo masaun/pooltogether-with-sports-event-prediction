@@ -25,7 +25,7 @@ import "@openzeppelin/contracts-ethereum-package/contracts/utils/ReentrancyGuard
 import "@openzeppelin/contracts-ethereum-package/contracts/access/Roles.sol";
 import "./compound/ICErc20.sol";
 import "./DrawManager.sol";
-import "fixidity/contracts/FixidityLib.sol";
+import "../../Fixidity/contracts/FixidityLib.sol";
 import "@openzeppelin/upgrades/contracts/Initializable.sol";
 import "./Blocklock.sol";
 import "./PoolToken.sol";

@@ -23,10 +23,13 @@ import "@openzeppelin/contracts-ethereum-package/contracts/introspection/IERC182
 import "@openzeppelin/contracts-ethereum-package/contracts/token/ERC777/IERC777Recipient.sol";
 import "@openzeppelin/contracts-ethereum-package/contracts/token/ERC777/ERC777.sol";
 import "@openzeppelin/contracts-ethereum-package/contracts/utils/ReentrancyGuard.sol";
-import "@kleros/kleros/contracts/data-structures/SortitionSumTreeFactory.sol";
-import "@pooltogether/pooltogether-contracts/contracts/UniformRandomNumber.sol";
-import "@pooltogether/pooltogether-contracts/contracts/MCDAwarePool.sol";
-import "@pooltogether/pooltogether-contracts/contracts/IRewardListener.sol";
+import "../../@deltacamp-kleros/contracts/data-structures/SortitionSumTreeFactory.sol";
+import "../../pooltogether-contracts/contracts/UniformRandomNumber.sol";
+import "../../pooltogether-contracts/contracts/MCDAwarePool.sol";
+import "../../pooltogether-contracts/contracts/IRewardListener.sol";
+// import "@pooltogether/pooltogether-contracts/contracts/UniformRandomNumber.sol";
+// import "@pooltogether/pooltogether-contracts/contracts/MCDAwarePool.sol";
+// import "@pooltogether/pooltogether-contracts/contracts/IRewardListener.sol";
 
 import "./ScheduledBalance.sol";
 import "./ExchangeRateTracker.sol";
