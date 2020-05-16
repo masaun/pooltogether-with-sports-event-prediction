@@ -1,4 +1,4 @@
-var PoolMock = artifacts.require("PoolMock");
+var PoolTokenMock = artifacts.require("PoolTokenMock");
 var Blocklock = artifacts.require("Blocklock");
 var DrawManager = artifacts.require("DrawManager");
 var FixidityLib = artifacts.require("FixidityLib");
@@ -28,15 +28,15 @@ module.exports = async function(deployer, network, accounts) {
     await deployer.deploy(Blocklock);
     await deployer.deploy(DrawManager);
     await deployer.deploy(FixidityLib);
-    await deployer.link(Blocklock, PoolMock);
-    await deployer.link(DrawManager, PoolMock);
-    await deployer.link(FixidityLib, PoolMock);
+    await deployer.link(Blocklock, PoolTokenMock);
+    await deployer.link(DrawManager, PoolTokenMock);
+    await deployer.link(FixidityLib, PoolTokenMock);
 
-    await deployer.deploy(PoolMock, _erc20, { from: deployerAddress });
-    // await deployer.deploy(PoolMock, _erc20).then(async function(poolMock) {
+    await deployer.deploy(PoolTokenMock, _erc20, { from: deployerAddress });
+    // await deployer.deploy(PoolTokenMock, _erc20).then(async function(poolTokenMock) {
     //     if(ownerAddress && ownerAddress!="") {
     //         console.log(`=== Transfering ownerhip to address ${ownerAddress} ===`)
-    //         await poolMock.transferOwnership(ownerAddress);
+    //         await poolTokenMock.transferOwnership(ownerAddress);
     //     }
     // });
 };
