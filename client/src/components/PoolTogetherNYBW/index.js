@@ -29,6 +29,8 @@ export default class PoolTogetherNYBW extends Component {
             route: window.location.pathname.replace("/", "")
         };
 
+        this._initPoolToken = this._initPoolToken.bind(this);
+
         /////// Getter Functions
         this._getBasePool = this._getBasePool.bind(this);
         this.balanceOfUnderlying = this.balanceOfUnderlying.bind(this);
@@ -37,6 +39,19 @@ export default class PoolTogetherNYBW extends Component {
         /////// Test Functions
         this.timestampFromDate = this.timestampFromDate.bind(this);
     }
+
+    _initPoolToken = async () => {
+        const { accounts, web3, dai, poolToken_mock } = this.state;
+
+        const _name = 'Test PoolToken'
+        const _symbol = 'TPT'
+        const _defaultOperators = [accounts[0]];
+        const _pool = tokenAddressList["Kovan"]["PoolTogether"]["PoolDai"];  // MCDAwarePool.sol
+
+        let res = await poolToken_mock.methods.initPoolToken(_name, _symbol, _defaultOperators, _pool).send({ from: accounts[0] });
+        console.log('=== initPoolToken() ===\n', res);           
+    }
+
 
     /***
      * @dev - Getter function
@@ -257,6 +272,10 @@ export default class PoolTogetherNYBW extends Component {
                               borderColor={"#E8E8E8"}
                         >
                             <h4>PoolTogether NYBW Hack 2020</h4> <br />
+
+                            <Button size={'small'} mt={3} mb={2} onClick={this._initPoolToken}> Init PoolToken </Button> <br />
+
+                            <hr />
 
                             <Button mainColor="DarkCyan" size={'small'} mt={3} mb={2} onClick={this._getBasePool}> Get BasePool </Button> <br />
 

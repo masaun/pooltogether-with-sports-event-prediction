@@ -16,5 +16,9 @@ contract PodMock is Pod {
     function _balanceOfUnderlying(address _user) public returns (uint256) {
         return balanceOfUnderlying(_user);  // Inherited from Pod.sol
     }
-          
+
+    function _balanceOf(address _tokenHolder) public view returns (uint256) {
+        return balanceOf(_tokenHolder);
+    }
+    
 }
