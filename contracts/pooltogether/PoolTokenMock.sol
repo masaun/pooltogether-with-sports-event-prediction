@@ -1,7 +1,7 @@
 pragma solidity ^0.5.0;
 
 import "../../contracts_archive/pooltogether/pooltogether-contracts/contracts/RecipientWhitelistPoolToken.sol";
-//import "@pooltogether/pooltogether-contracts/contracts/RecipientWhitelistPoolToken.sol";
+
 
 contract PoolTokenMock is RecipientWhitelistPoolToken {
     using SafeMath for uint;
@@ -23,4 +23,11 @@ contract PoolTokenMock is RecipientWhitelistPoolToken {
     }
     
 
+    /**
+     * @notice - Getter functions
+     */
+    function getBasePool() public view returns (BasePool) {
+        pool();  // pool() of PoolToken.sol
+    }
+    
 }
