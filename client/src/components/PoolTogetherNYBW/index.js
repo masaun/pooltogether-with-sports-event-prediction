@@ -30,6 +30,8 @@ export default class PoolTogetherNYBW extends Component {
         };
 
         /////// Getter Functions
+        this._getBasePool = this._getBasePool.bind(this);
+        this.balanceOfUnderlying = this.balanceOfUnderlying.bind(this);
         this._balanceOfContract = this._balanceOfContract.bind(this);
 
         /////// Test Functions
@@ -46,6 +48,14 @@ export default class PoolTogetherNYBW extends Component {
         console.log('=== getBasePool() ===\n', res);        
     }
 
+    balanceOfUnderlying = async () => {
+        const { accounts, web3, dai, pod_mock } = this.state;
+
+        const _user = accounts[0];
+
+        let res = await pod_mock.methods._balanceOfUnderlying(_user).call();
+        console.log('=== _balanceOfUnderlying() ===\n', res);        
+    }
 
     _balanceOfContract = async () => {
         const { accounts, web3, dai, poolTogether_nybw } = this.state;
@@ -249,6 +259,8 @@ export default class PoolTogetherNYBW extends Component {
                             <h4>PoolTogether NYBW Hack 2020</h4> <br />
 
                             <Button mainColor="DarkCyan" size={'small'} mt={3} mb={2} onClick={this._getBasePool}> Get BasePool </Button> <br />
+
+                            <Button mainColor="DarkCyan" size={'small'} mt={3} mb={2} onClick={this.balanceOfUnderlying}> Balance Of Underlying </Button> <br />
 
                             <Button mainColor="DarkCyan" size={'small'} mt={3} mb={2} onClick={this._balanceOfContract}> Balance of contract </Button> <br />
                         </Card>
