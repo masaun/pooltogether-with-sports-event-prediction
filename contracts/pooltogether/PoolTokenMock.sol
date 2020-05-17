@@ -8,7 +8,7 @@ contract PoolTokenMock is RecipientWhitelistPoolToken {
 
     IERC20 public dai;
 
-    constructor(address _erc20) public {
+    constructor(address _erc20, address _mcdAwarePool) public {
         dai = IERC20(_erc20);
     }
 
@@ -17,11 +17,13 @@ contract PoolTokenMock is RecipientWhitelistPoolToken {
         string memory _name,
         string memory _symbol,
         address[] memory _defaultOperators,
-        BasePool _pool
+        BasePool _pool  // Target Pool which publish PoolToken <= Contract address of PoolDAI（MCDAwarePool.sol）
     ) public returns (bool) {
         init(_name, _symbol, _defaultOperators, _pool);  // init() of PoolToken.sol
     }
-    
+
+  
+
 
     /**
      * @notice - Getter functions

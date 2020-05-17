@@ -46,7 +46,7 @@ export default class PoolTogetherNYBW extends Component {
         const _name = 'Test PoolToken'
         const _symbol = 'TPT'
         const _defaultOperators = [accounts[0]];
-        const _pool = tokenAddressList["Kovan"]["PoolTogether"]["PoolDai"];  // MCDAwarePool.sol
+        const _pool = contractAddressList["Kovan"]["PoolTogether"]["PoolDai"];  // MCDAwarePool.sol
 
         let res = await poolToken_mock.methods.initPoolToken(_name, _symbol, _defaultOperators, _pool).send({ from: accounts[0] });
         console.log('=== initPoolToken() ===\n', res);           
