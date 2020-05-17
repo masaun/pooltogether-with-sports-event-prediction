@@ -29,6 +29,9 @@ export default class PoolTogetherNYBW extends Component {
             route: window.location.pathname.replace("/", "")
         };
 
+        this._initPoolToken = this._initPoolToken.bind(this);
+        this.initMCDAwarePool = this.initMCDAwarePool.bind(this);
+
         /////// Getter Functions
         this._getBasePool = this._getBasePool.bind(this);
         this.balanceOfUnderlying = this.balanceOfUnderlying.bind(this);
@@ -37,6 +40,29 @@ export default class PoolTogetherNYBW extends Component {
         /////// Test Functions
         this.timestampFromDate = this.timestampFromDate.bind(this);
     }
+
+    _initPoolToken = async () => {
+        const { accounts, web3, dai, poolToken_mock } = this.state;
+
+        const _name = 'Test PoolToken'
+        const _symbol = 'TPT'
+        const _defaultOperators = [accounts[0]];
+        const _pool = contractAddressList["Kovan"]["PoolTogether"]["PoolDai"];  // MCDAwarePool.sol
+
+        let res = await poolToken_mock.methods.initPoolToken(_name, _symbol, _defaultOperators, _pool).send({ from: accounts[0] });
+        console.log('=== initPoolToken() ===\n', res);           
+    }
+
+    initMCDAwarePool = async () => {
+        const { accounts, web3, dai, pool_mock } = this.state;
+
+        const _lockDuration = 55;
+        const _cooldownDuration = 90;
+ 
+        let res = await pool_mock.methods.initMCDAwarePool(_lockDuration, _cooldownDuration).send({ from: accounts[0] });
+        console.log('=== _initMCDAwarePool() ===\n', res);           
+    }
+
 
     /***
      * @dev - Getter function
@@ -103,12 +129,14 @@ export default class PoolTogetherNYBW extends Component {
      
         let PoolTogetherNYBW = {};
         let PodMock = {};        
+        let PoolMock = {};
         let PoolTokenMock = {};
         let Dai = {};
         let BokkyPooBahsDateTimeContract = {};
         try {
           PoolTogetherNYBW = require("../../../../build/contracts/StakeholderRegistry.json");  // Load artifact-file of StakeholderRegistry
           PodMock = require("../../../../build/contracts/PodMock.json");
+          PoolMock = require("../../../../build/contracts/PoolMock.json");
           PoolTokenMock = require("../../../../build/contracts/PoolTokenMock.json");
           Dai = require("../../../../build/contracts/IERC20.json");               //@dev - DAI（Underlying asset）
           BokkyPooBahsDateTimeContract = require("../../../../build/contracts/BokkyPooBahsDateTimeContract.json");   //@dev - BokkyPooBahsDateTimeContract.sol (for calculate timestamp)
@@ -168,6 +196,20 @@ export default class PoolTogetherNYBW extends Component {
             }
 
             // Create instance of contracts
+            let instancePoolMock = null;
+            let deployedNetworkPoolMock = null;
+            if (PoolMock.networks) {
+              deployedNetworkPoolMock = PoolMock.networks[networkId.toString()];
+              if (deployedNetworkPoolMock) {
+                instancePoolMock = new web3.eth.Contract(
+                  PoolMock.abi,
+                  deployedNetworkPoolMock && deployedNetworkPoolMock.address,
+                );
+                console.log('=== instancePoolMock ===', instancePoolMock);
+              }
+            }
+
+            // Create instance of contracts
             let instancePoolTokenMock = null;
             let deployedNetworkPoolTokenMock = null;
             if (PoolTokenMock.networks) {
@@ -200,7 +242,7 @@ export default class PoolTogetherNYBW extends Component {
             console.log('=== instanceBokkyPooBahsDateTimeContract ===', instanceBokkyPooBahsDateTimeContract);
 
 
-            if (PoolTogetherNYBW || PodMock || PoolTokenMock || Dai || BokkyPooBahsDateTimeContract) {
+            if (PoolTogetherNYBW || PodMock || PoolMock || PoolTokenMock || Dai || BokkyPooBahsDateTimeContract) {
               // Set web3, accounts, and contract to the state, and then proceed with an
               // example of interacting with the contract's methods.
               this.setState({ 
@@ -214,6 +256,7 @@ export default class PoolTogetherNYBW extends Component {
                 isMetaMask, 
                 poolTogether_nybw: instancePoolTogetherNYBW,
                 pod_mock: instancePodMock,
+                pool_mock: instancePoolMock,
                 poolToken_mock: instancePoolTokenMock,
                 dai: instanceDai,
                 bokkypoobahs_datetime_contract: instanceBokkyPooBahsDateTimeContract,
@@ -257,6 +300,12 @@ export default class PoolTogetherNYBW extends Component {
                               borderColor={"#E8E8E8"}
                         >
                             <h4>PoolTogether NYBW Hack 2020</h4> <br />
+
+                            <Button size={'small'} mt={3} mb={2} onClick={this._initPoolToken}> Init PoolToken </Button> <br />
+
+                            <Button size={'small'} mt={3} mb={2} onClick={this.initMCDAwarePool}> Init MCDAwarePool </Button> <br />
+
+                            <hr />
 
                             <Button mainColor="DarkCyan" size={'small'} mt={3} mb={2} onClick={this._getBasePool}> Get BasePool </Button> <br />
 

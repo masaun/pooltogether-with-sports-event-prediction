@@ -1,7 +1,6 @@
-pragma solidity ^0.5.0;
+pragma solidity ^0.5.12;
 
-import "../../contracts_archive/pooltogether/pods/contracts/Pod.sol";
-//import "@pooltogether/pods/contracts/Pod.sol";
+import "./pods/contracts/Pod.sol";
 
 contract PodMock is Pod {
 
@@ -16,5 +15,9 @@ contract PodMock is Pod {
     function _balanceOfUnderlying(address _user) public returns (uint256) {
         return balanceOfUnderlying(_user);  // Inherited from Pod.sol
     }
-          
+
+    function _balanceOf(address _tokenHolder) public view returns (uint256) {
+        return balanceOf(_tokenHolder);
+    }
+    
 }
