@@ -30,6 +30,7 @@ export default class PoolTogetherNYBW extends Component {
         };
 
         this._initPoolToken = this._initPoolToken.bind(this);
+        this.initMCDAwarePool = this.initMCDAwarePool.bind(this);
 
         /////// Getter Functions
         this._getBasePool = this._getBasePool.bind(this);
@@ -50,6 +51,16 @@ export default class PoolTogetherNYBW extends Component {
 
         let res = await poolToken_mock.methods.initPoolToken(_name, _symbol, _defaultOperators, _pool).send({ from: accounts[0] });
         console.log('=== initPoolToken() ===\n', res);           
+    }
+
+    initMCDAwarePool = async () => {
+        const { accounts, web3, dai, pool_mock } = this.state;
+
+        const _lockDuration = 55;
+        const _cooldownDuration = 90;
+ 
+        let res = await pool_mock.methods.initMCDAwarePool(_lockDuration, _cooldownDuration).send({ from: accounts[0] });
+        console.log('=== _initMCDAwarePool() ===\n', res);           
     }
 
 
@@ -231,7 +242,7 @@ export default class PoolTogetherNYBW extends Component {
             console.log('=== instanceBokkyPooBahsDateTimeContract ===', instanceBokkyPooBahsDateTimeContract);
 
 
-            if (PoolTogetherNYBW || PodMock || PoolTokenMock || Dai || BokkyPooBahsDateTimeContract) {
+            if (PoolTogetherNYBW || PodMock || PoolMock || PoolTokenMock || Dai || BokkyPooBahsDateTimeContract) {
               // Set web3, accounts, and contract to the state, and then proceed with an
               // example of interacting with the contract's methods.
               this.setState({ 
@@ -245,7 +256,7 @@ export default class PoolTogetherNYBW extends Component {
                 isMetaMask, 
                 poolTogether_nybw: instancePoolTogetherNYBW,
                 pod_mock: instancePodMock,
-                poolMock: instancePoolMock,
+                pool_mock: instancePoolMock,
                 poolToken_mock: instancePoolTokenMock,
                 dai: instanceDai,
                 bokkypoobahs_datetime_contract: instanceBokkyPooBahsDateTimeContract,
@@ -291,6 +302,8 @@ export default class PoolTogetherNYBW extends Component {
                             <h4>PoolTogether NYBW Hack 2020</h4> <br />
 
                             <Button size={'small'} mt={3} mb={2} onClick={this._initPoolToken}> Init PoolToken </Button> <br />
+
+                            <Button size={'small'} mt={3} mb={2} onClick={this.initMCDAwarePool}> Init MCDAwarePool </Button> <br />
 
                             <hr />
 
