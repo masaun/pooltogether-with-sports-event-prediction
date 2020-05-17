@@ -49,8 +49,8 @@ export default class PoolTogetherNYBW extends Component {
         const _defaultOperators = [accounts[0]];
         const _pool = contractAddressList["Kovan"]["PoolTogether"]["PoolDai"];  // MCDAwarePool.sol
 
-        //let res = await poolToken_mock.methods.initPoolToken(_name, _symbol, _defaultOperators, _pool).send({ from: accounts[0] });
-        let res = await poolToken_mock.methods.init(_name, _symbol, _defaultOperators, _pool).send({ from: accounts[0] });
+        let res = await poolToken_mock.methods.initPoolToken(_name, _symbol, _defaultOperators, _pool).send({ from: accounts[0] });
+        //let res = await poolToken_mock.methods.init(_name, _symbol, _defaultOperators, _pool).send({ from: accounts[0] });
         console.log('=== initPoolToken() ===\n', res);           
     }
 

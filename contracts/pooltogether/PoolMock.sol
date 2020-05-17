@@ -11,6 +11,14 @@ contract PoolMock is MCDAwarePool {
     constructor(address _erc20) public {
         dai = IERC20(_erc20);
     }
+
+    
+    /***
+     * @dev - Pool Logic for selecting winner 
+     **/
+    function poolLogic() public returns (bool) {
+        // In progress
+    }
     
 
     /**
