@@ -118,12 +118,14 @@ export default class PoolTogetherNYBW extends Component {
      
         let PoolTogetherNYBW = {};
         let PodMock = {};        
+        let PoolMock = {};
         let PoolTokenMock = {};
         let Dai = {};
         let BokkyPooBahsDateTimeContract = {};
         try {
           PoolTogetherNYBW = require("../../../../build/contracts/StakeholderRegistry.json");  // Load artifact-file of StakeholderRegistry
           PodMock = require("../../../../build/contracts/PodMock.json");
+          PoolMock = require("../../../../build/contracts/PoolMock.json");
           PoolTokenMock = require("../../../../build/contracts/PoolTokenMock.json");
           Dai = require("../../../../build/contracts/IERC20.json");               //@dev - DAI（Underlying asset）
           BokkyPooBahsDateTimeContract = require("../../../../build/contracts/BokkyPooBahsDateTimeContract.json");   //@dev - BokkyPooBahsDateTimeContract.sol (for calculate timestamp)
@@ -183,6 +185,20 @@ export default class PoolTogetherNYBW extends Component {
             }
 
             // Create instance of contracts
+            let instancePoolMock = null;
+            let deployedNetworkPoolMock = null;
+            if (PoolMock.networks) {
+              deployedNetworkPoolMock = PoolMock.networks[networkId.toString()];
+              if (deployedNetworkPoolMock) {
+                instancePoolMock = new web3.eth.Contract(
+                  PoolMock.abi,
+                  deployedNetworkPoolMock && deployedNetworkPoolMock.address,
+                );
+                console.log('=== instancePoolMock ===', instancePoolMock);
+              }
+            }
+
+            // Create instance of contracts
             let instancePoolTokenMock = null;
             let deployedNetworkPoolTokenMock = null;
             if (PoolTokenMock.networks) {
@@ -229,6 +245,7 @@ export default class PoolTogetherNYBW extends Component {
                 isMetaMask, 
                 poolTogether_nybw: instancePoolTogetherNYBW,
                 pod_mock: instancePodMock,
+                poolMock: instancePoolMock,
                 poolToken_mock: instancePoolTokenMock,
                 dai: instanceDai,
                 bokkypoobahs_datetime_contract: instanceBokkyPooBahsDateTimeContract,
