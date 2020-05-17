@@ -32,10 +32,10 @@ module.exports = async function(deployer, network, accounts) {
     await deployer.link(FixidityLib, PoolMock);
 
     await deployer.deploy(PoolMock, _erc20, { from: deployerAddress });
-    // await deployer.deploy(PoolTokenMock, _erc20).then(async function(poolTokenMock) {
+    // await deployer.deploy(PoolMock, _erc20).then(async function(poolMock) {
     //     if(ownerAddress && ownerAddress!="") {
     //         console.log(`=== Transfering ownerhip to address ${ownerAddress} ===`)
-    //         await poolTokenMock.transferOwnership(ownerAddress);
+    //         await poolMock.transferOwnership(ownerAddress);
     //     }
     // });
 };

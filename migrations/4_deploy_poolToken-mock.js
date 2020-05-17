@@ -11,7 +11,6 @@ var tokenAddressList = require('./tokenAddress/tokenAddress.js');
 var walletAddressList = require('./walletAddress/walletAddress.js');
 
 const _erc20 = tokenAddressList["Kovan"]["DAI"];     // DAI address on Kovan
-const _mcdAwarePool = contractAddressList["Kovan"]["PoolTogether"]["PoolDai"];  // MCDAwarePool.sol
 
 
 module.exports = async function(deployer, network, accounts) {
@@ -33,7 +32,7 @@ module.exports = async function(deployer, network, accounts) {
     await deployer.link(DrawManager, PoolTokenMock);
     await deployer.link(FixidityLib, PoolTokenMock);
 
-    await deployer.deploy(PoolTokenMock, _erc20, _mcdAwarePool, { from: deployerAddress });
+    await deployer.deploy(PoolTokenMock, _erc20, { from: deployerAddress });
     // await deployer.deploy(PoolTokenMock, _erc20).then(async function(poolTokenMock) {
     //     if(ownerAddress && ownerAddress!="") {
     //         console.log(`=== Transfering ownerhip to address ${ownerAddress} ===`)
