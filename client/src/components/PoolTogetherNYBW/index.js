@@ -55,7 +55,7 @@ export default class PoolTogetherNYBW extends Component {
     }
 
     initMCDAwarePool = async () => {
-        const { accounts, web3, dai, pool_mock } = this.state;
+        const { accounts, web3, dai, pool_mock, POOlMOCK_ADDRESS } = this.state;
 
         const _owner = walletAddressList["WalletAddress1"];
         const _cToken = tokenAddressList["Kovan"]["cDAI"];
@@ -85,8 +85,9 @@ export default class PoolTogetherNYBW extends Component {
         console.log('=== openNextDraw() ===\n', res3);           
 
         //@dev - Deposit Pool
+        let res6 = await dai.methods.approve(POOlMOCK_ADDRESS, _depositAmount).send({ from: accounts[0] });
         let res2 = await pool_mock.methods.depositPool(_depositAmount).send({ from: accounts[0] });
-        console.log('=== depositPool() ===\n', res1); 
+        console.log('=== depositPool() ===\n', res2); 
     }
 
 
@@ -224,6 +225,7 @@ export default class PoolTogetherNYBW extends Component {
             // Create instance of contracts
             let instancePoolMock = null;
             let deployedNetworkPoolMock = null;
+            let POOlMOCK_ADDRESS = PoolMock.networks[networkId.toString()].address;
             if (PoolMock.networks) {
               deployedNetworkPoolMock = PoolMock.networks[networkId.toString()];
               if (deployedNetworkPoolMock) {
@@ -288,6 +290,7 @@ export default class PoolTogetherNYBW extends Component {
                 bokkypoobahs_datetime_contract: instanceBokkyPooBahsDateTimeContract,
                 POOlTOGETHER_NYBW_ADDRESS: POOlTOGETHER_NYBW_ADDRESS,
                 DAI_ADDRESS: DAI_ADDRESS,
+                POOlMOCK_ADDRESS: POOlMOCK_ADDRESS
               }, () => {
                 this.refreshValues(
                   instancePoolTogetherNYBW
