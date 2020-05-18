@@ -59,9 +59,15 @@ export default class PoolTogetherNYBW extends Component {
 
         const _lockDuration = 55;
         const _cooldownDuration = 90;
+        const _depositAmount = web3.utils.toWei('0.15', 'ether');
  
-        let res = await pool_mock.methods.initMCDAwarePool(_lockDuration, _cooldownDuration).send({ from: accounts[0] });
-        console.log('=== initMCDAwarePool() ===\n', res);           
+        //@dev - Init Pool
+        let res1 = await pool_mock.methods.initMCDAwarePool(_lockDuration, _cooldownDuration).send({ from: accounts[0] });
+        console.log('=== initMCDAwarePool() ===\n', res1);           
+
+        //@dev - Deposit Pool
+        let res2 = await pool_mock.methods.depositPool(_depositAmount).send({ from: accounts[0] });
+        console.log('=== depositPool() ===\n', res1); 
     }
 
 
