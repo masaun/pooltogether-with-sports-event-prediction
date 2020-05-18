@@ -116,10 +116,13 @@ export default class PoolTogetherNYBW extends Component {
     }
 
     _balanceOfContract = async () => {
-        const { accounts, web3, dai, poolTogether_nybw } = this.state;
+        const { accounts, web3, dai, poolTogether_nybw, pool_mock } = this.state;
 
         let res1 = await poolTogether_nybw.methods.balanceOfContract().call();
         console.log('=== balanceOfContract() ===\n', res1);
+
+        let res2 = await pool_mock.methods.balanceOfContract().call();
+        console.log('=== balanceOfContract() - PoolMock.sol ===\n', res1);
     }
 
     /***

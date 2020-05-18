@@ -30,7 +30,7 @@ contract PoolMock is MCDAwarePool {
         return (_poolMockContractAddess, dai.balanceOf(address(this)), address(this).balance);
     }    
 
-    function getContractAddress() public returns (address poolMockContractAddess) {
+    function getContractAddress() public view returns (address poolMockContractAddess) {
         return address(this);
     }
     
