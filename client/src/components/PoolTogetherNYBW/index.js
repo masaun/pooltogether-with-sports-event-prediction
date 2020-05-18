@@ -59,12 +59,17 @@ export default class PoolTogetherNYBW extends Component {
 
         const _lockDuration = 55;
         const _cooldownDuration = 90;
+        const _admin = walletAddressList["WalletAddress1"];
         const _depositAmount = web3.utils.toWei('0.15', 'ether');
         const _nextSecretHash = "0xb281fc8c12954d22544db45de3159a39272895b169a852b314f9cc762e44c53b";
  
         //@dev - Init Pool
         let res1 = await pool_mock.methods.initMCDAwarePool(_lockDuration, _cooldownDuration).send({ from: accounts[0] });
         console.log('=== initMCDAwarePool() ===\n', res1);           
+
+        //@dev - Check Admin
+        let res4 = await pool_mock.methods.isAdmin(_admin).call();
+        console.log('=== isAdmin() ===\n', res4);         
 
         //@dev - Open Pool
         let res3 = await pool_mock.methods.openNextDraw(_nextSecretHash).send({ from: accounts[0] });
