@@ -31,6 +31,7 @@ export default class PoolTogetherNYBW extends Component {
 
         this._initPoolToken = this._initPoolToken.bind(this);
         this.initPool = this.initPool.bind(this);
+        this._depositPool = this._depositPool.bind(this);
 
         /////// Getter Functions
         this._getBasePool = this._getBasePool.bind(this);
@@ -64,10 +65,8 @@ export default class PoolTogetherNYBW extends Component {
         const _lockDuration = 55;
         const _cooldownDuration = 90;
         const _admin = walletAddressList["WalletAddress1"];
-        const _depositAmount = web3.utils.toWei('0.15', 'ether');
         const _nextSecretHash = "0xb281fc8c12954d22544db45de3159a39272895b169a852b314f9cc762e44c53b";
  
-
         //@dev - Init Pool
         let res5 = await pool_mock.methods.init(_owner, _cToken, _feeFraction, _feeBeneficiary, _lockDuration, _cooldownDuration).send({ from: accounts[0] });
         console.log('=== init() / addAdmin() - MCDAwarePool.sol ===\n', res5);   
@@ -83,6 +82,12 @@ export default class PoolTogetherNYBW extends Component {
         //@dev - Open Pool
         let res3 = await pool_mock.methods.openNextDraw(_nextSecretHash).send({ from: accounts[0] });
         console.log('=== openNextDraw() ===\n', res3);           
+    }
+
+    _depositPool = async () => {
+        const { accounts, web3, dai, pool_mock, POOlMOCK_ADDRESS } = this.state;
+
+        const _depositAmount = web3.utils.toWei('0.15', 'ether');
 
         //@dev - Deposit Pool
         let res6 = await dai.methods.approve(POOlMOCK_ADDRESS, _depositAmount).send({ from: accounts[0] });
@@ -333,6 +338,8 @@ export default class PoolTogetherNYBW extends Component {
                             <Button size={'small'} mt={3} mb={2} onClick={this._initPoolToken}> Init PoolToken </Button> <br />
 
                             <Button size={'small'} mt={3} mb={2} onClick={this.initPool}> Init Pool </Button> <br />
+
+                            <Button size={'small'} mt={3} mb={2} onClick={this._depositPool}> Deposit Pool </Button> <br />
 
                             <hr />
 
