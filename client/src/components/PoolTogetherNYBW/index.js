@@ -30,7 +30,7 @@ export default class PoolTogetherNYBW extends Component {
         };
 
         this._initPoolToken = this._initPoolToken.bind(this);
-        this.initMCDAwarePool = this.initMCDAwarePool.bind(this);
+        this.initPool = this.initPool.bind(this);
 
         /////// Getter Functions
         this._getBasePool = this._getBasePool.bind(this);
@@ -54,7 +54,7 @@ export default class PoolTogetherNYBW extends Component {
         console.log('=== initPoolToken() ===\n', res);           
     }
 
-    initMCDAwarePool = async () => {
+    initPool = async () => {
         const { accounts, web3, dai, pool_mock, POOlMOCK_ADDRESS } = this.state;
 
         const _owner = walletAddressList["WalletAddress1"];
@@ -332,7 +332,7 @@ export default class PoolTogetherNYBW extends Component {
 
                             <Button size={'small'} mt={3} mb={2} onClick={this._initPoolToken}> Init PoolToken </Button> <br />
 
-                            <Button size={'small'} mt={3} mb={2} onClick={this.initMCDAwarePool}> Init MCDAwarePool </Button> <br />
+                            <Button size={'small'} mt={3} mb={2} onClick={this.initPool}> Init Pool </Button> <br />
 
                             <hr />
 
