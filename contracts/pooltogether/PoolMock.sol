@@ -51,13 +51,11 @@ contract PoolMock is MCDAwarePool, usingBandProtocol {  /// MCDAwarePool inherit
     }
     
     function getPerformDataQuery() public {
-        uint256 _queryPrice = getQueryPrice();
+        /// Get the most-up-to-date ETH/USD rate
+        uint256 ethUsdPrice1 = oracle.querySpotPrice("ETH-USD");
 
-        /// Make a query for key "SPOTPX/ETH-USD" (ETH/USD spot price)
-        bytes32 output;
-        uint256 updatedAt;
-        Oracle.Querystatus status;
-        (output, updatedAt, status) = oracle.query.value(_queryPrice)("SPOTPX/ETH-USD");        
+        /// Get the most-up-to-date ETH/USD rate. Must not be older than 10 mins.
+        uint256 ethUsdPrice2 = oracle.querySpotPriceWithExpiry("ETH-USD", 10 minutes);      
     }
     
 
