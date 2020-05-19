@@ -12,15 +12,16 @@ contract PoolMock is MCDAwarePool, usingBandProtocol {  /// MCDAwarePool inherit
     IERC20 public dai;
     ICErc20 public cDai;
 
-    Oracle public oracle;
+    Oracle public oracleSportEvents;         // For Sport Events (Kovan)
+    Oracle public oracleFinancialDataFeeds;  // For Financial Data Feeds (Kovan)
 
     constructor(address _erc20, address _cErc20) public {
         dai = IERC20(_erc20);
         cDai = ICErc20(_cErc20);
 
         /// Instante an oracle instance for a given dataset address
-        /// Assign dateset-oracle address of Sport Events (Kovan) 
-        oracle = Oracle(0xF904Db9817E4303c77e1Df49722509a0d7266934);
+        oracleSportEvents = Oracle(0xF904Db9817E4303c77e1Df49722509a0d7266934);  // Dateset-Oracle address of Sport Events (Kovan)
+        oracleFinancialDataFeeds = Oracle(0xa24dF0420dE1f3b8d740A52AAEB9d55d6D64478e);  // Dateset-Oracle address of Financial Data Feeds (Kovan)
     }
 
 
@@ -46,19 +47,19 @@ contract PoolMock is MCDAwarePool, usingBandProtocol {  /// MCDAwarePool inherit
      **/
     function getQueryPrice() public view returns (uint256 queryPrice) {
         /// Get the price of querying for one data point (in Wei)
-        uint256 queryPrice = oracle.queryPrice();
+        uint256 queryPrice = oracleFinancialDataFeeds.queryPrice();
         return queryPrice;
     }
     
     function oracleQuerySpotPrice() public returns (uint256 _ethUsdPrice1) {
         /// Get the most-up-to-date ETH/USD rate
-        uint256 ethUsdPrice1 = oracle.querySpotPrice("ETH-USD");
+        uint256 ethUsdPrice1 = oracleFinancialDataFeeds.querySpotPrice("ETH-USD");
         return ethUsdPrice1;
     }
 
     function oracleQuerySpotPriceWithExpiry() public returns (uint256 _ethUsdPrice2) {
         /// Get the most-up-to-date ETH/USD rate. Must not be older than 10 mins.
-        uint256 ethUsdPrice2 = oracle.querySpotPriceWithExpiry("ETH-USD", 10 minutes);
+        uint256 ethUsdPrice2 = oracleFinancialDataFeeds.querySpotPriceWithExpiry("ETH-USD", 10 minutes);
         return ethUsdPrice2;
     }    
 
