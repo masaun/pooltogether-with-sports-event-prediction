@@ -1,4 +1,5 @@
-pragma solidity 0.5.10;
+pragma solidity ^0.5.12;
+//pragma solidity 0.5.10;
 
 interface Oracle {
   enum QueryStatus { INVALID, OK, NOT_AVAILABLE, DISAGREEMENT }
