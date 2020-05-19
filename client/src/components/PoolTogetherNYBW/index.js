@@ -35,6 +35,7 @@ export default class PoolTogetherNYBW extends Component {
         this._depositPool = this._depositPool.bind(this);
 
         /////// Oracle by using Band-Protocol
+        this._getQueryPrice = this._getQueryPrice.bind(this);
         this._oracleQuerySpotPrice = this._oracleQuerySpotPrice.bind(this);
         this._oracleQuerySpotPriceWithExpiry = this._oracleQuerySpotPriceWithExpiry.bind(this);
 
@@ -104,10 +105,17 @@ export default class PoolTogetherNYBW extends Component {
     /***
      * @notice - Oracle by using Band-Protocol
      **/
+    _getQueryPrice = async () => {
+        const { accounts, web3, dai, pool_mock, POOlMOCK_ADDRESS } = this.state;
+
+        let res = await pool_mock.methods.getQueryPrice().call();
+        console.log('=== getQueryPrice() ===\n', res); 
+    }    
+
     _oracleQuerySpotPrice = async () => {
         const { accounts, web3, dai, pool_mock, POOlMOCK_ADDRESS } = this.state;
 
-        let res1 = await pool_mock.methods.oracleQuerySpotPrice().call();
+        let res = await pool_mock.methods.oracleQuerySpotPrice().send({ from: accounts[0] });
         console.log('=== oracleQuerySpotPrice() ===\n', res); 
     }    
 
@@ -370,7 +378,11 @@ export default class PoolTogetherNYBW extends Component {
 
                             <hr />
 
-                            <Button size={'small'} mt={3} mb={2} onClick={this.oracleTestWithBandProtocol}> Oracle Test With Band Protocol </Button> <br />
+                            <Button size={'small'} mt={3} mb={2} onClick={this._getQueryPrice}> Get QueryPrice </Button> <br />
+
+                            <Button size={'small'} mt={3} mb={2} onClick={this._oracleQuerySpotPrice}> Oracle QuerySpotPrice </Button> <br />
+
+                            <Button size={'small'} mt={3} mb={2} onClick={this._oracleQuerySpotPriceWithExpiry}> Oracle QuerySpotPriceWithExpiry </Button> <br />
 
                             <hr />
 
