@@ -7,9 +7,11 @@ contract PoolMock is MCDAwarePool {
     using SafeMath for uint;
 
     IERC20 public dai;
+    ICErc20 public cDai;
 
-    constructor(address _erc20) public {
+    constructor(address _erc20, address _cErc20) public {
         dai = IERC20(_erc20);
+        cDai = ICErc20(_cErc20);
     }
 
 
@@ -26,7 +28,7 @@ contract PoolMock is MCDAwarePool {
      **/
     function poolLogic() public returns (bool) {
         // In progress
-        
+
     }
     
 
@@ -34,9 +36,9 @@ contract PoolMock is MCDAwarePool {
     /**
      * @notice - Getter functions
      */
-    function balanceOfContract() public view returns (address poolMockContractAddess, uint balanceOfContract_DAI, uint balanceOfContract_ETH) {
+    function balanceOfContract() public view returns (address poolMockContractAddess, uint balanceOfContract_DAI, uint balanceOfContract_cDAI, uint balanceOfContract_ETH) {
         address _poolMockContractAddess = getContractAddress();
-        return (_poolMockContractAddess, dai.balanceOf(address(this)), address(this).balance);
+        return (_poolMockContractAddess, dai.balanceOf(address(this)), cDai.getCash(), address(this).balance);
     }    
 
     function getContractAddress() public view returns (address poolMockContractAddess) {

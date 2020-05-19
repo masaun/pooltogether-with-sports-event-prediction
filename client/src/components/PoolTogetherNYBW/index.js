@@ -71,10 +71,6 @@ export default class PoolTogetherNYBW extends Component {
         let res5 = await pool_mock.methods.init(_owner, _cToken, _feeFraction, _feeBeneficiary, _lockDuration, _cooldownDuration).send({ from: accounts[0] });
         console.log('=== init() / addAdmin() - MCDAwarePool.sol ===\n', res5);   
 
-        //@dev - Init Pool
-        // let res1 = await pool_mock.methods.initMCDAwarePool(_lockDuration, _cooldownDuration).send({ from: accounts[0] });
-        // console.log('=== initMCDAwarePool() ===\n', res1);           
-
         //@dev - Check Admin
         let res4 = await pool_mock.methods.isAdmin(_admin).call();
         console.log('=== isAdmin() ===\n', res4); 
@@ -97,9 +93,7 @@ export default class PoolTogetherNYBW extends Component {
 
         //@dev - Deposit Pool
         let res6 = await dai.methods.approve(POOlMOCK_ADDRESS, _depositAmount).send({ from: accounts[0] });
-        //let res7 = await dai.methods.transfer(POOlMOCK_ADDRESS, _depositAmount).send({ from: accounts[0] });
         let res2 = await pool_mock.methods._depositPool(_depositAmount).send({ from: accounts[0] });
-        //let res2 = await pool_mock.methods.depositPool(_depositAmount).send({ from: accounts[0] });
         console.log('=== depositPool() ===\n', res2); 
     }
 
