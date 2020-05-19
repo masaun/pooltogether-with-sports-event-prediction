@@ -34,6 +34,9 @@ export default class PoolTogetherNYBW extends Component {
         this._openNextDraw = this._openNextDraw.bind(this);
         this._depositPool = this._depositPool.bind(this);
 
+        /////// Oracle by using Band-Protocol
+        this.oracleTestWithBandProtocol = this.oracleTestWithBandProtocol.bind(this);
+
         /////// Getter Functions
         this._getBasePool = this._getBasePool.bind(this);
         this.balanceOfUnderlying = this.balanceOfUnderlying.bind(this);
@@ -96,6 +99,21 @@ export default class PoolTogetherNYBW extends Component {
         let res2 = await pool_mock.methods._depositPool(_depositAmount).send({ from: accounts[0] });
         console.log('=== depositPool() ===\n', res2); 
     }
+
+
+    /***
+     * @notice - Oracle by using Band-Protocol
+     **/
+    oracleTestWithBandProtocol = async () => {
+        const { accounts, web3, dai, pool_mock, POOlMOCK_ADDRESS } = this.state;
+
+        let res1 = await pool_mock.methods.getQueryPrice().call();
+        console.log('=== getQueryPrice() ===\n', res1); 
+
+        let res2 = await pool_mock.methods.getPerformDataQuery().send({ from: accounts[0] });
+        console.log('=== getPerformDataQuery() ===\n', res1); 
+    }    
+
 
 
     /***
@@ -347,6 +365,10 @@ export default class PoolTogetherNYBW extends Component {
                             <Button size={'small'} mt={3} mb={2} onClick={this._openNextDraw}> Open Next Draw </Button> <br />
 
                             <Button size={'small'} mt={3} mb={2} onClick={this._depositPool}> Deposit Pool </Button> <br />
+
+                            <hr />
+
+                            <Button size={'small'} mt={3} mb={2} onClick={this.oracleTestWithBandProtocol}> Oracle Test With Band Protocol </Button> <br />
 
                             <hr />
 
