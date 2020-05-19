@@ -26,6 +26,7 @@ contract PoolMock is MCDAwarePool {
      **/
     function poolLogic() public returns (bool) {
         // In progress
+        
     }
     
 
