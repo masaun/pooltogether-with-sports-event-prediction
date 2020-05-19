@@ -12,9 +12,17 @@ contract PoolMock is MCDAwarePool {
         dai = IERC20(_erc20);
     }
 
+
+    /***
+     * @notice - Deposit DAI into Pool(=this contract)
+     **/
+    function _depositPool(uint _depositAmount) public returns (bool) {
+        depositPool(_depositAmount);  // Delegate call of depositPool() in BasePool.sol
+    }
+
     
     /***
-     * @dev - Pool Logic for selecting winner 
+     * @notice - Pool Logic for selecting winner 
      **/
     function poolLogic() public returns (bool) {
         // In progress
