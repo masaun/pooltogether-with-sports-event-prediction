@@ -35,7 +35,8 @@ export default class PoolTogetherNYBW extends Component {
         this._depositPool = this._depositPool.bind(this);
 
         /////// Oracle by using Band-Protocol
-        this.oracleTestWithBandProtocol = this.oracleTestWithBandProtocol.bind(this);
+        this._oracleQuerySpotPrice = this._oracleQuerySpotPrice.bind(this);
+        this._oracleQuerySpotPriceWithExpiry = this._oracleQuerySpotPriceWithExpiry.bind(this);
 
         /////// Getter Functions
         this._getBasePool = this._getBasePool.bind(this);
@@ -100,21 +101,22 @@ export default class PoolTogetherNYBW extends Component {
         console.log('=== depositPool() ===\n', res2); 
     }
 
-
     /***
      * @notice - Oracle by using Band-Protocol
      **/
-    oracleTestWithBandProtocol = async () => {
+    _oracleQuerySpotPrice = async () => {
         const { accounts, web3, dai, pool_mock, POOlMOCK_ADDRESS } = this.state;
 
-        let res1 = await pool_mock.methods.getQueryPrice().call();
-        console.log('=== getQueryPrice() ===\n', res1); 
-
-        let res2 = await pool_mock.methods.getPerformDataQuery().send({ from: accounts[0] });
-        console.log('=== getPerformDataQuery() ===\n', res1); 
+        let res1 = await pool_mock.methods.oracleQuerySpotPrice().call();
+        console.log('=== oracleQuerySpotPrice() ===\n', res); 
     }    
 
+    _oracleQuerySpotPriceWithExpiry = async () => {
+        const { accounts, web3, dai, pool_mock, POOlMOCK_ADDRESS } = this.state;
 
+        let res = await pool_mock.methods.oracleQuerySpotPriceWithExpiry().send({ from: accounts[0] });
+        console.log('=== oracleQuerySpotPriceWithExpiryy() ===\n', res); 
+    } 
 
     /***
      * @dev - Getter function
