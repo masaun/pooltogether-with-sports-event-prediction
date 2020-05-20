@@ -145,7 +145,7 @@ export default class PoolTogetherNYBW extends Component {
         const _salt = "";
 
         //@dev - Withdraw DAI from Pool
-        let res = await pool_mock.methods._reward(_nextSecretHash, _lastSecret, _salt).send({ from: accounts[0] });
+        let res = await pool_mock.methods._reward(_secret, _salt).send({ from: accounts[0] });
         console.log('=== rewardAndOpenNextDraw() ===\n', res);         
     }
 
