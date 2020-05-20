@@ -38,6 +38,7 @@ export default class PoolTogetherNYBW extends Component {
         this._getQueryPrice = this._getQueryPrice.bind(this);
         this._oracleQuerySpotPrice = this._oracleQuerySpotPrice.bind(this);
         this._oracleQuerySpotPriceWithExpiry = this._oracleQuerySpotPriceWithExpiry.bind(this);
+        this._oracleQueryScore = this.oracleQueryScore.bind(this);
 
         /////// Getter Functions
         this._getBasePool = this._getBasePool.bind(this);
@@ -123,8 +124,15 @@ export default class PoolTogetherNYBW extends Component {
         const { accounts, web3, dai, pool_mock, POOlMOCK_ADDRESS } = this.state;
 
         let res = await pool_mock.methods.oracleQuerySpotPriceWithExpiry().send({ from: accounts[0] });
-        console.log('=== oracleQuerySpotPriceWithExpiryy() ===\n', res); 
-    } 
+        console.log('=== oracleQuerySpotPriceWithExpiry() ===\n', res); 
+    }
+
+    _oracleQueryScore = async () => {
+        const { accounts, web3, dai, pool_mock, POOlMOCK_ADDRESS } = this.state;
+
+        let res = await pool_mock.methods.oracleQueryScore().send({ from: accounts[0] });
+        console.log('=== oracleQueryScore() ===\n', res); 
+    }
 
     /***
      * @dev - Getter function
@@ -383,6 +391,8 @@ export default class PoolTogetherNYBW extends Component {
                             <Button size={'small'} mt={3} mb={2} onClick={this._oracleQuerySpotPrice}> Oracle QuerySpotPrice </Button> <br />
 
                             <Button size={'small'} mt={3} mb={2} onClick={this._oracleQuerySpotPriceWithExpiry}> Oracle QuerySpotPriceWithExpiry </Button> <br />
+
+                            <Button size={'small'} mt={3} mb={2} onClick={this._oracleQueryScore}> Oracle QueryScore of Sports </Button> <br />
 
                             <hr />
 
