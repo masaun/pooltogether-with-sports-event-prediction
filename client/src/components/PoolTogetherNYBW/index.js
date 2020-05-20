@@ -34,6 +34,12 @@ export default class PoolTogetherNYBW extends Component {
         this._openNextDraw = this._openNextDraw.bind(this);
         this._depositPool = this._depositPool.bind(this);
 
+        /////// Oracle by using Band-Protocol
+        this._getQueryPrice = this._getQueryPrice.bind(this);
+        this._oracleQuerySpotPrice = this._oracleQuerySpotPrice.bind(this);
+        this._oracleQuerySpotPriceWithExpiry = this._oracleQuerySpotPriceWithExpiry.bind(this);
+        this._oracleQueryScore = this._oracleQueryScore.bind(this);
+
         /////// Getter Functions
         this._getBasePool = this._getBasePool.bind(this);
         this.balanceOfUnderlying = this.balanceOfUnderlying.bind(this);
@@ -97,6 +103,39 @@ export default class PoolTogetherNYBW extends Component {
         console.log('=== depositPool() ===\n', res2); 
     }
 
+    /***
+     * @notice - Oracle by using Band-Protocol
+     **/
+    _getQueryPrice = async () => {
+        const { accounts, web3, dai, pool_mock, POOlMOCK_ADDRESS } = this.state;
+
+        let res = await pool_mock.methods.getQueryPrice().call();
+        console.log('=== getQueryPrice() ===\n', res); 
+    }    
+
+    _oracleQuerySpotPrice = async () => {
+        const { accounts, web3, dai, pool_mock, POOlMOCK_ADDRESS } = this.state;
+
+        let queryPrice = await pool_mock.methods.getQueryPrice().call();
+        let res = await pool_mock.methods.oracleQuerySpotPrice().send({ from: accounts[0], value: queryPrice });
+        console.log('=== oracleQuerySpotPrice() ===\n', res); 
+    }    
+
+    _oracleQuerySpotPriceWithExpiry = async () => {
+        const { accounts, web3, dai, pool_mock, POOlMOCK_ADDRESS } = this.state;
+
+        let queryPrice = await pool_mock.methods.getQueryPrice().call();
+        let res = await pool_mock.methods.oracleQuerySpotPriceWithExpiry().send({ from: accounts[0], value: queryPrice });
+        console.log('=== oracleQuerySpotPriceWithExpiry() ===\n', res); 
+    }
+
+    _oracleQueryScore = async () => {
+        const { accounts, web3, dai, pool_mock, POOlMOCK_ADDRESS } = this.state;
+
+        let queryPrice = await pool_mock.methods.getQueryPrice().call();
+        let res = await pool_mock.methods.oracleQueryScore().send({ from: accounts[0], value: queryPrice });
+        console.log('=== oracleQueryScore() ===\n', res); 
+    }
 
     /***
      * @dev - Getter function
@@ -347,6 +386,16 @@ export default class PoolTogetherNYBW extends Component {
                             <Button size={'small'} mt={3} mb={2} onClick={this._openNextDraw}> Open Next Draw </Button> <br />
 
                             <Button size={'small'} mt={3} mb={2} onClick={this._depositPool}> Deposit Pool </Button> <br />
+
+                            <hr />
+
+                            <Button size={'small'} mt={3} mb={2} onClick={this._getQueryPrice}> Get QueryPrice </Button> <br />
+
+                            <Button size={'small'} mt={3} mb={2} onClick={this._oracleQuerySpotPrice}> Oracle QuerySpotPrice </Button> <br />
+
+                            <Button size={'small'} mt={3} mb={2} onClick={this._oracleQuerySpotPriceWithExpiry}> Oracle QuerySpotPriceWithExpiry </Button> <br />
+
+                            <Button size={'small'} mt={3} mb={2} onClick={this._oracleQueryScore}> Oracle QueryScore of Sports </Button> <br />
 
                             <hr />
 

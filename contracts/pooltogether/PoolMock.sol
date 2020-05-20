@@ -5,22 +5,27 @@ import "./pooltogether-contracts/contracts/MCDAwarePool.sol";
 /// Inherit from `usingBandProtocol` to get access to helper functions
 import { usingBandProtocol, Oracle } from "../band/band-solidity/contracts/Band.sol";
 
+/// Storage
+import "../storage/McStorage.sol";
+import "../storage/McConstants.sol";
 
-contract PoolMock is MCDAwarePool, usingBandProtocol {  /// MCDAwarePool inherits BasePool.sol 
+
+contract PoolMock is MCDAwarePool, usingBandProtocol, McStorage, McConstants {  /// MCDAwarePool inherits BasePool.sol 
     using SafeMath for uint;
 
     IERC20 public dai;
     ICErc20 public cDai;
 
-    Oracle public oracle;
+    //Oracle public oracleSportEvents;         // For Sport Events (Kovan)
+    //Oracle public oracleFinancialDataFeeds;  // For Financial Data Feeds (Kovan)
 
     constructor(address _erc20, address _cErc20) public {
         dai = IERC20(_erc20);
         cDai = ICErc20(_cErc20);
 
         /// Instante an oracle instance for a given dataset address
-        /// Assign dateset-oracle address of Sport Events (Kovan) 
-        oracle = Oracle(0xF904Db9817E4303c77e1Df49722509a0d7266934);
+        //oracleSportEvents = Oracle(0xF904Db9817E4303c77e1Df49722509a0d7266934);  // Dateset-Oracle address of Sport Events (Kovan)
+        //oracleFinancialDataFeeds = Oracle(0xa24dF0420dE1f3b8d740A52AAEB9d55d6D64478e);  // Dateset-Oracle address of Financial Data Feeds (Kovan)
     }
 
 
@@ -46,19 +51,30 @@ contract PoolMock is MCDAwarePool, usingBandProtocol {  /// MCDAwarePool inherit
      **/
     function getQueryPrice() public view returns (uint256 queryPrice) {
         /// Get the price of querying for one data point (in Wei)
-        uint256 queryPrice = oracle.queryPrice();
+        uint256 queryPrice = FINANCIAL.queryPrice();
         return queryPrice;
     }
     
-    function getPerformDataQuery() public {
+    function oracleQuerySpotPrice() public payable {
         /// Get the most-up-to-date ETH/USD rate
-        uint256 ethUsdPrice1 = oracle.querySpotPrice("ETH-USD");
+        uint256 ethUsdPrice = FINANCIAL.querySpotPrice("ETH-USD");
+        emit OracleQuerySpotPrice(ethUsdPrice);
+    }
 
+    function oracleQuerySpotPriceWithExpiry() public payable {
         /// Get the most-up-to-date ETH/USD rate. Must not be older than 10 mins.
-        uint256 ethUsdPrice2 = oracle.querySpotPriceWithExpiry("ETH-USD", 10 minutes);      
+        uint256 ethUsdPrice = FINANCIAL.querySpotPriceWithExpiry("ETH-USD", 10 minutes);
+        emit OracleQuerySpotPriceWithExpiry(ethUsdPrice);
+    }    
+
+    function oracleQueryScore() public payable {
+        /// 1st MLB match of the Astros vs the Tigers on August 19, 2019
+        uint8 res1;
+        uint8 res2;
+        (res1, res2) = SPORT.queryScore("MLB/20190819/HOU-DET/1");
+        emit OracleQueryScore(res1, res2);
     }
     
-
 
     /**
      * @notice - Getter functions
