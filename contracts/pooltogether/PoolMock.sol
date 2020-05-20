@@ -44,7 +44,7 @@ contract PoolMock is MCDAwarePool, usingBandProtocol, McStorage, McConstants {  
      **/
     function getQueryPrice() public view returns (uint256 queryPrice) {
         /// Get the price of querying for one data point (in Wei)
-        uint256 queryPrice = FINANCIAL.queryPrice();
+        uint256 queryPrice = SPORT.queryPrice();
         return queryPrice;
     }
     
