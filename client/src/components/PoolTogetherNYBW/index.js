@@ -33,6 +33,7 @@ export default class PoolTogetherNYBW extends Component {
         this.initPool = this.initPool.bind(this);
         this._openNextDraw = this._openNextDraw.bind(this);
         this._depositPool = this._depositPool.bind(this);
+        this.reward = this.reward.bind(this);
 
         /////// Oracle by using Band-Protocol
         this._getQueryPrice = this._getQueryPrice.bind(this);
@@ -136,6 +137,19 @@ export default class PoolTogetherNYBW extends Component {
         let res = await pool_mock.methods.oracleQueryScore().send({ from: accounts[0], value: queryPrice });
         console.log('=== oracleQueryScore() ===\n', res); 
     }
+
+    reward = async () => {
+        const { accounts, web3, dai, pool_mock, POOlMOCK_ADDRESS } = this.state;
+
+        const _secret = "0xb281fc8c12954d22544db45de3159a39272895b169a852b314f9cc762e44c53b";
+        const _salt = "";
+
+        //@dev - Withdraw DAI from Pool
+        let res = await pool_mock.methods._reward(_nextSecretHash, _lastSecret, _salt).send({ from: accounts[0] });
+        console.log('=== rewardAndOpenNextDraw() ===\n', res);         
+    }
+
+
 
     /***
      * @dev - Getter function
@@ -386,6 +400,8 @@ export default class PoolTogetherNYBW extends Component {
                             <Button size={'small'} mt={3} mb={2} onClick={this._openNextDraw}> Open Next Draw </Button> <br />
 
                             <Button size={'small'} mt={3} mb={2} onClick={this._depositPool}> Deposit Pool </Button> <br />
+
+                            <Button size={'small'} mt={3} mb={2} onClick={this.reward}> Distribute Reward from Pool </Button> <br />
 
                             <hr />
 
