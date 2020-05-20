@@ -16,16 +16,9 @@ contract PoolMock is MCDAwarePool, usingBandProtocol, McStorage, McConstants {  
     IERC20 public dai;
     ICErc20 public cDai;
 
-    //Oracle public oracleSportEvents;         // For Sport Events (Kovan)
-    //Oracle public oracleFinancialDataFeeds;  // For Financial Data Feeds (Kovan)
-
     constructor(address _erc20, address _cErc20) public {
         dai = IERC20(_erc20);
         cDai = ICErc20(_cErc20);
-
-        /// Instante an oracle instance for a given dataset address
-        //oracleSportEvents = Oracle(0xF904Db9817E4303c77e1Df49722509a0d7266934);  // Dateset-Oracle address of Sport Events (Kovan)
-        //oracleFinancialDataFeeds = Oracle(0xa24dF0420dE1f3b8d740A52AAEB9d55d6D64478e);  // Dateset-Oracle address of Financial Data Feeds (Kovan)
     }
 
 
