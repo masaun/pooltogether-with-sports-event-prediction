@@ -86,7 +86,12 @@ export default class PoolTogetherNYBW extends Component {
     _openNextDraw = async () => {
         const { accounts, web3, dai, pool_mock, POOlMOCK_ADDRESS } = this.state;
 
-        const _nextSecretHash = "0xb281fc8c12954d22544db45de3159a39272895b169a852b314f9cc762e44c53b";
+        //@notice - Calculate secret hash
+        const SALT = '0x1234123412341234123412341234123412341234123412341234123412341236'
+        const SECRET = '0x1234123412341234123412341234123412341234123412341234123412341234'
+        const SECRET_HASH = new Web3().utils.soliditySha3(SECRET, SALT)
+
+        const _nextSecretHash = SECRET_HASH;
 
         //@dev - Open Pool
         let res3 = await pool_mock.methods.openNextDraw(_nextSecretHash).send({ from: accounts[0] });
@@ -141,11 +146,11 @@ export default class PoolTogetherNYBW extends Component {
     reward = async () => {
         const { accounts, web3, dai, pool_mock, POOlMOCK_ADDRESS } = this.state;
 
-        const _secret = "0xb281fc8c12954d22544db45de3159a39272895b169a852b314f9cc762e44c53b";
-        const _salt = "";
+        const SALT = '0x1234123412341234123412341234123412341234123412341234123412341236'
+        const SECRET = '0x1234123412341234123412341234123412341234123412341234123412341234'
 
         //@dev - Withdraw DAI from Pool
-        let res = await pool_mock.methods._reward(_secret, _salt).send({ from: accounts[0] });
+        let res = await pool_mock.methods._reward(SECRET, SALT).send({ from: accounts[0] });
         console.log('=== rewardAndOpenNextDraw() ===\n', res);         
     }
 
