@@ -35,7 +35,7 @@ contract PoolMock is MCDAwarePool, usingBandProtocol, McStorage, McConstants {  
      **/
     function poolLogic() public returns (bool) {
         // In progress
-
+        
     }
     
 

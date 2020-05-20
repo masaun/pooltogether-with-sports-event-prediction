@@ -2,7 +2,20 @@ import React, { Component } from "react";
 import { EthAddress, Blockie } from 'rimble-ui';
 import styles from './Web3Info.module.scss';
 
+import getWeb3, { getGanacheWeb3, Web3 } from "../../utils/getWeb3";
+
 export default class Web3Info extends Component {
+  constructor(props) {    
+    super(props);
+
+    this.state = {
+      /////// Default state
+      storageValue: 0,
+      web3: null,
+      accounts: null,
+      route: window.location.pathname.replace("/", "")
+    };
+  }
 
   renderNetworkName(networkId) {
     switch (networkId) {
@@ -19,8 +32,23 @@ export default class Web3Info extends Component {
     }
   }
 
-  render()  {
-    const { networkId, accounts, balance, isMetaMask } = this.props;
+  componentDidMount = async () => {
+    // Get network provider and web3 instance.
+    const web3 = await getWeb3();
+
+    // Use web3 to get the user's accounts.
+    const accounts = await web3.eth.getAccounts();
+    console.log('=== accounts ===', accounts);
+
+    this.setState({ 
+      web3, 
+      accounts
+    });
+  }
+
+
+  render() {
+    const { networkId, accounts, balance, isMetaMask } = this.state;
     return (
       <div className={styles.web3}>
         <h3> Your Web3 Info </h3>
