@@ -31,7 +31,7 @@ export default class PoolTogetherNYBW extends Component {
 
         this._initPoolToken = this._initPoolToken.bind(this);
         this.initPool = this.initPool.bind(this);
-        this.openNextDraw = this._openNextDraw.bind(this);
+        this.openNextDraw = this.openNextDraw.bind(this);
         this._depositPool = this._depositPool.bind(this);
         this.reward = this.reward.bind(this);
 
