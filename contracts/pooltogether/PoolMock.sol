@@ -22,6 +22,15 @@ contract PoolMock is MCDAwarePool, usingBandProtocol, McStorage, McConstants {  
     }
 
 
+    function _openNextDraw(bytes32 _nextSecretHash) public {
+        /// Commit draw
+
+        /// Open Pool
+        openNextDraw(_nextSecretHash);
+    }
+    
+
+
     /***
      * @notice - Deposit DAI into Pool(=this contract)
      **/

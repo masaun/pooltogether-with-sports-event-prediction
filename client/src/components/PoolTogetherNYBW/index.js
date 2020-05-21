@@ -31,7 +31,7 @@ export default class PoolTogetherNYBW extends Component {
 
         this._initPoolToken = this._initPoolToken.bind(this);
         this.initPool = this.initPool.bind(this);
-        this._openNextDraw = this._openNextDraw.bind(this);
+        this.openNextDraw = this._openNextDraw.bind(this);
         this._depositPool = this._depositPool.bind(this);
         this.reward = this.reward.bind(this);
 
@@ -88,7 +88,7 @@ export default class PoolTogetherNYBW extends Component {
         console.log('=== isAdmin() ===\n', res4); 
     }
 
-    _openNextDraw = async () => {
+    openNextDraw = async () => {
         const { accounts, web3, dai, pool_mock, POOlMOCK_ADDRESS } = this.state;
 
         //@notice - Calculate secret hash
@@ -99,7 +99,7 @@ export default class PoolTogetherNYBW extends Component {
         const _nextSecretHash = SECRET_HASH;
 
         //@dev - Open Pool
-        let res3 = await pool_mock.methods.openNextDraw(_nextSecretHash).send({ from: accounts[0] });
+        let res3 = await pool_mock.methods._openNextDraw(_nextSecretHash).send({ from: accounts[0] });
         console.log('=== openNextDraw() ===\n', res3);          
     }
 
@@ -407,7 +407,7 @@ export default class PoolTogetherNYBW extends Component {
 
                             <Button size={'small'} mt={3} mb={2} onClick={this.initPool}> Init Pool </Button> <br />
 
-                            <Button size={'small'} mt={3} mb={2} onClick={this._openNextDraw}> Open Next Draw </Button> <br />
+                            <Button size={'small'} mt={3} mb={2} onClick={this.openNextDraw}> Open Next Draw </Button> <br />
 
                             <Button size={'small'} mt={3} mb={2} onClick={this._depositPool}> Deposit Pool </Button> <br />
 
