@@ -66,7 +66,7 @@ export default class PoolTogetherNYBW extends Component {
     initPool = async () => {
         const { accounts, web3, dai, pool_mock, POOlMOCK_ADDRESS } = this.state;
 
-        const _owner = walletAddressList["WalletAddress1"];
+        const _owner = walletAddressList["WalletAddress1"]; /// OwnerAddress is added as "admin" role
         const _cToken = tokenAddressList["Kovan"]["cDAI"];
         const _feeFraction = web3.utils.toWei('0.1');
         const _feeBeneficiary = walletAddressList["WalletAddress1"];
@@ -75,7 +75,12 @@ export default class PoolTogetherNYBW extends Component {
         const _admin = walletAddressList["WalletAddress1"];
  
         //@dev - Init Pool
-        let res5 = await pool_mock.methods.init(_owner, _cToken, _feeFraction, _feeBeneficiary, _lockDuration, _cooldownDuration).send({ from: accounts[0] });
+        let res5 = await pool_mock.methods.init(_owner, 
+                                                _cToken, 
+                                                _feeFraction, 
+                                                _feeBeneficiary, 
+                                                _lockDuration, 
+                                                _cooldownDuration).send({ from: accounts[0] });
         console.log('=== init() / addAdmin() - MCDAwarePool.sol ===\n', res5);   
 
         //@dev - Check Admin
