@@ -28,8 +28,6 @@ contract PoolMock is MCDAwarePool, usingBandProtocol, McStorage, McConstants {  
         /// Open Pool
         openNextDraw(_nextSecretHash);
     }
-    
-
 
     /***
      * @notice - Deposit DAI into Pool(=this contract)
@@ -38,6 +36,24 @@ contract PoolMock is MCDAwarePool, usingBandProtocol, McStorage, McConstants {  
         depositPool(_depositAmount);  // Delegate call of depositPool() in BasePool.sol
     }
     
+    /***
+     * @notice - Distribute DAI into winner's wallet address
+     * @param _secret The secret to reveal for the current committed Draw
+     * @param _salt The salt that was used to conceal the secret
+     **/
+    function _reward(bytes32 _secret, bytes32 _salt) public {
+        /// Lock tokens
+        lockTokens();
+
+        /// Delegate call of reward() in BasePool.sol
+        reward(_secret, _salt);
+
+        /// Commit next drawId
+        
+    }
+
+
+
     /***
      * @notice - Pool Logic for selecting winner 
      **/
@@ -74,20 +90,6 @@ contract PoolMock is MCDAwarePool, usingBandProtocol, McStorage, McConstants {  
         (res1, res2) = SPORT.queryScore("MLB/20190819/HOU-DET/1");
         emit OracleQueryScore(res1, res2);
     }
-
-    /***
-     * @notice - Distribute DAI into winner's wallet address
-     * @param _secret The secret to reveal for the current committed Draw
-     * @param _salt The salt that was used to conceal the secret
-     **/
-    function _reward(bytes32 _secret, bytes32 _salt) public {
-        /// Lock tokens
-        lockTokens();
-
-        /// Delegate call of reward() in BasePool.sol
-        reward(_secret, _salt);
-    }
-
 
 
     /**

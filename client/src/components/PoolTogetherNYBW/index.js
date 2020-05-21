@@ -114,6 +114,17 @@ export default class PoolTogetherNYBW extends Component {
         console.log('=== depositPool() ===\n', res2); 
     }
 
+    reward = async () => {
+        const { accounts, web3, dai, pool_mock, POOlMOCK_ADDRESS } = this.state;
+
+        const SALT = '0x1234123412341234123412341234123412341234123412341234123412341236'
+        const SECRET = '0x1234123412341234123412341234123412341234123412341234123412341234'
+
+        //@dev - Withdraw DAI from Pool
+        let res = await pool_mock.methods._reward(SECRET, SALT).send({ from: accounts[0] });
+        console.log('=== rewardAndOpenNextDraw() ===\n', res);         
+    }
+
     /***
      * @notice - Oracle by using Band-Protocol
      **/
@@ -147,18 +158,6 @@ export default class PoolTogetherNYBW extends Component {
         let res = await pool_mock.methods.oracleQueryScore().send({ from: accounts[0], value: queryPrice });
         console.log('=== oracleQueryScore() ===\n', res); 
     }
-
-    reward = async () => {
-        const { accounts, web3, dai, pool_mock, POOlMOCK_ADDRESS } = this.state;
-
-        const SALT = '0x1234123412341234123412341234123412341234123412341234123412341236'
-        const SECRET = '0x1234123412341234123412341234123412341234123412341234123412341234'
-
-        //@dev - Withdraw DAI from Pool
-        let res = await pool_mock.methods._reward(SECRET, SALT).send({ from: accounts[0] });
-        console.log('=== rewardAndOpenNextDraw() ===\n', res);         
-    }
-
 
 
     /***
