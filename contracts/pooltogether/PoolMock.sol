@@ -86,7 +86,7 @@ contract PoolMock is MCDAwarePool, usingBandProtocol, McStorage, McConstants {  
      */
     function balanceOfContract() public view returns (address poolMockContractAddess, uint balanceOfContract_DAI, uint balanceOfContract_cDAI, uint balanceOfContract_ETH) {
         address _poolMockContractAddess = getContractAddress();
-        return (_poolMockContractAddess, dai.balanceOf(address(this)), cDai.balanceOf(address(this)), address(this).balance);
+        return (_poolMockContractAddess, dai.balanceOf(address(this)), cDai.supplyRatePerBlock(), address(this).balance);
     }    
 
     function getContractAddress() public view returns (address poolMockContractAddess) {
