@@ -87,9 +87,9 @@ export default class PoolTogetherNYBW extends Component {
         const { accounts, web3, dai, pool_mock, POOlMOCK_ADDRESS } = this.state;
 
         //@notice - Calculate secret hash
-        const SALT = '0x1234123412341234123412341234123412341234123412341234123412341236'
-        const SECRET = '0x1234123412341234123412341234123412341234123412341234123412341234'
-        const SECRET_HASH = new Web3().utils.soliditySha3(SECRET, SALT)
+        const SALT = '0x1234123412341234123412341234123412341234123412341234123412341236';
+        const SECRET = '0x1234123412341234123412341234123412341234123412341234123412341234';
+        const SECRET_HASH = new Web3().utils.soliditySha3(SECRET, SALT);
 
         const _nextSecretHash = SECRET_HASH;
 

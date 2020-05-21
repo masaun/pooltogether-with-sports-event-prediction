@@ -72,6 +72,9 @@ contract PoolMock is MCDAwarePool, usingBandProtocol, McStorage, McConstants {  
      * @param _salt The salt that was used to conceal the secret
      **/
     function _reward(bytes32 _secret, bytes32 _salt) public {
+        /// Lock tokens
+        lockTokens();
+
         /// Delegate call of reward() in BasePool.sol
         reward(_secret, _salt);
     }
