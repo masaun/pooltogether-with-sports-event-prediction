@@ -16,18 +16,18 @@ contract PoolMock is MCDAwarePool, usingBandProtocol, McStorage, McConstants {  
     IERC20 public dai;
     ICErc20 public cDai;
 
-    //Oracle public oracleSportEvents;         // For Sport Events (Kovan)
-    //Oracle public oracleFinancialDataFeeds;  // For Financial Data Feeds (Kovan)
-
     constructor(address _erc20, address _cErc20) public {
         dai = IERC20(_erc20);
         cDai = ICErc20(_cErc20);
-
-        /// Instante an oracle instance for a given dataset address
-        //oracleSportEvents = Oracle(0xF904Db9817E4303c77e1Df49722509a0d7266934);  // Dateset-Oracle address of Sport Events (Kovan)
-        //oracleFinancialDataFeeds = Oracle(0xa24dF0420dE1f3b8d740A52AAEB9d55d6D64478e);  // Dateset-Oracle address of Financial Data Feeds (Kovan)
     }
 
+
+    function _openNextDraw(bytes32 _nextSecretHash) public {
+        /// Commit draw
+
+        /// Open Pool
+        openNextDraw(_nextSecretHash);
+    }
 
     /***
      * @notice - Deposit DAI into Pool(=this contract)
@@ -35,8 +35,25 @@ contract PoolMock is MCDAwarePool, usingBandProtocol, McStorage, McConstants {  
     function _depositPool(uint _depositAmount) public returns (bool) {
         depositPool(_depositAmount);  // Delegate call of depositPool() in BasePool.sol
     }
-
     
+    /***
+     * @notice - Distribute DAI into winner's wallet address
+     * @param _secret The secret to reveal for the current committed Draw
+     * @param _salt The salt that was used to conceal the secret
+     **/
+    function _reward(bytes32 _secret, bytes32 _salt) public {
+        /// Lock tokens
+        lockTokens();
+
+        /// Delegate call of reward() in BasePool.sol
+        reward(_secret, _salt);
+
+        /// Commit next drawId
+        
+    }
+
+
+
     /***
      * @notice - Pool Logic for selecting winner 
      **/
@@ -44,14 +61,13 @@ contract PoolMock is MCDAwarePool, usingBandProtocol, McStorage, McConstants {  
         // In progress
 
     }
-    
 
     /***
      * @notice - Oracle by using Band-Protocol
      **/
     function getQueryPrice() public view returns (uint256 queryPrice) {
         /// Get the price of querying for one data point (in Wei)
-        uint256 queryPrice = FINANCIAL.queryPrice();
+        uint256 queryPrice = SPORT.queryPrice();
         return queryPrice;
     }
     
@@ -74,14 +90,14 @@ contract PoolMock is MCDAwarePool, usingBandProtocol, McStorage, McConstants {  
         (res1, res2) = SPORT.queryScore("MLB/20190819/HOU-DET/1");
         emit OracleQueryScore(res1, res2);
     }
-    
+
 
     /**
      * @notice - Getter functions
      */
     function balanceOfContract() public view returns (address poolMockContractAddess, uint balanceOfContract_DAI, uint balanceOfContract_cDAI, uint balanceOfContract_ETH) {
         address _poolMockContractAddess = getContractAddress();
-        return (_poolMockContractAddess, dai.balanceOf(address(this)), cDai.getCash(), address(this).balance);
+        return (_poolMockContractAddess, dai.balanceOf(address(this)), cDai.supplyRatePerBlock(), address(this).balance);
     }    
 
     function getContractAddress() public view returns (address poolMockContractAddess) {

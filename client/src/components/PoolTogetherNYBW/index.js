@@ -31,8 +31,9 @@ export default class PoolTogetherNYBW extends Component {
 
         this._initPoolToken = this._initPoolToken.bind(this);
         this.initPool = this.initPool.bind(this);
-        this._openNextDraw = this._openNextDraw.bind(this);
+        this.openNextDraw = this.openNextDraw.bind(this);
         this._depositPool = this._depositPool.bind(this);
+        this.reward = this.reward.bind(this);
 
         /////// Oracle by using Band-Protocol
         this._getQueryPrice = this._getQueryPrice.bind(this);
@@ -65,7 +66,7 @@ export default class PoolTogetherNYBW extends Component {
     initPool = async () => {
         const { accounts, web3, dai, pool_mock, POOlMOCK_ADDRESS } = this.state;
 
-        const _owner = walletAddressList["WalletAddress1"];
+        const _owner = walletAddressList["WalletAddress1"]; /// OwnerAddress is added as "admin" role
         const _cToken = tokenAddressList["Kovan"]["cDAI"];
         const _feeFraction = web3.utils.toWei('0.1');
         const _feeBeneficiary = walletAddressList["WalletAddress1"];
@@ -74,7 +75,12 @@ export default class PoolTogetherNYBW extends Component {
         const _admin = walletAddressList["WalletAddress1"];
  
         //@dev - Init Pool
-        let res5 = await pool_mock.methods.init(_owner, _cToken, _feeFraction, _feeBeneficiary, _lockDuration, _cooldownDuration).send({ from: accounts[0] });
+        let res5 = await pool_mock.methods.init(_owner, 
+                                                _cToken, 
+                                                _feeFraction, 
+                                                _feeBeneficiary, 
+                                                _lockDuration, 
+                                                _cooldownDuration).send({ from: accounts[0] });
         console.log('=== init() / addAdmin() - MCDAwarePool.sol ===\n', res5);   
 
         //@dev - Check Admin
@@ -82,13 +88,18 @@ export default class PoolTogetherNYBW extends Component {
         console.log('=== isAdmin() ===\n', res4); 
     }
 
-    _openNextDraw = async () => {
+    openNextDraw = async () => {
         const { accounts, web3, dai, pool_mock, POOlMOCK_ADDRESS } = this.state;
 
-        const _nextSecretHash = "0xb281fc8c12954d22544db45de3159a39272895b169a852b314f9cc762e44c53b";
+        //@notice - Calculate secret hash
+        const SALT = '0x1234123412341234123412341234123412341234123412341234123412341236';
+        const SECRET = '0x1234123412341234123412341234123412341234123412341234123412341234';
+        const SECRET_HASH = new Web3().utils.soliditySha3(SECRET, SALT);
+
+        const _nextSecretHash = SECRET_HASH;
 
         //@dev - Open Pool
-        let res3 = await pool_mock.methods.openNextDraw(_nextSecretHash).send({ from: accounts[0] });
+        let res3 = await pool_mock.methods._openNextDraw(_nextSecretHash).send({ from: accounts[0] });
         console.log('=== openNextDraw() ===\n', res3);          
     }
 
@@ -101,6 +112,17 @@ export default class PoolTogetherNYBW extends Component {
         let res6 = await dai.methods.approve(POOlMOCK_ADDRESS, _depositAmount).send({ from: accounts[0] });
         let res2 = await pool_mock.methods._depositPool(_depositAmount).send({ from: accounts[0] });
         console.log('=== depositPool() ===\n', res2); 
+    }
+
+    reward = async () => {
+        const { accounts, web3, dai, pool_mock, POOlMOCK_ADDRESS } = this.state;
+
+        const SALT = '0x1234123412341234123412341234123412341234123412341234123412341236'
+        const SECRET = '0x1234123412341234123412341234123412341234123412341234123412341234'
+
+        //@dev - Withdraw DAI from Pool
+        let res = await pool_mock.methods._reward(SECRET, SALT).send({ from: accounts[0] });
+        console.log('=== reward() ===\n', res);         
     }
 
     /***
@@ -136,6 +158,7 @@ export default class PoolTogetherNYBW extends Component {
         let res = await pool_mock.methods.oracleQueryScore().send({ from: accounts[0], value: queryPrice });
         console.log('=== oracleQueryScore() ===\n', res); 
     }
+
 
     /***
      * @dev - Getter function
@@ -383,9 +406,11 @@ export default class PoolTogetherNYBW extends Component {
 
                             <Button size={'small'} mt={3} mb={2} onClick={this.initPool}> Init Pool </Button> <br />
 
-                            <Button size={'small'} mt={3} mb={2} onClick={this._openNextDraw}> Open Next Draw </Button> <br />
+                            <Button size={'small'} mt={3} mb={2} onClick={this.openNextDraw}> Open Next Draw </Button> <br />
 
                             <Button size={'small'} mt={3} mb={2} onClick={this._depositPool}> Deposit Pool </Button> <br />
+
+                            <Button size={'small'} mt={3} mb={2} onClick={this.reward}> Distribute Reward from Pool </Button> <br />
 
                             <hr />
 
