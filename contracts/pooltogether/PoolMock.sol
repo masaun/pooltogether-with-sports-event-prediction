@@ -53,7 +53,7 @@ contract PoolMock is MCDAwarePool, usingBandProtocol, McStorage, McConstants {  
      * @notice - Game score prediction
      **/
     function gameScorePrediction(
-        string _query, 
+        string memory _query, 
         uint _userId, 
         uint _drawId, 
         uint _gameScore1, 
@@ -62,12 +62,12 @@ contract PoolMock is MCDAwarePool, usingBandProtocol, McStorage, McConstants {  
         /// Choose game score 
         
         /// Bundling user's prediction with deposited ticket
-        Prediction storage prediction = prediction[_drawId];
+        Prediction storage prediction = predictions[_drawId];
         prediction.userId = _userId;
-        prediction.drawId: _drawId;
-        prediction.gameScore1: _gameScore1;
-        prediction.gameScore2: _gameScore2;
-        prediction.timestamp: now;
+        prediction.drawId = _drawId;
+        prediction.gameScore1 = _gameScore1;
+        prediction.gameScore2 = _gameScore2;
+        prediction.timestamp = now;
     }
 
     /***
@@ -81,7 +81,7 @@ contract PoolMock is MCDAwarePool, usingBandProtocol, McStorage, McConstants {  
 
         /// Identify winners in all participants of specified drawId
         for (uint i=1; i < 10; i++) {
-            Prediction memory prediction = prediction[_drawId];
+            Prediction memory prediction = predictions[_drawId];
         }
 
         /// Distribute reward for winners
@@ -111,7 +111,7 @@ contract PoolMock is MCDAwarePool, usingBandProtocol, McStorage, McConstants {  
         emit OracleQuerySpotPriceWithExpiry(ethUsdPrice);
     }    
 
-    function oracleQueryScore() public payable returns (uint, uint) {
+    function oracleQueryScore() public payable returns (uint8 gameScore1, uint8 gameScore2) {
         /// 1st MLB match of the Astros vs the Tigers on August 19, 2019
         uint8 res1;
         uint8 res2;
