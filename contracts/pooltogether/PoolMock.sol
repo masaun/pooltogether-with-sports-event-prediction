@@ -23,8 +23,6 @@ contract PoolMock is MCDAwarePool, usingBandProtocol, McStorage, McConstants {  
 
 
     function _openNextDraw(bytes32 _nextSecretHash) public {
-        /// Commit draw
-
         /// Open Pool
         openNextDraw(_nextSecretHash);
     }
@@ -46,20 +44,31 @@ contract PoolMock is MCDAwarePool, usingBandProtocol, McStorage, McConstants {  
         lockTokens();
 
         /// Delegate call of reward() in BasePool.sol
-        reward(_secret, _salt);
-
-        /// Commit next drawId
-        
+        reward(_secret, _salt);        
     }
 
 
 
     /***
-     * @notice - Pool Logic for selecting winner 
+     * @notice - Game score prediction logic for selecting winner 
      **/
-    function poolLogic() public returns (bool) {
-        // In progress
-
+    function gameScorePrediction(
+        string _query, 
+        uint _userId, 
+        uint _drawId, 
+        uint _gameScore1, 
+        uint _gameScore2
+    ) public returns (bool) {
+        /// Choose game score 
+        
+        /// Bundling user's prediction with deposited ticket
+        Prediction storage prediction = Prediction(
+            userId: _userId,
+            drawId: _drawId,
+            gameScore1: _gameScore1,
+            gameScore2: _gameScore2,
+            timestamp: now
+        );
     }
 
     /***
