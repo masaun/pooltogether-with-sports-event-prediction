@@ -48,29 +48,6 @@ contract PoolMock is MCDAwarePool, usingBandProtocol, McStorage, McConstants {  
     }
 
 
-
-    /***
-     * @notice - Game score prediction logic for selecting winner 
-     **/
-    function gameScorePrediction(
-        string _query, 
-        uint _userId, 
-        uint _drawId, 
-        uint _gameScore1, 
-        uint _gameScore2
-    ) public returns (bool) {
-        /// Choose game score 
-        
-        /// Bundling user's prediction with deposited ticket
-        Prediction storage prediction = Prediction(
-            userId: _userId,
-            drawId: _drawId,
-            gameScore1: _gameScore1,
-            gameScore2: _gameScore2,
-            timestamp: now
-        );
-    }
-
     /***
      * @notice - Oracle by using Band-Protocol
      **/
@@ -92,12 +69,13 @@ contract PoolMock is MCDAwarePool, usingBandProtocol, McStorage, McConstants {  
         emit OracleQuerySpotPriceWithExpiry(ethUsdPrice);
     }    
 
-    function oracleQueryScore() public payable {
+    function oracleQueryScore() public payable returns (uint8 gameScore1, uint8 gameScore2) {
         /// 1st MLB match of the Astros vs the Tigers on August 19, 2019
         uint8 res1;
         uint8 res2;
         (res1, res2) = SPORT.queryScore("MLB/20190819/HOU-DET/1");
         emit OracleQueryScore(res1, res2);
+        return (res1, res2);
     }
 
 

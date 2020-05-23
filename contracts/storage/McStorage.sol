@@ -17,6 +17,10 @@ contract McStorage is McObjects, McEvents {
     //////////////////////////////////
     // @dev - Define as storage
     ///////////////////////////////////
+    mapping (uint => Prediction) predictions;
+    
+
+
     ExampleObject[] public exampleObjects;
 
     mapping (uint256 => Sample) samples;
