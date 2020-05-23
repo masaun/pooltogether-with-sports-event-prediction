@@ -11,9 +11,10 @@ contract McEvents {
     event GameScorePrediction(
         uint userId, 
         uint drawId, 
-        string memory query,  /// i.e). "MLB/20190819/HOU-DET/1"
+        string gameOverview,  /// i.e). "MLB/20190819/HOU-DET/1"
         uint gameScore1, 
-        uint gameScore2        
+        uint gameScore2,
+        uint timestamp
     );
 
     /***
