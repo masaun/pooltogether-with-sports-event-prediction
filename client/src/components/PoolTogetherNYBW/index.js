@@ -35,6 +35,9 @@ export default class PoolTogetherNYBW extends Component {
         this._depositPool = this._depositPool.bind(this);
         this.reward = this.reward.bind(this);
 
+        /////// The relevant prediction
+        this.gameScorePrediction = this.gameScorePrediction.bind(this);
+
         /////// Oracle by using Band-Protocol
         this._getQueryPrice = this._getQueryPrice.bind(this);
         this._oracleQuerySpotPrice = this._oracleQuerySpotPrice.bind(this);
@@ -124,6 +127,28 @@ export default class PoolTogetherNYBW extends Component {
         let res = await pool_mock.methods._reward(SECRET, SALT).send({ from: accounts[0] });
         console.log('=== reward() ===\n', res);         
     }
+
+
+    /***
+     * @notice - The relevant prediction
+     **/
+    gameScorePrediction = async () => {
+        const { accounts, web3, dai, pool_mock, POOlMOCK_ADDRESS } = this.state;
+
+        const _userId = 1;
+        const _drawId = 1;
+        const _query = "MLB/20190819/HOU-DET/1";
+        const _gameScore1 = 5
+        const _gameScore2 = 4
+
+        let res = await pool_mock.methods.gameScorePrediction(_userId, 
+                                                              _drawId, 
+                                                              _query,  /// i.e). "MLB/20190819/HOU-DET/1"
+                                                              _gameScore1, 
+                                                              _gameScore2).send({ from: accounts[0] });
+        console.log('=== gameScorePrediction() ===\n', res);                
+    }
+
 
     /***
      * @notice - Oracle by using Band-Protocol
@@ -411,6 +436,10 @@ export default class PoolTogetherNYBW extends Component {
                             <Button size={'small'} mt={3} mb={2} onClick={this._depositPool}> Deposit Pool </Button> <br />
 
                             <Button size={'small'} mt={3} mb={2} onClick={this.reward}> Distribute Reward from Pool </Button> <br />
+
+                            <hr />
+
+                            <Button size={'small'} mt={3} mb={2} onClick={this.gameScorePrediction}> Game Score Prediction </Button> <br />
 
                             <hr />
 

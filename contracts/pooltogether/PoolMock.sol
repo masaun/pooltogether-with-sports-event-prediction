@@ -74,6 +74,13 @@ contract PoolMock is MCDAwarePool, usingBandProtocol, McStorage, McConstants {  
         prediction.gameScore1 = _gameScore1;
         prediction.gameScore2 = _gameScore2;
         prediction.timestamp = now;
+
+        emit GameScorePrediction(prediction.userId,
+                                 prediction.drawId,
+                                 prediction.gameOverview,
+                                 prediction.gameScore1,
+                                 prediction.gameScore2,
+                                 prediction.timestamp);
     }
 
     /***

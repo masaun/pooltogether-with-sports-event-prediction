@@ -6,6 +6,17 @@ import "./McObjects.sol";
 contract McEvents {
 
     /***
+     * @notice - The relevant prediction
+     **/
+    event GameScorePrediction(
+        uint userId, 
+        uint drawId, 
+        string memory query,  /// i.e). "MLB/20190819/HOU-DET/1"
+        uint gameScore1, 
+        uint gameScore2        
+    );
+
+    /***
      * @notice - Oracle by using Band-Protocol
      **/
     event OracleQuerySpotPrice(
