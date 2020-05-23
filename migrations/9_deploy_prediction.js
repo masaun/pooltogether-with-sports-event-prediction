@@ -1,4 +1,4 @@
-var StakeholderRegistry = artifacts.require("StakeholderRegistry");
+var Prediction = artifacts.require("Prediction");
 var PoolMock = artifacts.require("PoolMock");
 var IERC20 = artifacts.require("IERC20");
 
@@ -16,7 +16,7 @@ module.exports = async function(deployer, network, accounts) {
     // Initialize owner address if you want to transfer ownership of contract to some other address
     let ownerAddress = walletAddressList["WalletAddress1"];
 
-    await deployer.deploy(StakeholderRegistry, _erc20, _poolMock).then(async function(stakeholderRegistry) {
+    await deployer.deploy(Prediction, _erc20, _poolMock).then(async function(prediction) {
         if(ownerAddress && ownerAddress!="") {
             console.log(`=== Transfering ownerhip to address ${ownerAddress} ===`)
             await stakeholderRegistry.transferOwnership(ownerAddress);
