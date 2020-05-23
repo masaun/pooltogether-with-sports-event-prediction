@@ -53,18 +53,24 @@ contract PoolMock is MCDAwarePool, usingBandProtocol, McStorage, McConstants {  
      * @notice - Game score prediction
      **/
     function gameScorePrediction(
-        string memory _query, 
         uint _userId, 
         uint _drawId, 
+        string memory _query,  /// i.e). "MLB/20190819/HOU-DET/1"
         uint _gameScore1, 
         uint _gameScore2
     ) public returns (bool) {
-        /// Choose game score 
-        
+        /// Take apart query
+        //string memory eventType;        /// i.e). "MLB"
+        //string memory gameDate;         /// i.e). "20190819"
+        //string memory gameMatch;        /// i.e). "HOU-DET"
+        //string memory gameMatchNumber;  /// i.e). "1"
+
+        /// Choose game score
         /// Bundling user's prediction with deposited ticket
         Prediction storage prediction = predictions[_drawId];
         prediction.userId = _userId;
         prediction.drawId = _drawId;
+        prediction.gameOverview = _query; 
         prediction.gameScore1 = _gameScore1;
         prediction.gameScore2 = _gameScore2;
         prediction.timestamp = now;
