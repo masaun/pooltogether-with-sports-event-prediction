@@ -19,12 +19,12 @@ module.exports = async function(deployer, network, accounts) {
     await deployer.deploy(Prediction, _erc20, _poolMock).then(async function(prediction) {
         if(ownerAddress && ownerAddress!="") {
             console.log(`=== Transfering ownerhip to address ${ownerAddress} ===`)
-            await stakeholderRegistry.transferOwnership(ownerAddress);
+            await prediction.transferOwnership(ownerAddress);
         }
     });
 
     //@dev - Transfer 2.1 DAI from deployer's address to contract address in advance
-    const stakeholderRegistry = await StakeholderRegistry.deployed();
+    const prediction = await Prediction.deployed();
     const iERC20 = await IERC20.at(_erc20);
-    await iERC20.transfer(stakeholderRegistry.address, depositedAmount);
+    await iERC20.transfer(prediction.address, depositedAmount);
 };
