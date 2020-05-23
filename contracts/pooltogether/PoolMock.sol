@@ -48,61 +48,6 @@ contract PoolMock is MCDAwarePool, usingBandProtocol, McStorage, McConstants {  
     }
 
 
-
-    /***
-     * @notice - Game score prediction
-     **/
-    function gameScorePrediction(
-        uint _userId, 
-        uint _drawId, 
-        string memory _query,  /// i.e). "MLB/20190819/HOU-DET/1"
-        uint _gameScore1, 
-        uint _gameScore2
-    ) public returns (bool) {
-        /// Take apart query
-        //string memory eventType;        /// i.e). "MLB"
-        //string memory gameDate;         /// i.e). "20190819"
-        //string memory gameMatch;        /// i.e). "HOU-DET"
-        //string memory gameMatchNumber;  /// i.e). "1"
-
-        /// Choose game score
-        /// Bundling user's prediction with deposited ticket
-        Prediction storage prediction = predictions[_drawId];
-        prediction.userId = _userId;
-        prediction.drawId = _drawId;
-        prediction.gameOverview = _query; 
-        prediction.gameScore1 = _gameScore1;
-        prediction.gameScore2 = _gameScore2;
-        prediction.timestamp = now;
-
-        emit GameScorePrediction(prediction.userId,
-                                 prediction.drawId,
-                                 prediction.gameOverview,
-                                 prediction.gameScore1,
-                                 prediction.gameScore2,
-                                 prediction.timestamp);
-    }
-
-    /***
-     * @notice - Get result and identify winners and distribute reward 
-     **/
-    function getResultOfGameScore(uint _drawId, bytes32 _secret, bytes32 _salt) public returns (bool) {
-        /// Call result of game score via Oracle
-        uint8 gameScore1;
-        uint8 gameScore2;
-        (gameScore1, gameScore2) = oracleQueryScore();
-
-        /// Identify winners in all participants of specified drawId
-        for (uint i=1; i < 10; i++) {
-            Prediction memory prediction = predictions[_drawId];
-        }
-
-        /// Distribute reward for winners
-        _reward(_secret, _salt);
-    }
-    
-
-
     /***
      * @notice - Oracle by using Band-Protocol
      **/

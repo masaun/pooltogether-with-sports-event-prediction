@@ -133,7 +133,7 @@ export default class PoolTogetherNYBW extends Component {
      * @notice - The relevant prediction
      **/
     gameScorePrediction = async () => {
-        const { accounts, web3, dai, pool_mock, POOlMOCK_ADDRESS } = this.state;
+        const { accounts, web3, dai, pool_mock, prediction } = this.state;
 
         const _userId = 1;
         const _drawId = 1;
@@ -141,11 +141,11 @@ export default class PoolTogetherNYBW extends Component {
         const _gameScore1 = 5
         const _gameScore2 = 4
 
-        let res = await pool_mock.methods.gameScorePrediction(_userId, 
-                                                              _drawId, 
-                                                              _query,  /// i.e). "MLB/20190819/HOU-DET/1"
-                                                              _gameScore1, 
-                                                              _gameScore2).send({ from: accounts[0] });
+        let res = await prediction.methods.gameScorePrediction(_userId, 
+                                                               _drawId, 
+                                                               _query,  /// i.e). "MLB/20190819/HOU-DET/1"
+                                                               _gameScore1, 
+                                                               _gameScore2).send({ from: accounts[0] });
         console.log('=== gameScorePrediction() ===\n', res);                
     }
 
@@ -205,9 +205,9 @@ export default class PoolTogetherNYBW extends Component {
     }
 
     _balanceOfContract = async () => {
-        const { accounts, web3, dai, poolTogether_nybw, pool_mock } = this.state;
+        const { accounts, web3, dai, prediction, pool_mock } = this.state;
 
-        let res1 = await poolTogether_nybw.methods.balanceOfContract().call();
+        let res1 = await prediction.methods.balanceOfContract().call();
         console.log('=== balanceOfContract() ===\n', res1);
 
         let res2 = await pool_mock.methods.balanceOfContract().call();
@@ -251,14 +251,14 @@ export default class PoolTogetherNYBW extends Component {
     componentDidMount = async () => {
         const hotLoaderDisabled = zeppelinSolidityHotLoaderOptions.disabled;
      
-        let PoolTogetherNYBW = {};
+        let Prediction = {};
         let PodMock = {};        
         let PoolMock = {};
         let PoolTokenMock = {};
         let Dai = {};
         let BokkyPooBahsDateTimeContract = {};
         try {
-          PoolTogetherNYBW = require("../../../../build/contracts/StakeholderRegistry.json");  // Load artifact-file of StakeholderRegistry
+          Prediction = require("../../../../build/contracts/Prediction.json");  // Load artifact-file of StakeholderRegistry
           PodMock = require("../../../../build/contracts/PodMock.json");
           PoolMock = require("../../../../build/contracts/PoolMock.json");
           PoolTokenMock = require("../../../../build/contracts/PoolTokenMock.json");
@@ -291,17 +291,17 @@ export default class PoolTogetherNYBW extends Component {
             balance = web3.utils.fromWei(balance, 'ether');
 
             // Create instance of contracts
-            let instancePoolTogetherNYBW = null;
+            let instancePrediction = null;
             let deployedNetwork = null;
-            let POOlTOGETHER_NYBW_ADDRESS = PoolTogetherNYBW.networks[networkId.toString()].address;
-            if (PoolTogetherNYBW.networks) {
-              deployedNetwork = PoolTogetherNYBW.networks[networkId.toString()];
+            let PREDICTION_ADDRESS = Prediction.networks[networkId.toString()].address;
+            if (Prediction.networks) {
+              deployedNetwork = Prediction.networks[networkId.toString()];
               if (deployedNetwork) {
-                instancePoolTogetherNYBW = new web3.eth.Contract(
-                  PoolTogetherNYBW.abi,
+                instancePrediction = new web3.eth.Contract(
+                  Prediction.abi,
                   deployedNetwork && deployedNetwork.address,
                 );
-                console.log('=== instancePoolTogetherNYBW ===', instancePoolTogetherNYBW);
+                console.log('=== instancePrediction ===', instancePrediction);
               }
             }
 
@@ -367,7 +367,7 @@ export default class PoolTogetherNYBW extends Component {
             console.log('=== instanceBokkyPooBahsDateTimeContract ===', instanceBokkyPooBahsDateTimeContract);
 
 
-            if (PoolTogetherNYBW || PodMock || PoolMock || PoolTokenMock || Dai || BokkyPooBahsDateTimeContract) {
+            if (Prediction || PodMock || PoolMock || PoolTokenMock || Dai || BokkyPooBahsDateTimeContract) {
               // Set web3, accounts, and contract to the state, and then proceed with an
               // example of interacting with the contract's methods.
               this.setState({ 
@@ -379,21 +379,21 @@ export default class PoolTogetherNYBW extends Component {
                 networkType, 
                 hotLoaderDisabled,
                 isMetaMask, 
-                poolTogether_nybw: instancePoolTogetherNYBW,
+                prediction: instancePrediction,
                 pod_mock: instancePodMock,
                 pool_mock: instancePoolMock,
                 poolToken_mock: instancePoolTokenMock,
                 dai: instanceDai,
                 bokkypoobahs_datetime_contract: instanceBokkyPooBahsDateTimeContract,
-                POOlTOGETHER_NYBW_ADDRESS: POOlTOGETHER_NYBW_ADDRESS,
+                PREDICTION_ADDRESS: PREDICTION_ADDRESS,
                 DAI_ADDRESS: DAI_ADDRESS,
                 POOlMOCK_ADDRESS: POOlMOCK_ADDRESS
               }, () => {
                 this.refreshValues(
-                  instancePoolTogetherNYBW
+                  instancePrediction
                 );
                 setInterval(() => {
-                  this.refreshValues(instancePoolTogetherNYBW);
+                  this.refreshValues(instancePrediction);
                 }, 5000);
               });
             }
@@ -412,7 +412,7 @@ export default class PoolTogetherNYBW extends Component {
 
 
     render() {
-        const { accounts, poolTogether_nybw } = this.state;
+        const { accounts, prediction } = this.state;
 
         return (
             <div className={styles.widgets}>

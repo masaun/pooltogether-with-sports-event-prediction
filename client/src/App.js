@@ -55,7 +55,7 @@ class App extends Component {
  
     let StakeholderRegistry = {};
     try {
-      StakeholderRegistry = require("../../build/contracts/StakeholderRegistry.json");          // Load artifact-file of StakeholderRegistry
+      StakeholderRegistry = require("../../build/contracts/Prediction.json");          // Load artifact-file of StakeholderRegistry
     } catch (e) {
       console.log(e);
     }
