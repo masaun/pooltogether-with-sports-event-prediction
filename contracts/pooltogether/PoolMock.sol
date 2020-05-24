@@ -9,8 +9,11 @@ import { usingBandProtocol, Oracle } from "../band/band-solidity/contracts/Band.
 import "../storage/McStorage.sol";
 import "../storage/McConstants.sol";
 
+/// Own contract
+import "./pooltogether/Prediction.sol";
 
-contract PoolMock is MCDAwarePool, usingBandProtocol, McStorage, McConstants {  /// MCDAwarePool inherits BasePool.sol 
+
+contract PoolMock is Prediction, MCDAwarePool, usingBandProtocol, McStorage, McConstants {  /// MCDAwarePool inherits BasePool.sol 
     using SafeMath for uint;
 
     IERC20 public dai;
@@ -25,6 +28,9 @@ contract PoolMock is MCDAwarePool, usingBandProtocol, McStorage, McConstants {  
     function _openNextDraw(bytes32 _nextSecretHash) public {
         /// Open Pool
         openNextDraw(_nextSecretHash);
+
+        /// Open next and new draw of game score prediction which is inherited from Prediction.sol
+        openeNextGameScorePredictionDraw(_drawId);
     }
 
     /***
