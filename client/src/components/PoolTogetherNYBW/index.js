@@ -45,6 +45,7 @@ export default class PoolTogetherNYBW extends Component {
         this._oracleQueryScore = this._oracleQueryScore.bind(this);
 
         /////// Getter Functions
+        this._getCurrentOpenDrawId = this._getCurrentOpenDrawId.bind(this);
         this._getBasePool = this._getBasePool.bind(this);
         this.balanceOfUnderlying = this.balanceOfUnderlying.bind(this);
         this._balanceOfContract = this._balanceOfContract.bind(this);
@@ -217,6 +218,13 @@ export default class PoolTogetherNYBW extends Component {
     /***
      * @dev - Test Functions
      **/
+    _getCurrentOpenDrawId = async () => {
+        const { accounts, web3, dai, prediction, pool_mock } = this.state;
+
+        let res = await pool_mock.methods.getCurrentOpenDrawId().call();
+        console.log('=== getCurrentOpenDrawId()() ===\n', res);
+    }
+
     timestampFromDate = async () => {
         const { accounts, web3, bokkypoobahs_datetime_contract } = this.state;
 
@@ -452,6 +460,7 @@ export default class PoolTogetherNYBW extends Component {
                             <Button size={'small'} mt={3} mb={2} onClick={this._oracleQueryScore}> Oracle QueryScore of Sports </Button> <br />
 
                             <hr />
+                            <Button mainColor="DarkCyan" size={'small'} mt={3} mb={2} onClick={this._getCurrentOpenDrawId}> Get Current Open DrawId </Button> <br />
 
                             <Button mainColor="DarkCyan" size={'small'} mt={3} mb={2} onClick={this._getBasePool}> Get BasePool </Button> <br />
 

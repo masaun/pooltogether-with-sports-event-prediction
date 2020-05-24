@@ -29,7 +29,7 @@ contract PoolMock is MCDAwarePool, McStorage, McConstants {  /// MCDAwarePool in
         openNextDraw(_nextSecretHash);
 
         /// Open next and new draw of game score prediction which is inherited from Prediction.sol
-        uint _drawId;
+        uint _drawId = getCurrentOpenDrawId();
         prediction.openeNextGameScorePredictionDraw(_drawId);
     }
 
@@ -47,7 +47,7 @@ contract PoolMock is MCDAwarePool, McStorage, McConstants {  /// MCDAwarePool in
      **/
     function _reward(bytes32 _secret, bytes32 _salt) public {
         /// Get result and identify winners and distribute reward which is inherited from Prediction.sol
-        uint _drawId;
+        uint _drawId = getCurrentOpenDrawId();
         prediction.getResultOfGameScore(_drawId, _secret, _salt);
 
         /// Lock tokens
@@ -62,6 +62,11 @@ contract PoolMock is MCDAwarePool, McStorage, McConstants {  /// MCDAwarePool in
     /**
      * @notice - Getter functions
      */
+    function getCurrentOpenDrawId() public returns (uint _currentOpenDrawId) {
+        /// Inherited from BasePool.sol
+        return currentOpenDrawId();
+    }
+
     function balanceOfPoolMockContract() public view returns (address poolMockContractAddess, uint balanceOfPoolMockContract_DAI, uint balanceOfPoolMockContract_cDAI, uint balanceOfPoolMockContract_ETH) {
         address _poolMockContractAddess = getContractAddress();
         return (_poolMockContractAddess, dai.balanceOf(address(this)), cDai.supplyRatePerBlock(), address(this).balance);
