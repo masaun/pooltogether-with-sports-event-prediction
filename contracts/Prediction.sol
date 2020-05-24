@@ -16,7 +16,7 @@ import "./pooltogether/PoolMock.sol";
 
 
 /***
- * @notice - This contract is that ...
+ * @notice - This contract is that users predicts sports game score
  **/
 contract Prediction is OwnableOriginal(msg.sender), McStorage, McConstants {
     using SafeMath for uint;
@@ -28,6 +28,14 @@ contract Prediction is OwnableOriginal(msg.sender), McStorage, McConstants {
         dai = IERC20(_erc20);
         poolMock = PoolMock(_poolMock);
     }
+
+    /***
+     * @notice - Open next and new draw of game score prediction
+     **/
+    function openeNextGameScorePredictionDraw(uint drawId) public returns (bool) {
+        Prediction storage prediction = predictions[_drawId];
+    }
+    
 
     /***
      * @notice - Game score prediction
@@ -71,6 +79,9 @@ contract Prediction is OwnableOriginal(msg.sender), McStorage, McConstants {
         uint8 gameScore1;
         uint8 gameScore2;
         (gameScore1, gameScore2) = poolMock.oracleQueryScore();
+
+        /// Count participants of specified drawId
+
 
         /// Identify winners in all participants of specified drawId
         for (uint i=1; i < 10; i++) {
