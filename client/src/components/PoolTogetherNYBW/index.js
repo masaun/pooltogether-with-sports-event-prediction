@@ -222,7 +222,7 @@ export default class PoolTogetherNYBW extends Component {
         const { accounts, web3, dai, prediction, pool_mock } = this.state;
 
         let res = await pool_mock.methods.getCurrentOpenDrawId().call();
-        console.log('=== getCurrentOpenDrawId()() ===\n', res);
+        console.log('=== getCurrentOpenDrawId() ===\n', res);
     }
 
     timestampFromDate = async () => {
@@ -426,6 +426,10 @@ export default class PoolTogetherNYBW extends Component {
             <div className={styles.widgets}>
                 <Grid container style={{ marginTop: 32 }}>
                     <Grid item xs={12}>
+                        <h4>PoolTogether NYBW Hack 2020</h4>
+                    </Grid>
+
+                    <Grid item xs={6}>
                         <Card width={"auto"} 
                               maxWidth={"420px"} 
                               mx={"auto"} 
@@ -433,7 +437,7 @@ export default class PoolTogetherNYBW extends Component {
                               p={20} 
                               borderColor={"#E8E8E8"}
                         >
-                            <h4>PoolTogether NYBW Hack 2020</h4> <br />
+                            <h4>Admin</h4> <br />
 
                             <Button size={'small'} mt={3} mb={2} onClick={this._initPoolToken}> Init PoolToken </Button> <br />
 
@@ -441,13 +445,7 @@ export default class PoolTogetherNYBW extends Component {
 
                             <Button size={'small'} mt={3} mb={2} onClick={this.openNextDraw}> Open Next Draw </Button> <br />
 
-                            <Button size={'small'} mt={3} mb={2} onClick={this._depositPool}> Deposit Pool </Button> <br />
-
                             <Button size={'small'} mt={3} mb={2} onClick={this.reward}> Distribute Reward from Pool </Button> <br />
-
-                            <hr />
-
-                            <Button size={'small'} mt={3} mb={2} onClick={this.gameScorePrediction}> Game Score Prediction </Button> <br />
 
                             <hr />
 
@@ -481,10 +479,20 @@ export default class PoolTogetherNYBW extends Component {
                         </Card>
                     </Grid>
 
-                    <Grid item xs={4}>
-                    </Grid>
+                    <Grid item xs={6}>
+                        <Card width={"auto"} 
+                              maxWidth={"420px"} 
+                              mx={"auto"} 
+                              my={5} 
+                              p={20} 
+                              borderColor={"#E8E8E8"}
+                        >
+                            <h4>User</h4> <br />
 
-                    <Grid item xs={4}>
+                            <Button size={'small'} mt={3} mb={2} onClick={this.gameScorePrediction}> Game Score Prediction </Button> <br />                        
+
+                            <Button size={'small'} mt={3} mb={2} onClick={this._depositPool}> Deposit Pool </Button> <br />
+                        </Card>
                     </Grid>
                 </Grid>
             </div>
