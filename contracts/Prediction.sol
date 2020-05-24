@@ -26,7 +26,7 @@ contract Prediction is usingBandProtocol, OwnableOriginal(msg.sender), McStorage
 
     IERC20 public dai;
 
-    constructor(address _erc20, address _poolMock) public {
+    constructor(address _erc20) public {
         dai = IERC20(_erc20);
     }
 

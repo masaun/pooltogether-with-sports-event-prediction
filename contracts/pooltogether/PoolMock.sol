@@ -3,22 +3,24 @@ pragma solidity ^0.5.12;
 import "./pooltogether-contracts/contracts/MCDAwarePool.sol";
 
 /// Storage
-//import "../storage/McStorage.sol";
-//import "../storage/McConstants.sol";
+import "../storage/McStorage.sol";
+import "../storage/McConstants.sol";
 
 /// Own contract
 import "../Prediction.sol";
 
 
-contract PoolMock is Prediction, MCDAwarePool {  /// MCDAwarePool inherits BasePool.sol 
+contract PoolMock is MCDAwarePool, McStorage, McConstants {  /// MCDAwarePool inherits BasePool.sol 
     using SafeMath for uint;
 
     IERC20 public dai;
     ICErc20 public cDai;
+    Prediction public prediction;    
 
-    constructor(address _erc20, address _cErc20) public {
+    constructor(address _erc20, address _cErc20, address _prediction) public {
         dai = IERC20(_erc20);
         cDai = ICErc20(_cErc20);
+        prediction = Prediction(_prediction);
     }
 
 
@@ -28,7 +30,7 @@ contract PoolMock is Prediction, MCDAwarePool {  /// MCDAwarePool inherits BaseP
 
         /// Open next and new draw of game score prediction which is inherited from Prediction.sol
         uint _drawId;
-        openeNextGameScorePredictionDraw(_drawId);
+        prediction.openeNextGameScorePredictionDraw(_drawId);
     }
 
     /***
@@ -46,7 +48,7 @@ contract PoolMock is Prediction, MCDAwarePool {  /// MCDAwarePool inherits BaseP
     function _reward(bytes32 _secret, bytes32 _salt) public {
         /// Get result and identify winners and distribute reward which is inherited from Prediction.sol
         uint _drawId;
-        getResultOfGameScore(_drawId, _secret, _salt);
+        prediction.getResultOfGameScore(_drawId, _secret, _salt);
 
         /// Lock tokens
         lockTokens();
