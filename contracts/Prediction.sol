@@ -25,7 +25,6 @@ contract Prediction is usingBandProtocol, OwnableOriginal(msg.sender), McStorage
     using SafeMath for uint;
 
     IERC20 public dai;
-    PoolMock public poolMock;
 
     constructor(address _erc20) public {
         dai = IERC20(_erc20);
@@ -83,7 +82,7 @@ contract Prediction is usingBandProtocol, OwnableOriginal(msg.sender), McStorage
         (gameScore1, gameScore2) = oracleQueryScore();
 
         /// Count participants of specified drawId
-        poolMock = PoolMock(_poolMock);
+        PoolMock poolMock = PoolMock(_poolMock);
         uint currentOpenDrawId = poolMock.getCurrentOpenDrawId();
 
         /// Identify winners in all participants of specified drawId
