@@ -87,7 +87,7 @@ contract Prediction is usingBandProtocol, OwnableOriginal(msg.sender), McStorage
         uint currentOpenDrawId = poolMock.getCurrentOpenDrawId();
 
         /// Identify winners in all participants of specified drawId
-        for (uint i=1; i <= currentOpenDrawId; i++) {
+        for (uint i=1; i < currentOpenDrawId.add(1); i++) {
             PredictionData memory predictionData = predictionDatas[_drawId];
         }
 
@@ -131,5 +131,17 @@ contract Prediction is usingBandProtocol, OwnableOriginal(msg.sender), McStorage
     function balanceOfContract() public view returns (uint balanceOfContract_DAI, uint balanceOfContract_ETH) {
         return (dai.balanceOf(address(this)), address(this).balance);
     }
+
+    /***
+     * @dev - Getter functions
+     **/
+    function getCurrentOpenDrawIdPredictionContract(address _poolMock) public view returns (uint currentOpenDrawId_PredictionContract) {
+        /// Count participants of specified drawId
+        PoolMock poolMock = PoolMock(_poolMock);
+        uint currentOpenDrawId = poolMock.getCurrentOpenDrawId();
+
+        return currentOpenDrawId;
+    }
+
 
 }

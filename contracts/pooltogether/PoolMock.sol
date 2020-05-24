@@ -51,7 +51,7 @@ contract PoolMock is MCDAwarePool, McStorage, McConstants {  /// MCDAwarePool in
         uint8 gameScore2;
         address _poolMock = address(this);
         uint _drawId = getCurrentOpenDrawId();
-        (gameScore1, gameScore2) = prediction.getResultOfGameScore(_poolMock, _drawId, _secret, _salt);
+        //(gameScore1, gameScore2) = prediction.getResultOfGameScore(_poolMock, _drawId, _secret, _salt);
 
         /// Lock tokens
         lockTokens();
@@ -65,7 +65,7 @@ contract PoolMock is MCDAwarePool, McStorage, McConstants {  /// MCDAwarePool in
     /**
      * @notice - Getter functions
      */
-    function getCurrentOpenDrawId() public returns (uint _currentOpenDrawId) {
+    function getCurrentOpenDrawId() public view returns (uint _currentOpenDrawId) {
         /// Inherited from BasePool.sol
         return currentOpenDrawId();
     }
