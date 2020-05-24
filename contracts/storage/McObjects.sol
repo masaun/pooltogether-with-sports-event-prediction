@@ -3,7 +3,7 @@ pragma experimental ABIEncoderV2;
 
 contract McObjects {
 
-    struct Prediction {
+    struct PredictionData {
         uint userId;
         uint drawId;
         string gameOverview;

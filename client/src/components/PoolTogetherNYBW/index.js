@@ -45,6 +45,7 @@ export default class PoolTogetherNYBW extends Component {
         this._oracleQueryScore = this._oracleQueryScore.bind(this);
 
         /////// Getter Functions
+        this._getCurrentOpenDrawId = this._getCurrentOpenDrawId.bind(this);
         this._getBasePool = this._getBasePool.bind(this);
         this.balanceOfUnderlying = this.balanceOfUnderlying.bind(this);
         this._balanceOfContract = this._balanceOfContract.bind(this);
@@ -154,33 +155,33 @@ export default class PoolTogetherNYBW extends Component {
      * @notice - Oracle by using Band-Protocol
      **/
     _getQueryPrice = async () => {
-        const { accounts, web3, dai, pool_mock, POOlMOCK_ADDRESS } = this.state;
+        const { accounts, web3, dai, pool_mock, prediction, POOlMOCK_ADDRESS } = this.state;
 
-        let res = await pool_mock.methods.getQueryPrice().call();
+        let res = await prediction.methods.getQueryPrice().call();
         console.log('=== getQueryPrice() ===\n', res); 
     }    
 
     _oracleQuerySpotPrice = async () => {
-        const { accounts, web3, dai, pool_mock, POOlMOCK_ADDRESS } = this.state;
+        const { accounts, web3, dai, pool_mock, prediction, POOlMOCK_ADDRESS } = this.state;
 
-        let queryPrice = await pool_mock.methods.getQueryPrice().call();
-        let res = await pool_mock.methods.oracleQuerySpotPrice().send({ from: accounts[0], value: queryPrice });
+        let queryPrice = await prediction.methods.getQueryPrice().call();
+        let res = await prediction.methods.oracleQuerySpotPrice().send({ from: accounts[0], value: queryPrice });
         console.log('=== oracleQuerySpotPrice() ===\n', res); 
     }    
 
     _oracleQuerySpotPriceWithExpiry = async () => {
-        const { accounts, web3, dai, pool_mock, POOlMOCK_ADDRESS } = this.state;
+        const { accounts, web3, dai, pool_mock, prediction, POOlMOCK_ADDRESS } = this.state;
 
-        let queryPrice = await pool_mock.methods.getQueryPrice().call();
-        let res = await pool_mock.methods.oracleQuerySpotPriceWithExpiry().send({ from: accounts[0], value: queryPrice });
+        let queryPrice = await prediction.methods.getQueryPrice().call();
+        let res = await prediction.methods.oracleQuerySpotPriceWithExpiry().send({ from: accounts[0], value: queryPrice });
         console.log('=== oracleQuerySpotPriceWithExpiry() ===\n', res); 
     }
 
     _oracleQueryScore = async () => {
-        const { accounts, web3, dai, pool_mock, POOlMOCK_ADDRESS } = this.state;
+        const { accounts, web3, dai, pool_mock, prediction, POOlMOCK_ADDRESS } = this.state;
 
-        let queryPrice = await pool_mock.methods.getQueryPrice().call();
-        let res = await pool_mock.methods.oracleQueryScore().send({ from: accounts[0], value: queryPrice });
+        let queryPrice = await prediction.methods.getQueryPrice().call();
+        let res = await prediction.methods.oracleQueryScore().send({ from: accounts[0], value: queryPrice });
         console.log('=== oracleQueryScore() ===\n', res); 
     }
 
@@ -210,13 +211,20 @@ export default class PoolTogetherNYBW extends Component {
         let res1 = await prediction.methods.balanceOfContract().call();
         console.log('=== balanceOfContract() ===\n', res1);
 
-        let res2 = await pool_mock.methods.balanceOfContract().call();
-        console.log('=== balanceOfContract() - PoolMock.sol ===\n', res2);
+        let res2 = await pool_mock.methods.balanceOfPoolMockContract().call();
+        console.log('=== balanceOfPoolMockContract() - PoolMock.sol ===\n', res2);
     }
 
     /***
      * @dev - Test Functions
      **/
+    _getCurrentOpenDrawId = async () => {
+        const { accounts, web3, dai, prediction, pool_mock } = this.state;
+
+        let res = await pool_mock.methods.getCurrentOpenDrawId().call();
+        console.log('=== getCurrentOpenDrawId()() ===\n', res);
+    }
+
     timestampFromDate = async () => {
         const { accounts, web3, bokkypoobahs_datetime_contract } = this.state;
 
@@ -452,6 +460,7 @@ export default class PoolTogetherNYBW extends Component {
                             <Button size={'small'} mt={3} mb={2} onClick={this._oracleQueryScore}> Oracle QueryScore of Sports </Button> <br />
 
                             <hr />
+                            <Button mainColor="DarkCyan" size={'small'} mt={3} mb={2} onClick={this._getCurrentOpenDrawId}> Get Current Open DrawId </Button> <br />
 
                             <Button mainColor="DarkCyan" size={'small'} mt={3} mb={2} onClick={this._getBasePool}> Get BasePool </Button> <br />
 
