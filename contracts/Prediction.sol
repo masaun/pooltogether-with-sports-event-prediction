@@ -87,9 +87,6 @@ contract Prediction is OwnableOriginal(msg.sender), McStorage, McConstants {
         for (uint i=1; i < 10; i++) {
             Prediction memory prediction = predictions[_drawId];
         }
-
-        /// Distribute reward for winners
-        poolMock._reward(_secret, _salt);
     }
 
 

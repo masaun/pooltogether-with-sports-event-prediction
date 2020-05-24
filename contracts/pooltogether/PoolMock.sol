@@ -30,6 +30,7 @@ contract PoolMock is Prediction, MCDAwarePool, usingBandProtocol, McStorage, McC
         openNextDraw(_nextSecretHash);
 
         /// Open next and new draw of game score prediction which is inherited from Prediction.sol
+        uint _drawId;
         openeNextGameScorePredictionDraw(_drawId);
     }
 
@@ -46,6 +47,10 @@ contract PoolMock is Prediction, MCDAwarePool, usingBandProtocol, McStorage, McC
      * @param _salt The salt that was used to conceal the secret
      **/
     function _reward(bytes32 _secret, bytes32 _salt) public {
+        /// Get result and identify winners and distribute reward which is inherited from Prediction.sol
+        uint _drawId;
+        getResultOfGameScore(_drawId, _secret, _salt);
+
         /// Lock tokens
         lockTokens();
 
