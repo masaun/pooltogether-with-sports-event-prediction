@@ -51,6 +51,7 @@ export default class PoolTogetherNYBW extends Component {
         this._balanceOfContract = this._balanceOfContract.bind(this);
 
         /////// Test Functions
+        this._getCurrentOpenDrawIdPredictionContract = this._getCurrentOpenDrawIdPredictionContract.bind(this);
         this.timestampFromDate = this.timestampFromDate.bind(this);
     }
 
@@ -224,6 +225,15 @@ export default class PoolTogetherNYBW extends Component {
         let res = await pool_mock.methods.getCurrentOpenDrawId().call();
         console.log('=== getCurrentOpenDrawId() ===\n', res);
     }
+
+    _getCurrentOpenDrawIdPredictionContract = async () => {
+        const { accounts, web3, dai, prediction, pool_mock, POOlMOCK_ADDRESS } = this.state;
+        const _poolMock = POOlMOCK_ADDRESS;
+
+        let res = await prediction.methods.getCurrentOpenDrawIdPredictionContract(_poolMock).call();
+        console.log('=== getCurrentOpenDrawIdPredictionContract() ===\n', res);
+    }
+
 
     timestampFromDate = async () => {
         const { accounts, web3, bokkypoobahs_datetime_contract } = this.state;
@@ -475,6 +485,8 @@ export default class PoolTogetherNYBW extends Component {
                               borderColor={"#E8E8E8"}
                         >
                             <h4>Test Functions</h4> <br />
+                            <Button mainColor="DarkCyan" size={'small'} mt={3} mb={2} onClick={this._getCurrentOpenDrawIdPredictionContract}> Get CurrentOpenDrawId in PredictionContract </Button> <br />
+
                             <Button mainColor="DarkCyan" size={'small'} mt={3} mb={2} onClick={this.timestampFromDate}> Timestamp From Date </Button> <br />
                         </Card>
                     </Grid>
