@@ -47,8 +47,11 @@ contract PoolMock is MCDAwarePool, McStorage, McConstants {  /// MCDAwarePool in
      **/
     function _reward(bytes32 _secret, bytes32 _salt) public {
         /// Get result and identify winners and distribute reward which is inherited from Prediction.sol
+        uint8 gameScore1;
+        uint8 gameScore2;
+        address _poolMock = address(this);
         uint _drawId = getCurrentOpenDrawId();
-        prediction.getResultOfGameScore(_drawId, _secret, _salt);
+        (gameScore1, gameScore2) = prediction.getResultOfGameScore(_poolMock, _drawId, _secret, _salt);
 
         /// Lock tokens
         lockTokens();

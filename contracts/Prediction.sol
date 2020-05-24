@@ -15,7 +15,7 @@ import "./storage/McConstants.sol";
 import { usingBandProtocol, Oracle } from "./band/band-solidity/contracts/Band.sol";
 
 /// Own contract
-//import "./pooltogether/PoolMock.sol";
+import "./pooltogether/PoolMock.sol";
 
 
 /***
@@ -25,6 +25,7 @@ contract Prediction is usingBandProtocol, OwnableOriginal(msg.sender), McStorage
     using SafeMath for uint;
 
     IERC20 public dai;
+    PoolMock public poolMock;
 
     constructor(address _erc20) public {
         dai = IERC20(_erc20);
@@ -75,20 +76,22 @@ contract Prediction is usingBandProtocol, OwnableOriginal(msg.sender), McStorage
     /***
      * @notice - Get result and identify winners and distribute reward 
      **/
-    function getResultOfGameScore(uint _drawId, bytes32 _secret, bytes32 _salt) public returns (bool) {
+    function getResultOfGameScore(address _poolMock, uint _drawId, bytes32 _secret, bytes32 _salt) public returns (uint8 _gameScore1, uint8 _gameScore2) {
         /// Call result of game score via Oracle
         uint8 gameScore1;
         uint8 gameScore2;
         (gameScore1, gameScore2) = oracleQueryScore();
-        //(gameScore1, gameScore2) = poolMock.oracleQueryScore();
 
         /// Count participants of specified drawId
-
+        poolMock = PoolMock(_poolMock);
+        uint currentOpenDrawId = poolMock.getCurrentOpenDrawId();
 
         /// Identify winners in all participants of specified drawId
-        for (uint i=1; i < 10; i++) {
+        for (uint i=1; i <= currentOpenDrawId; i++) {
             PredictionData memory predictionData = predictionDatas[_drawId];
         }
+
+        return (gameScore1, gameScore2);
     }
 
     /***
