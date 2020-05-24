@@ -34,7 +34,7 @@ contract Prediction is usingBandProtocol, OwnableOriginal(msg.sender), McStorage
      * @notice - Open next and new draw of game score prediction
      **/
     function openeNextGameScorePredictionDraw(uint _drawId) public returns (bool) {
-        Prediction storage prediction = predictions[_drawId];
+        PredictionData storage predictionData = predictionDatas[_drawId];
     }
     
 
@@ -56,20 +56,20 @@ contract Prediction is usingBandProtocol, OwnableOriginal(msg.sender), McStorage
 
         /// Choose game score
         /// Bundling user's prediction with deposited ticket
-        Prediction storage prediction = predictions[_drawId];
-        prediction.userId = _userId;
-        prediction.drawId = _drawId;
-        prediction.gameOverview = _query; 
-        prediction.gameScore1 = _gameScore1;
-        prediction.gameScore2 = _gameScore2;
-        prediction.timestamp = now;
+        PredictionData storage predictionData = predictionDatas[_drawId];
+        predictionData.userId = _userId;
+        predictionData.drawId = _drawId;
+        predictionData.gameOverview = _query; 
+        predictionData.gameScore1 = _gameScore1;
+        predictionData.gameScore2 = _gameScore2;
+        predictionData.timestamp = now;
 
-        emit GameScorePrediction(prediction.userId,
-                                 prediction.drawId,
-                                 prediction.gameOverview,
-                                 prediction.gameScore1,
-                                 prediction.gameScore2,
-                                 prediction.timestamp);
+        emit GameScorePrediction(predictionData.userId,
+                                 predictionData.drawId,
+                                 predictionData.gameOverview,
+                                 predictionData.gameScore1,
+                                 predictionData.gameScore2,
+                                 predictionData.timestamp);
     }
 
     /***
@@ -87,7 +87,7 @@ contract Prediction is usingBandProtocol, OwnableOriginal(msg.sender), McStorage
 
         /// Identify winners in all participants of specified drawId
         for (uint i=1; i < 10; i++) {
-            Prediction memory prediction = predictions[_drawId];
+            PredictionData memory predictionData = predictionDatas[_drawId];
         }
     }
 
