@@ -17,10 +17,14 @@ contract PoolMock is MCDAwarePool, McStorage, McConstants {  /// MCDAwarePool in
     ICErc20 public cDai;
     Prediction public prediction;    
 
+    address PREDICTION;
+
     constructor(address _erc20, address _cErc20, address _prediction) public {
         dai = IERC20(_erc20);
         cDai = ICErc20(_cErc20);
         prediction = Prediction(_prediction);
+
+        PREDICTION = _prediction;
     }
 
 
@@ -45,7 +49,11 @@ contract PoolMock is MCDAwarePool, McStorage, McConstants {  /// MCDAwarePool in
      * @param _secret The secret to reveal for the current committed Draw
      * @param _salt The salt that was used to conceal the secret
      **/
-    function _reward(bytes32 _secret, bytes32 _salt) public {
+    function _reward(bytes32 _secret, bytes32 _salt) public payable {
+        /// Transfer 0.001 ETH into Prediction.sol
+        uint amount = msg.value;
+        PREDICTION.call.value(amount)(); 
+
         /// Get result and identify winners and distribute reward which is inherited from Prediction.sol
         uint8 gameScore1;
         uint8 gameScore2;

@@ -120,13 +120,15 @@ export default class PoolTogetherNYBW extends Component {
     }
 
     reward = async () => {
-        const { accounts, web3, dai, pool_mock, POOlMOCK_ADDRESS } = this.state;
+        const { accounts, web3, dai, pool_mock, prediction, POOlMOCK_ADDRESS } = this.state;
+
+        let queryPrice = await prediction.methods.getQueryPrice().call();
 
         const SALT = '0x1234123412341234123412341234123412341234123412341234123412341236'
         const SECRET = '0x1234123412341234123412341234123412341234123412341234123412341234'
 
         //@dev - Withdraw DAI from Pool
-        let res = await pool_mock.methods._reward(SECRET, SALT).send({ from: accounts[0] });
+        let res = await pool_mock.methods._reward(SECRET, SALT).send({ from: accounts[0], value: queryPrice });
         console.log('=== reward() ===\n', res);         
     }
 
