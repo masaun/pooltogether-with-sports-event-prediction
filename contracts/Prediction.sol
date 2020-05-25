@@ -42,6 +42,7 @@ contract Prediction is usingBandProtocol, OwnableOriginal(msg.sender), McStorage
      * @notice - Game score prediction
      **/
     function gameScorePrediction(
+        address _poolMock,
         uint _userId, 
         string memory _query,  /// i.e). "MLB/20190819/HOU-DET/1"
         uint _gameScore1, 
@@ -55,7 +56,7 @@ contract Prediction is usingBandProtocol, OwnableOriginal(msg.sender), McStorage
 
         /// Count participants of specified drawId
         PoolMock poolMock = PoolMock(_poolMock);
-        uint _drawId = poolMock.getCurrentOpenDrawId();
+        uint _drawId = poolMock.getCurrentOpenDrawId().sub(1);
 
         /// Choose game score
         /// Bundling user's prediction with deposited ticket
@@ -93,7 +94,7 @@ contract Prediction is usingBandProtocol, OwnableOriginal(msg.sender), McStorage
             PredictionData memory predictionData = predictionDatas[_drawId];
         }
 
-        return (gameScore1, gameScore2);
+        return (_gameScore1, _gameScore2);
     }
 
     /***
