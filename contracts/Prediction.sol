@@ -75,11 +75,11 @@ contract Prediction is usingBandProtocol, OwnableOriginal(msg.sender), McStorage
     /***
      * @notice - Get result and identify winners and distribute reward 
      **/
-    function getResultOfGameScore(address _poolMock, uint _drawId, bytes32 _secret, bytes32 _salt) public returns (uint8 _gameScore1, uint8 _gameScore2) {
+    function getResultOfGameScore(address _poolMock, uint _drawId, bytes32 _secret, bytes32 _salt) public payable returns (uint8 _gameScore1, uint8 _gameScore2) {
         /// Call result of game score via Oracle
-        uint8 gameScore1;
-        uint8 gameScore2;
-        (gameScore1, gameScore2) = oracleQueryScore();
+        uint8 _gameScore1;
+        uint8 _gameScore2;
+        (_gameScore1, _gameScore2) = oracleQueryScore();
 
         /// Count participants of specified drawId
         PoolMock poolMock = PoolMock(_poolMock);
