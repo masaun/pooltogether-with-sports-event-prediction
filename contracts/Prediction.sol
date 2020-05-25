@@ -24,6 +24,8 @@ import "./pooltogether/PoolMock.sol";
 contract Prediction is usingBandProtocol, OwnableOriginal(msg.sender), McStorage, McConstants {
     using SafeMath for uint;
 
+    uint currentPredictionId = 1;  /// Current prediction ID start from 1
+
     IERC20 public dai;
 
     constructor(address _erc20) public {
@@ -60,7 +62,8 @@ contract Prediction is usingBandProtocol, OwnableOriginal(msg.sender), McStorage
 
         /// Choose game score
         /// Bundling user's prediction with deposited ticket
-        PredictionData storage predictionData = predictionDatas[_drawId];
+        PredictionData storage predictionData = predictionDatas[currentPredictionId];
+        prediction.predictionId = currentPredictionId;
         predictionData.userId = _userId;
         predictionData.drawId = _drawId;   /// assign currentOpenDrawId
         predictionData.gameOverview = _query; 
@@ -68,7 +71,8 @@ contract Prediction is usingBandProtocol, OwnableOriginal(msg.sender), McStorage
         predictionData.gameScore2 = _gameScore2;
         predictionData.timestamp = now;
 
-        emit GameScorePrediction(predictionData.userId,
+        emit GameScorePrediction(prediction.predictionId,
+                                 predictionData.userId,
                                  predictionData.drawId,
                                  predictionData.gameOverview,
                                  predictionData.gameScore1,
@@ -91,7 +95,7 @@ contract Prediction is usingBandProtocol, OwnableOriginal(msg.sender), McStorage
 
         /// Identify winners in all participants of specified drawId
         for (uint i=1; i < currentOpenDrawId; i++) {
-            PredictionData memory predictionData = predictionDatas[_drawId];
+            //PredictionData memory predictionData = predictionDatas[_predictionId];
         }
 
         return (_gameScore1, _gameScore2);
@@ -138,6 +142,17 @@ contract Prediction is usingBandProtocol, OwnableOriginal(msg.sender), McStorage
     /***
      * @dev - Getter functions
      **/
+    function getCountOfPredictionData(uint _drawId) public view returns (uint _countOfPredictionData) {
+        uint countOfPredictionData;
+        for (i=1; i <= currentPredictionId; i++) {
+            PredictionData memory predictionData = predictionDatas[i];
+            if (predictionData.drawId == _drawId) {
+                countOfPredictionData++;
+            }
+        }
+        return countOfPredictionData;
+    }
+
     function getCurrentOpenDrawIdPredictionContract(address _poolMock) public view returns (uint currentOpenDrawId_PredictionContract) {
         /// Count participants of specified drawId
         PoolMock poolMock = PoolMock(_poolMock);

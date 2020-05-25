@@ -9,6 +9,7 @@ contract McEvents {
      * @notice - The relevant prediction
      **/
     event GameScorePrediction(
+        uint predictionId,
         uint userId, 
         uint drawId, 
         string gameOverview,  /// i.e). "MLB/20190819/HOU-DET/1"
