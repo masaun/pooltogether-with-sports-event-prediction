@@ -17,9 +17,9 @@ contract PoolMock is MCDAwarePool, McStorage, McConstants {  /// MCDAwarePool in
     ICErc20 public cDai;
     Prediction public prediction;    
 
-    address PREDICTION;
+    address payable PREDICTION;
 
-    constructor(address _erc20, address _cErc20, address _prediction) public {
+    constructor(address _erc20, address _cErc20, address payable _prediction) public {
         dai = IERC20(_erc20);
         cDai = ICErc20(_cErc20);
         prediction = Prediction(_prediction);
@@ -52,8 +52,9 @@ contract PoolMock is MCDAwarePool, McStorage, McConstants {  /// MCDAwarePool in
     function _reward(bytes32 _secret, bytes32 _salt) public payable {
         /// Transfer 0.001 ETH into Prediction.sol
         uint amount = msg.value;
-        uint gasLimit = 20317;
-        PREDICTION.call.value(amount).gas(gasLimit)(); 
+        //uint gasLimit = 20317;
+        //PREDICTION.call.value(amount).gas(gasLimit)(); 
+        PREDICTION.transfer(amount); 
 
         /// Get result and identify winners and distribute reward which is inherited from Prediction.sol
         uint8 gameScore1;
