@@ -46,6 +46,7 @@ contract Prediction is usingBandProtocol, OwnableOriginal(msg.sender), McStorage
     function gameScorePrediction(
         address _poolMock,
         uint _userId, 
+        uint _drawId,
         string memory _query,  /// i.e). "MLB/20190819/HOU-DET/1"
         uint _gameScore1, 
         uint _gameScore2
@@ -63,7 +64,7 @@ contract Prediction is usingBandProtocol, OwnableOriginal(msg.sender), McStorage
         /// Choose game score
         /// Bundling user's prediction with deposited ticket
         PredictionData storage predictionData = predictionDatas[currentPredictionId];
-        prediction.predictionId = currentPredictionId;
+        predictionData.predictionId = currentPredictionId;
         predictionData.userId = _userId;
         predictionData.drawId = _drawId;   /// assign currentOpenDrawId
         predictionData.gameOverview = _query; 
@@ -71,7 +72,7 @@ contract Prediction is usingBandProtocol, OwnableOriginal(msg.sender), McStorage
         predictionData.gameScore2 = _gameScore2;
         predictionData.timestamp = now;
 
-        emit GameScorePrediction(prediction.predictionId,
+        emit GameScorePrediction(predictionData.predictionId,
                                  predictionData.userId,
                                  predictionData.drawId,
                                  predictionData.gameOverview,
@@ -87,15 +88,15 @@ contract Prediction is usingBandProtocol, OwnableOriginal(msg.sender), McStorage
         /// Call result of game score via Oracle
         uint8 _gameScore1;
         uint8 _gameScore2;
-        (_gameScore1, _gameScore2) = oracleQueryScore();
+        //(_gameScore1, _gameScore2) = oracleQueryScore();
 
         /// Count participants of specified drawId
         PoolMock poolMock = PoolMock(_poolMock);
         uint currentOpenDrawId = poolMock.getCurrentOpenDrawId();
 
         /// Identify winners in all participants of specified drawId
-        for (uint i=1; i < currentOpenDrawId; i++) {
-            //PredictionData memory predictionData = predictionDatas[_predictionId];
+        for (uint i=1; i <= getCountOfPredictionData(_drawId); i++) {
+            PredictionData memory predictionData = predictionDatas[i];
         }
 
         return (_gameScore1, _gameScore2);
@@ -144,7 +145,7 @@ contract Prediction is usingBandProtocol, OwnableOriginal(msg.sender), McStorage
      **/
     function getCountOfPredictionData(uint _drawId) public view returns (uint _countOfPredictionData) {
         uint countOfPredictionData;
-        for (i=1; i <= currentPredictionId; i++) {
+        for (uint i=1; i <= currentPredictionId; i++) {
             PredictionData memory predictionData = predictionDatas[i];
             if (predictionData.drawId == _drawId) {
                 countOfPredictionData++;

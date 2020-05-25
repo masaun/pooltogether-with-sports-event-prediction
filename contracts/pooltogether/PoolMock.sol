@@ -70,6 +70,12 @@ contract PoolMock is MCDAwarePool, McStorage, McConstants {  /// MCDAwarePool in
         return currentOpenDrawId();
     }
 
+    function getCurrentCommittedDrawId() public view returns (uint _currentCommittedDrawId) {
+        /// Inherited from BasePool.sol
+        return currentCommittedDrawId();        
+    }
+    
+
     function balanceOfPoolMockContract() public view returns (address poolMockContractAddess, uint balanceOfPoolMockContract_DAI, uint balanceOfPoolMockContract_cDAI, uint balanceOfPoolMockContract_ETH) {
         address _poolMockContractAddess = getContractAddress();
         return (_poolMockContractAddess, dai.balanceOf(address(this)), cDai.supplyRatePerBlock(), address(this).balance);
