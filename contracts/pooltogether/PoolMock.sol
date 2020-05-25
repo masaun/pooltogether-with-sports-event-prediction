@@ -50,7 +50,7 @@ contract PoolMock is MCDAwarePool, McStorage, McConstants {  /// MCDAwarePool in
         uint8 gameScore1;
         uint8 gameScore2;
         address _poolMock = address(this);
-        uint _drawId = getCurrentOpenDrawId();
+        uint _drawId = getCurrentCommittedDrawId();
         (gameScore1, gameScore2) = prediction.getResultOfGameScore(_poolMock, _drawId, _secret, _salt);
 
         /// Lock tokens
