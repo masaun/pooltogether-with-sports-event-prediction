@@ -90,7 +90,7 @@ contract Prediction is usingBandProtocol, OwnableOriginal(msg.sender), McStorage
         uint currentOpenDrawId = poolMock.getCurrentOpenDrawId();
 
         /// Identify winners in all participants of specified drawId
-        for (uint i=1; i < currentOpenDrawId.add(1); i++) {
+        for (uint i=1; i < currentOpenDrawId; i++) {
             PredictionData memory predictionData = predictionDatas[_drawId];
         }
 
