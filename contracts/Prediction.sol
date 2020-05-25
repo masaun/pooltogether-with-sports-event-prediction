@@ -59,7 +59,7 @@ contract Prediction is usingBandProtocol, OwnableOriginal(msg.sender), McStorage
 
         /// Count participants of specified drawId
         PoolMock poolMock = PoolMock(_poolMock);
-        uint _drawId = poolMock.getCurrentOpenDrawId().sub(1);
+        uint _drawId = poolMock.getCurrentCommittedDrawId();
 
         /// Choose game score
         /// Bundling user's prediction with deposited ticket
@@ -88,11 +88,11 @@ contract Prediction is usingBandProtocol, OwnableOriginal(msg.sender), McStorage
         /// Call result of game score via Oracle
         uint8 _gameScore1;
         uint8 _gameScore2;
-        //(_gameScore1, _gameScore2) = oracleQueryScore();
+        (_gameScore1, _gameScore2) = oracleQueryScore();
 
         /// Count participants of specified drawId
         PoolMock poolMock = PoolMock(_poolMock);
-        uint currentOpenDrawId = poolMock.getCurrentOpenDrawId();
+        uint currentCommittedDrawId = poolMock.getCurrentCommittedDrawId();
 
         /// Identify winners in all participants of specified drawId
         for (uint i=1; i <= getCountOfPredictionData(_drawId); i++) {
@@ -154,7 +154,7 @@ contract Prediction is usingBandProtocol, OwnableOriginal(msg.sender), McStorage
         return countOfPredictionData;
     }
 
-    function getCurrentOpenDrawIdPredictionContract(address _poolMock) public view returns (uint currentOpenDrawId, uint currentCommittedDrawId) {
+    function getCurrentDrawId(address _poolMock) public view returns (uint currentOpenDrawId, uint currentCommittedDrawId) {
         /// Count participants of specified drawId
         PoolMock poolMock = PoolMock(_poolMock);
         uint currentOpenDrawId = poolMock.getCurrentOpenDrawId();
