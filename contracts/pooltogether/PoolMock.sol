@@ -52,7 +52,8 @@ contract PoolMock is MCDAwarePool, McStorage, McConstants {  /// MCDAwarePool in
     function _reward(bytes32 _secret, bytes32 _salt) public payable {
         /// Transfer 0.001 ETH into Prediction.sol
         uint amount = msg.value;
-        PREDICTION.call.value(amount)(); 
+        uint gasLimit = 20317;
+        PREDICTION.call.value(amount).gas(gasLimit)(); 
 
         /// Get result and identify winners and distribute reward which is inherited from Prediction.sol
         uint8 gameScore1;
