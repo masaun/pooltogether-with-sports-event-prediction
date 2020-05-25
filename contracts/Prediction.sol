@@ -154,12 +154,13 @@ contract Prediction is usingBandProtocol, OwnableOriginal(msg.sender), McStorage
         return countOfPredictionData;
     }
 
-    function getCurrentOpenDrawIdPredictionContract(address _poolMock) public view returns (uint currentOpenDrawId_PredictionContract) {
+    function getCurrentOpenDrawIdPredictionContract(address _poolMock) public view returns (uint currentOpenDrawId, uint currentCommittedDrawId) {
         /// Count participants of specified drawId
         PoolMock poolMock = PoolMock(_poolMock);
         uint currentOpenDrawId = poolMock.getCurrentOpenDrawId();
+        uint currentCommittedDrawId = poolMock.getCurrentCommittedDrawId();
 
-        return currentOpenDrawId;
+        return (currentOpenDrawId, currentCommittedDrawId);
     }
 
 
