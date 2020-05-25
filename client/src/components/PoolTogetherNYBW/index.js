@@ -139,14 +139,14 @@ export default class PoolTogetherNYBW extends Component {
     gameScorePrediction = async () => {
         const { accounts, web3, dai, pool_mock, prediction, POOlMOCK_ADDRESS } = this.state;
 
-        const _userId = 1;
+        const _userAddress = accounts[0];
         const _drawId = 1;
         const _query = "MLB/20190819/HOU-DET/1";
         const _gameScore1 = 5
         const _gameScore2 = 4
 
         let res = await prediction.methods.gameScorePrediction(POOlMOCK_ADDRESS,
-                                                               _userId, 
+                                                               _userAddress, 
                                                                _drawId,
                                                                _query,  /// i.e). "MLB/20190819/HOU-DET/1"
                                                                _gameScore1, 

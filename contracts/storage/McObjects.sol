@@ -5,7 +5,7 @@ contract McObjects {
 
     struct PredictionData {
         uint predictionId;
-        uint userId;
+        bytes32 userId;
         uint drawId;
         string gameOverview;
         uint gameScore1;

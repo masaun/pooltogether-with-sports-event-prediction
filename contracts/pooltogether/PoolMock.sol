@@ -108,17 +108,17 @@ contract PoolMock is usingBandProtocol, MCDAwarePool, McStorage, McConstants {  
         return queryPrice;
     }
     
-    function oracleQuerySpotPrice() public payable {
-        /// Get the most-up-to-date ETH/USD rate
-        uint256 ethUsdPrice = FINANCIAL.querySpotPrice("ETH-USD");
-        emit OracleQuerySpotPrice(ethUsdPrice);
-    }
+    // function oracleQuerySpotPrice() public payable {
+    //     /// Get the most-up-to-date ETH/USD rate
+    //     uint256 ethUsdPrice = FINANCIAL.querySpotPrice("ETH-USD");
+    //     emit OracleQuerySpotPrice(ethUsdPrice);
+    // }
 
-    function oracleQuerySpotPriceWithExpiry() public payable {
-        /// Get the most-up-to-date ETH/USD rate. Must not be older than 10 mins.
-        uint256 ethUsdPrice = FINANCIAL.querySpotPriceWithExpiry("ETH-USD", 10 minutes);
-        emit OracleQuerySpotPriceWithExpiry(ethUsdPrice);
-    }    
+    // function oracleQuerySpotPriceWithExpiry() public payable {
+    //     /// Get the most-up-to-date ETH/USD rate. Must not be older than 10 mins.
+    //     uint256 ethUsdPrice = FINANCIAL.querySpotPriceWithExpiry("ETH-USD", 10 minutes);
+    //     emit OracleQuerySpotPriceWithExpiry(ethUsdPrice);
+    // }    
 
     function oracleQueryScore() public payable returns (uint8 gameScore1, uint8 gameScore2) {
         /// 1st MLB match of the Astros vs the Tigers on August 19, 2019

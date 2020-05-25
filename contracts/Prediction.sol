@@ -12,7 +12,7 @@ import "./storage/McStorage.sol";
 import "./storage/McConstants.sol";
 
 /// Inherit from `usingBandProtocol` to get access to helper functions
-//import { usingBandProtocol, Oracle } from "./band/band-solidity/contracts/Band.sol";
+import { usingBandProtocol, Oracle } from "./band/band-solidity/contracts/Band.sol";
 
 /// Own contract
 import "./pooltogether/PoolMock.sol";
@@ -46,7 +46,7 @@ contract Prediction is OwnableOriginal(msg.sender), McStorage, McConstants {
      **/
     function gameScorePrediction(
         address _poolMock,
-        uint _userId, 
+        address _userAddress, 
         uint _drawId,
         string memory _query,  /// i.e). "MLB/20190819/HOU-DET/1"
         uint _gameScore1, 
@@ -61,6 +61,9 @@ contract Prediction is OwnableOriginal(msg.sender), McStorage, McConstants {
         /// Count participants of specified drawId
         PoolMock poolMock = PoolMock(_poolMock);
         uint _drawId = poolMock.getCurrentCommittedDrawId();
+
+        /// Create userId
+        bytes32 userId = bytes32(uint256(_userAddress));
 
         /// Choose game score
         /// Bundling user's prediction with deposited ticket
