@@ -11,18 +11,17 @@ import "./lib/OwnableOriginal.sol";
 import "./storage/McStorage.sol";
 import "./storage/McConstants.sol";
 
-/// Inherit from `usingBandProtocol` to get access to helper functions
-import { usingBandProtocol, Oracle } from "./band/band-solidity/contracts/Band.sol";
-
 /// Own contract
-//import "./pooltogether/PoolMock.sol";
+import "./pooltogether/PoolMock.sol";
 
 
 /***
  * @notice - This contract is that users predicts sports game score
  **/
-contract Prediction is usingBandProtocol, OwnableOriginal(msg.sender), McStorage, McConstants {
+contract Prediction is OwnableOriginal(msg.sender), McStorage, McConstants {
     using SafeMath for uint;
+
+    uint currentPredictionId = 1;  /// Current prediction ID start from 1
 
     IERC20 public dai;
 
@@ -42,8 +41,9 @@ contract Prediction is usingBandProtocol, OwnableOriginal(msg.sender), McStorage
      * @notice - Game score prediction
      **/
     function gameScorePrediction(
-        uint _userId, 
-        uint _drawId, 
+        address _poolMock,
+        address _userAddress, 
+        uint _drawId,
         string memory _query,  /// i.e). "MLB/20190819/HOU-DET/1"
         uint _gameScore1, 
         uint _gameScore2
@@ -54,17 +54,26 @@ contract Prediction is usingBandProtocol, OwnableOriginal(msg.sender), McStorage
         //string memory gameMatch;        /// i.e). "HOU-DET"
         //string memory gameMatchNumber;  /// i.e). "1"
 
+        /// Count participants of specified drawId
+        PoolMock poolMock = PoolMock(_poolMock);
+        uint _drawId = poolMock.getCurrentCommittedDrawId();
+
+        /// Create userId
+        bytes32 userId = bytes32(uint256(_userAddress));
+
         /// Choose game score
         /// Bundling user's prediction with deposited ticket
-        PredictionData storage predictionData = predictionDatas[_drawId];
+        PredictionData storage predictionData = predictionDatas[currentPredictionId];
+        predictionData.predictionId = currentPredictionId;
         predictionData.userId = _userId;
-        predictionData.drawId = _drawId;
+        predictionData.drawId = _drawId;   /// assign currentOpenDrawId
         predictionData.gameOverview = _query; 
         predictionData.gameScore1 = _gameScore1;
         predictionData.gameScore2 = _gameScore2;
         predictionData.timestamp = now;
 
-        emit GameScorePrediction(predictionData.userId,
+        emit GameScorePrediction(predictionData.predictionId,
+                                 predictionData.userId,
                                  predictionData.drawId,
                                  predictionData.gameOverview,
                                  predictionData.gameScore1,
@@ -73,60 +82,34 @@ contract Prediction is usingBandProtocol, OwnableOriginal(msg.sender), McStorage
     }
 
     /***
-     * @notice - Get result and identify winners and distribute reward 
-     **/
-    function getResultOfGameScore(uint _drawId, bytes32 _secret, bytes32 _salt) public returns (bool) {
-        /// Call result of game score via Oracle
-        uint8 gameScore1;
-        uint8 gameScore2;
-        (gameScore1, gameScore2) = oracleQueryScore();
-        //(gameScore1, gameScore2) = poolMock.oracleQueryScore();
-
-        /// Count participants of specified drawId
-
-
-        /// Identify winners in all participants of specified drawId
-        for (uint i=1; i < 10; i++) {
-            PredictionData memory predictionData = predictionDatas[_drawId];
-        }
-    }
-
-    /***
-     * @notice - Oracle by using Band-Protocol
-     **/
-    function getQueryPrice() public view returns (uint256 queryPrice) {
-        /// Get the price of querying for one data point (in Wei)
-        uint256 queryPrice = SPORT.queryPrice();
-        return queryPrice;
-    }
-    
-    function oracleQuerySpotPrice() public payable {
-        /// Get the most-up-to-date ETH/USD rate
-        uint256 ethUsdPrice = FINANCIAL.querySpotPrice("ETH-USD");
-        emit OracleQuerySpotPrice(ethUsdPrice);
-    }
-
-    function oracleQuerySpotPriceWithExpiry() public payable {
-        /// Get the most-up-to-date ETH/USD rate. Must not be older than 10 mins.
-        uint256 ethUsdPrice = FINANCIAL.querySpotPriceWithExpiry("ETH-USD", 10 minutes);
-        emit OracleQuerySpotPriceWithExpiry(ethUsdPrice);
-    }    
-
-    function oracleQueryScore() public payable returns (uint8 gameScore1, uint8 gameScore2) {
-        /// 1st MLB match of the Astros vs the Tigers on August 19, 2019
-        uint8 res1;
-        uint8 res2;
-        (res1, res2) = SPORT.queryScore("MLB/20190819/HOU-DET/1");
-        emit OracleQueryScore(res1, res2);
-        return (res1, res2);
-    }
-
-
-    /***
      * @dev - Get balance
      **/
     function balanceOfContract() public view returns (uint balanceOfContract_DAI, uint balanceOfContract_ETH) {
         return (dai.balanceOf(address(this)), address(this).balance);
     }
+
+    /***
+     * @dev - Getter functions
+     **/
+    function getCountOfPredictionData(uint _drawId) public view returns (uint _countOfPredictionData) {
+        uint countOfPredictionData;
+        for (uint i=1; i <= currentPredictionId; i++) {
+            PredictionData memory predictionData = predictionDatas[i];
+            if (predictionData.drawId == _drawId) {
+                countOfPredictionData++;
+            }
+        }
+        return countOfPredictionData;
+    }
+
+    function getCurrentDrawId(address _poolMock) public view returns (uint currentOpenDrawId, uint currentCommittedDrawId) {
+        /// Count participants of specified drawId
+        PoolMock poolMock = PoolMock(_poolMock);
+        uint currentOpenDrawId = poolMock.getCurrentOpenDrawId();
+        uint currentCommittedDrawId = poolMock.getCurrentCommittedDrawId();
+
+        return (currentOpenDrawId, currentCommittedDrawId);
+    }
+
 
 }

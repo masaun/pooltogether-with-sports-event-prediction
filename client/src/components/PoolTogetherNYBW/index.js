@@ -51,6 +51,7 @@ export default class PoolTogetherNYBW extends Component {
         this._balanceOfContract = this._balanceOfContract.bind(this);
 
         /////// Test Functions
+        this._getCurrentDrawId = this._getCurrentDrawId.bind(this);
         this.timestampFromDate = this.timestampFromDate.bind(this);
     }
 
@@ -119,13 +120,15 @@ export default class PoolTogetherNYBW extends Component {
     }
 
     reward = async () => {
-        const { accounts, web3, dai, pool_mock, POOlMOCK_ADDRESS } = this.state;
+        const { accounts, web3, dai, pool_mock, prediction, POOlMOCK_ADDRESS } = this.state;
+
+        let queryPrice = await pool_mock.methods.getQueryPrice().call();
 
         const SALT = '0x1234123412341234123412341234123412341234123412341234123412341236'
         const SECRET = '0x1234123412341234123412341234123412341234123412341234123412341234'
 
         //@dev - Withdraw DAI from Pool
-        let res = await pool_mock.methods._reward(SECRET, SALT).send({ from: accounts[0] });
+        let res = await pool_mock.methods._reward(SECRET, SALT).send({ from: accounts[0], value: queryPrice });
         console.log('=== reward() ===\n', res);         
     }
 
@@ -134,16 +137,17 @@ export default class PoolTogetherNYBW extends Component {
      * @notice - The relevant prediction
      **/
     gameScorePrediction = async () => {
-        const { accounts, web3, dai, pool_mock, prediction } = this.state;
+        const { accounts, web3, dai, pool_mock, prediction, POOlMOCK_ADDRESS } = this.state;
 
-        const _userId = 1;
+        const _userAddress = accounts[0];
         const _drawId = 1;
         const _query = "MLB/20190819/HOU-DET/1";
         const _gameScore1 = 5
         const _gameScore2 = 4
 
-        let res = await prediction.methods.gameScorePrediction(_userId, 
-                                                               _drawId, 
+        let res = await prediction.methods.gameScorePrediction(POOlMOCK_ADDRESS,
+                                                               _userAddress, 
+                                                               _drawId,
                                                                _query,  /// i.e). "MLB/20190819/HOU-DET/1"
                                                                _gameScore1, 
                                                                _gameScore2).send({ from: accounts[0] });
@@ -222,8 +226,17 @@ export default class PoolTogetherNYBW extends Component {
         const { accounts, web3, dai, prediction, pool_mock } = this.state;
 
         let res = await pool_mock.methods.getCurrentOpenDrawId().call();
-        console.log('=== getCurrentOpenDrawId()() ===\n', res);
+        console.log('=== getCurrentOpenDrawId() ===\n', res);
     }
+
+    _getCurrentDrawId = async () => {
+        const { accounts, web3, dai, prediction, pool_mock, POOlMOCK_ADDRESS } = this.state;
+        const _poolMock = POOlMOCK_ADDRESS;
+
+        let res = await prediction.methods.getCurrentOpenDrawIdPredictionContract(_poolMock).call();
+        console.log('=== getCurrentOpenDrawIdPredictionContract() ===\n', res);
+    }
+
 
     timestampFromDate = async () => {
         const { accounts, web3, bokkypoobahs_datetime_contract } = this.state;
@@ -426,6 +439,10 @@ export default class PoolTogetherNYBW extends Component {
             <div className={styles.widgets}>
                 <Grid container style={{ marginTop: 32 }}>
                     <Grid item xs={12}>
+                        <h4>PoolTogether NYBW Hack 2020</h4>
+                    </Grid>
+
+                    <Grid item xs={6}>
                         <Card width={"auto"} 
                               maxWidth={"420px"} 
                               mx={"auto"} 
@@ -433,7 +450,7 @@ export default class PoolTogetherNYBW extends Component {
                               p={20} 
                               borderColor={"#E8E8E8"}
                         >
-                            <h4>PoolTogether NYBW Hack 2020</h4> <br />
+                            <h4>Admin</h4> <br />
 
                             <Button size={'small'} mt={3} mb={2} onClick={this._initPoolToken}> Init PoolToken </Button> <br />
 
@@ -441,13 +458,7 @@ export default class PoolTogetherNYBW extends Component {
 
                             <Button size={'small'} mt={3} mb={2} onClick={this.openNextDraw}> Open Next Draw </Button> <br />
 
-                            <Button size={'small'} mt={3} mb={2} onClick={this._depositPool}> Deposit Pool </Button> <br />
-
                             <Button size={'small'} mt={3} mb={2} onClick={this.reward}> Distribute Reward from Pool </Button> <br />
-
-                            <hr />
-
-                            <Button size={'small'} mt={3} mb={2} onClick={this.gameScorePrediction}> Game Score Prediction </Button> <br />
 
                             <hr />
 
@@ -477,14 +488,26 @@ export default class PoolTogetherNYBW extends Component {
                               borderColor={"#E8E8E8"}
                         >
                             <h4>Test Functions</h4> <br />
+                            <Button mainColor="DarkCyan" size={'small'} mt={3} mb={2} onClick={this._getCurrentDrawId}> Get Current DrawId in PredictionContract </Button> <br />
+
                             <Button mainColor="DarkCyan" size={'small'} mt={3} mb={2} onClick={this.timestampFromDate}> Timestamp From Date </Button> <br />
                         </Card>
                     </Grid>
 
-                    <Grid item xs={4}>
-                    </Grid>
+                    <Grid item xs={6}>
+                        <Card width={"auto"} 
+                              maxWidth={"420px"} 
+                              mx={"auto"} 
+                              my={5} 
+                              p={20} 
+                              borderColor={"#E8E8E8"}
+                        >
+                            <h4>User</h4> <br />
 
-                    <Grid item xs={4}>
+                            <Button size={'small'} mt={3} mb={2} onClick={this.gameScorePrediction}> Game Score Prediction </Button> <br />                        
+
+                            <Button size={'small'} mt={3} mb={2} onClick={this._depositPool}> Deposit Pool </Button> <br />
+                        </Card>
                     </Grid>
                 </Grid>
             </div>
