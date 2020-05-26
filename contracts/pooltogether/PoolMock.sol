@@ -2,6 +2,9 @@ pragma solidity ^0.5.12;
 
 import "./pooltogether-contracts/contracts/MCDAwarePool.sol";
 
+// Use original Ownable.sol
+import "../lib/OwnableOriginal.sol";
+
 /// Storage
 import "../storage/McStorage.sol";
 import "../storage/McConstants.sol";
@@ -14,7 +17,7 @@ import "../Prediction.sol";
 import "../RewardManager.sol";
 
 
-contract PoolMock is usingBandProtocol, MCDAwarePool, McStorage, McConstants {  /// MCDAwarePool inherits BasePool.sol 
+contract PoolMock is usingBandProtocol, MCDAwarePool, OwnableOriginal(msg.sender), McStorage, McConstants {  /// MCDAwarePool inherits BasePool.sol 
     using SafeMath for uint;
 
     IERC20 public dai;

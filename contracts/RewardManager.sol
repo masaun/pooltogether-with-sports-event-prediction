@@ -29,6 +29,7 @@ contract RewardManager is MCDAwarePool, OwnableOriginal(msg.sender), McStorage, 
 
         /// Copy
         blocklock.unlock(block.number);
+
         // require that there is a committed draw
         // require that the committed draw has not been rewarded
         uint256 drawId = currentCommittedDrawId();

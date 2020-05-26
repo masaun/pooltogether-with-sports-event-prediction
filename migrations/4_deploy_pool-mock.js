@@ -35,11 +35,11 @@ module.exports = async function(deployer, network, accounts) {
     await deployer.link(DrawManager, PoolMock);
     await deployer.link(FixidityLib, PoolMock);
 
-    await deployer.deploy(PoolMock, _erc20, _cErc20, _prediction, _rewardManager, { from: deployerAddress });
-    // await deployer.deploy(PoolMock, _erc20).then(async function(poolMock) {
-    //     if(ownerAddress && ownerAddress!="") {
-    //         console.log(`=== Transfering ownerhip to address ${ownerAddress} ===`)
-    //         await poolMock.transferOwnership(ownerAddress);
-    //     }
-    // });
+    //await deployer.deploy(PoolMock, _erc20, _cErc20, _prediction, _rewardManager, { from: deployerAddress });
+    await deployer.deploy(PoolMock, _erc20, _cErc20, _prediction, _rewardManager).then(async function(poolMock) {
+        if(ownerAddress && ownerAddress!="") {
+            console.log(`=== Transfering ownerhip to address ${ownerAddress} ===`)
+            await poolMock.transferOwnership(ownerAddress);
+        }
+    });
 };
