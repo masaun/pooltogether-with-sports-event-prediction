@@ -82,6 +82,16 @@ contract PoolMock is usingBandProtocol, MCDAwarePool, McStorage, McConstants {  
      * @notice - Extended contract of reward() in BasePool.sol
      **/
     function extendedReward(bytes32 _secret, bytes32 _salt) public payable {
+        /// Get result and identify winners and distribute reward which is inherited from Prediction.sol
+        uint8 gameScore1;
+        uint8 gameScore2;
+        address _poolMock = address(this);
+        uint _drawId = getCurrentCommittedDrawId();
+        (gameScore1, gameScore2) = getResultOfGameScore(_poolMock, _drawId, _secret, _salt);
+        
+        /// Lock tokens
+        lockTokens();
+
         /// Copy
         blocklock.unlock(block.number);
         // require that there is a committed draw
