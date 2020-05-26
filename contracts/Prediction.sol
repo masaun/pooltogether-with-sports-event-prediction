@@ -22,7 +22,6 @@ contract Prediction is OwnableOriginal(msg.sender), McStorage, McConstants {
     using SafeMath for uint;
 
     uint currentPredictionId = 1;  /// Current prediction ID start from 1
-    address[] winningAddressList;
 
     IERC20 public dai;
 

@@ -41,6 +41,13 @@ contract PoolMock is usingBandProtocol, MCDAwarePool, McStorage, McConstants {  
     }
 
     /***
+     * @notice - Temporary account for deposit DAI temporarily
+     **/
+    function depositIntoTemporaryAccount(uint _depositAmount) returns(bool res) internal {
+        // In progress
+    }
+
+    /***
      * @notice - Deposit DAI into Pool(=this contract)
      **/
     function _depositPool(uint _depositAmount) public returns (bool) {
