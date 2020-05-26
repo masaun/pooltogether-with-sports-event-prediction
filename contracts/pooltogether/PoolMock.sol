@@ -79,6 +79,13 @@ contract PoolMock is usingBandProtocol, MCDAwarePool, McStorage, McConstants {  
     }
 
     /***
+     * @notice - Extended contract of reward() in BasePool.sol
+     **/
+    function extendedReward() public payable {
+        /// In progress
+    }
+
+    /***
      * @notice - Get result and identify winners and distribute reward 
      **/
     function getResultOfGameScore(
