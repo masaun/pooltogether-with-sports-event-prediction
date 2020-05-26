@@ -132,9 +132,9 @@ export default class PoolTogetherNYBW extends Component {
     }
 
     reward = async () => {
-        const { accounts, web3, dai, pool_mock, prediction, POOlMOCK_ADDRESS } = this.state;
+        const { accounts, web3, dai, pool_mock, prediction, reward_manager, POOlMOCK_ADDRESS } = this.state;
 
-        let queryPrice = await pool_mock.methods.getQueryPrice().call();
+        let queryPrice = await reward_manager.methods.getQueryPrice().call();
 
         const SALT = '0x1234123412341234123412341234123412341234123412341234123412341236'
         const SECRET = '0x1234123412341234123412341234123412341234123412341234123412341234'
@@ -172,9 +172,9 @@ export default class PoolTogetherNYBW extends Component {
      * @notice - Oracle by using Band-Protocol
      **/
     _getQueryPrice = async () => {
-        const { accounts, web3, dai, pool_mock, prediction, POOlMOCK_ADDRESS } = this.state;
+        const { accounts, web3, dai, pool_mock, prediction, reward_manager, POOlMOCK_ADDRESS } = this.state;
 
-        let res = await prediction.methods.getQueryPrice().call();
+        let res = await reward_manager.methods.getQueryPrice().call();
         console.log('=== getQueryPrice() ===\n', res); 
     }    
 
@@ -286,13 +286,15 @@ export default class PoolTogetherNYBW extends Component {
         const hotLoaderDisabled = zeppelinSolidityHotLoaderOptions.disabled;
      
         let Prediction = {};
+        let RewardManager = {};
         let PodMock = {};        
         let PoolMock = {};
         let PoolTokenMock = {};
         let Dai = {};
         let BokkyPooBahsDateTimeContract = {};
         try {
-          Prediction = require("../../../../build/contracts/Prediction.json");  // Load artifact-file of StakeholderRegistry
+          Prediction = require("../../../../build/contracts/Prediction.json");
+          RewardManager = require("../../../../build/contracts/RewardManager.json");
           PodMock = require("../../../../build/contracts/PodMock.json");
           PoolMock = require("../../../../build/contracts/PoolMock.json");
           PoolTokenMock = require("../../../../build/contracts/PoolTokenMock.json");
@@ -339,6 +341,21 @@ export default class PoolTogetherNYBW extends Component {
               }
             }
 
+            // Create instance of contracts
+            let instanceRewardManager = null;
+            let deployedNetworkRewardManager = null;
+            let RewardManager_ADDRESS = RewardManager.networks[networkId.toString()].address;
+            if (RewardManager.networks) {
+              deployedNetworkRewardManager = RewardManager.networks[networkId.toString()];
+              if (deployedNetworkRewardManager) {
+                instanceRewardManager = new web3.eth.Contract(
+                  RewardManager.abi,
+                  deployedNetworkRewardManager && deployedNetworkRewardManager.address,
+                );
+                console.log('=== instanceRewardManager ===', instanceRewardManager);
+              }
+            }
+ 
             // Create instance of contracts
             let instancePodMock = null;
             let deployedNetworkPodMock = null;
@@ -414,6 +431,7 @@ export default class PoolTogetherNYBW extends Component {
                 hotLoaderDisabled,
                 isMetaMask, 
                 prediction: instancePrediction,
+                reward_manager: instanceRewardManager,
                 pod_mock: instancePodMock,
                 pool_mock: instancePoolMock,
                 poolToken_mock: instancePoolTokenMock,
@@ -475,7 +493,7 @@ export default class PoolTogetherNYBW extends Component {
 
                             <hr />
 
-                            <Button size={'small'} mt={3} mb={2} onClick={this._getQueryPrice}> Get QueryPrice </Button> <br />
+                            <Button mainColor="DarkCyan" size={'small'} mt={3} mb={2} onClick={this._getQueryPrice}> Get QueryPrice </Button> <br />
 
                             <Button size={'small'} mt={3} mb={2} onClick={this._oracleQuerySpotPrice}> Oracle QuerySpotPrice </Button> <br />
 
