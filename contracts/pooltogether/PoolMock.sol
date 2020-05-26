@@ -21,7 +21,6 @@ contract PoolMock is usingBandProtocol, MCDAwarePool, McStorage, McConstants {  
     Prediction public prediction;    
 
     address payable PREDICTION;
-    address[] winningAddressList;
 
     constructor(address _erc20, address _cErc20, address payable _prediction) public {
         dai = IERC20(_erc20);
