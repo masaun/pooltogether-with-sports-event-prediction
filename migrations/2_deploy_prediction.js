@@ -23,7 +23,7 @@ module.exports = async function(deployer, network, accounts) {
         }
     });
 
-    //@dev - Transfer 2.1 DAI from deployer's address to contract address in advance
+    //@dev - Transfer 0.15 DAI from deployer's address to contract address in advance
     const prediction = await Prediction.deployed();
     const iERC20 = await IERC20.at(_erc20);
     await iERC20.transfer(prediction.address, depositedAmount);

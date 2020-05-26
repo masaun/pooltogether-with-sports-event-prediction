@@ -42,7 +42,14 @@ contract RewardManager is MCDAwarePool, OwnableOriginal(msg.sender), McStorage, 
         bytes32 entropy = keccak256(abi.encodePacked(_secret));
 
         // Select the winner using the hash as entropy
-        address winningAddress = calculateWinner(entropy);
+        address winningAddress;
+        //address winningAddress = calculateWinner(entropy);
+        if (calculateWinner(entropy) != address(0)) {  /// Need to change this condition. Now it just define that condition so far.
+            winningAddress = calculateWinner(entropy);
+        } else {
+            entropy = keccak256(abi.encodePacked(_secret));
+        }
+
 
         // Calculate the gross winnings
         uint256 underlyingBalance = balance();
