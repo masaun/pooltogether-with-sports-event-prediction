@@ -32,6 +32,7 @@ export default class PoolTogetherNYBW extends Component {
         this._initPoolToken = this._initPoolToken.bind(this);
         this.initPool = this.initPool.bind(this);
         this.openNextDraw = this.openNextDraw.bind(this);
+        this._depositIntoTemporaryAccount = this._depositIntoTemporaryAccount.bind(this);
         this._depositPool = this._depositPool.bind(this);
         this.reward = this.reward.bind(this);
 
@@ -106,6 +107,17 @@ export default class PoolTogetherNYBW extends Component {
         //@dev - Open Pool
         let res3 = await pool_mock.methods._openNextDraw(_nextSecretHash).send({ from: accounts[0] });
         console.log('=== openNextDraw() ===\n', res3);          
+    }
+
+    _depositIntoTemporaryAccount = async () => {
+        const { accounts, web3, dai, pool_mock, POOlMOCK_ADDRESS } = this.state;
+
+        const _depositAmount = web3.utils.toWei('0.15');
+
+        //@dev - Deposit Pool
+        let res1 = await dai.methods.approve(POOlMOCK_ADDRESS, _depositAmount).send({ from: accounts[0] });
+        let res2 = await pool_mock.methods.depositIntoTemporaryAccount(_depositAmount).send({ from: accounts[0] });
+        console.log('=== depositIntoTemporaryAccount() ===\n', res2);         
     }
 
     _depositPool = async () => {
@@ -505,6 +517,8 @@ export default class PoolTogetherNYBW extends Component {
                             <h4>User</h4> <br />
 
                             <Button size={'small'} mt={3} mb={2} onClick={this.gameScorePrediction}> Game Score Prediction </Button> <br />                        
+
+                            <Button size={'small'} mt={3} mb={2} onClick={this._depositIntoTemporaryAccount}> Deposit Into Temporary Account </Button> <br />
 
                             <Button size={'small'} mt={3} mb={2} onClick={this._depositPool}> Deposit Pool </Button> <br />
                         </Card>
