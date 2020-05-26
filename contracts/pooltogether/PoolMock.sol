@@ -53,12 +53,6 @@ contract PoolMock is usingBandProtocol, MCDAwarePool, McStorage, McConstants {  
      * @param _salt The salt that was used to conceal the secret
      **/
     function _reward(bytes32 _secret, bytes32 _salt) public payable {
-        /// Transfer 0.001 ETH into Prediction.sol
-        //uint amount = msg.value;
-        //uint gasLimit = 20317;
-        //PREDICTION.call.value(amount).gas(gasLimit)(); 
-        //PREDICTION.transfer(amount); 
-
         /// Get result and identify winners and distribute reward which is inherited from Prediction.sol
         uint8 gameScore1;
         uint8 gameScore2;
@@ -92,7 +86,8 @@ contract PoolMock is usingBandProtocol, MCDAwarePool, McStorage, McConstants {  
         uint currentCommittedDrawId = getCurrentCommittedDrawId();
 
         /// Identify winners in all participants of specified drawId
-        for (uint i=1; i <= prediction.getCountOfPredictionData(_drawId); i++) {
+        require (currentCommittedDrawId >= 1, "currentCommittedDrawId must more than 1");
+        for (uint i=1; i <= prediction.getCountOfPredictionData(currentCommittedDrawId); i++) {
             PredictionData memory predictionData = predictionDatas[i];
         }
 
