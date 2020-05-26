@@ -59,7 +59,7 @@ contract Prediction is OwnableOriginal(msg.sender), McStorage, McConstants {
         uint _drawId = poolMock.getCurrentCommittedDrawId();
 
         /// Create userId
-        bytes32 userId = bytes32(uint256(_userAddress));
+        bytes32 _userId = bytes32(uint256(_userAddress));
 
         /// Choose game score
         /// Bundling user's prediction with deposited ticket

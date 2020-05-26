@@ -21,6 +21,7 @@ contract PoolMock is usingBandProtocol, MCDAwarePool, McStorage, McConstants {  
     Prediction public prediction;    
 
     address payable PREDICTION;
+    address[] winningAddressList;
 
     constructor(address _erc20, address _cErc20, address payable _prediction) public {
         dai = IERC20(_erc20);
@@ -86,7 +87,7 @@ contract PoolMock is usingBandProtocol, MCDAwarePool, McStorage, McConstants {  
         uint currentCommittedDrawId = getCurrentCommittedDrawId();
 
         /// Identify winners in all participants of specified drawId
-        require (currentCommittedDrawId >= 1, "currentCommittedDrawId must more than 1");
+        require (currentCommittedDrawId >= 1, "currentCommittedDrawId must be more than 1");
         for (uint i=1; i <= prediction.getCountOfPredictionData(currentCommittedDrawId); i++) {
             PredictionData memory predictionData = predictionDatas[i];
         }
