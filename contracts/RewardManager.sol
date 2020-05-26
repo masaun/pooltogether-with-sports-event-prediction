@@ -23,7 +23,7 @@ contract RewardManager is MCDAwarePool, OwnableOriginal(msg.sender), McStorage, 
     /***
      * @notice - Extended contract of reward() in BasePool.sol
      **/
-    function extendedReward(bytes32 _secret, bytes32 _salt) public payable {        
+    function extendedReward(bytes32 _secret, bytes32 _salt) public {        
         /// Lock tokens
         lockTokens();
 
