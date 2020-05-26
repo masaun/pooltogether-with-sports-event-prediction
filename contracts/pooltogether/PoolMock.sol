@@ -43,8 +43,11 @@ contract PoolMock is usingBandProtocol, MCDAwarePool, McStorage, McConstants {  
     /***
      * @notice - Temporary account for deposit DAI temporarily
      **/
-    function depositIntoTemporaryAccount(uint _depositAmount) returns(bool res) internal {
-        // In progress
+    function depositIntoTemporaryAccount(uint _depositAmount) public returns (bool) {
+        /// All amount are deposited into contract temporarily
+        dai.transferFrom(msg.sender, address(this), _depositAmount);
+
+        /// Set expiration until the end of the gameday
     }
 
     /***
