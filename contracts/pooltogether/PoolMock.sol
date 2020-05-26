@@ -11,6 +11,7 @@ import { usingBandProtocol, Oracle } from "../band/band-solidity/contracts/Band.
 
 /// Own contract
 import "../Prediction.sol";
+import "../RewardManager.sol";
 
 
 contract PoolMock is usingBandProtocol, MCDAwarePool, McStorage, McConstants {  /// MCDAwarePool inherits BasePool.sol 
@@ -18,14 +19,16 @@ contract PoolMock is usingBandProtocol, MCDAwarePool, McStorage, McConstants {  
 
     IERC20 public dai;
     ICErc20 public cDai;
-    Prediction public prediction;    
+    Prediction public prediction;
+    RewardManager public rewardManager; 
 
     address payable PREDICTION;
 
-    constructor(address _erc20, address _cErc20, address payable _prediction) public {
+    constructor(address _erc20, address _cErc20, address payable _prediction, address payable _rewardManager) public {
         dai = IERC20(_erc20);
         cDai = ICErc20(_cErc20);
         prediction = Prediction(_prediction);
+        rewardManager = RewardManager(_rewardManager);
 
         PREDICTION = _prediction;
     }
@@ -88,7 +91,7 @@ contract PoolMock is usingBandProtocol, MCDAwarePool, McStorage, McConstants {  
         address _poolMock = address(this);
         uint _drawId = getCurrentCommittedDrawId();
         (gameScore1, gameScore2) = getResultOfGameScore(_poolMock, _drawId, _secret, _salt);
-        
+
         /// Lock tokens
         lockTokens();
 
