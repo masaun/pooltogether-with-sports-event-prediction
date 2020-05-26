@@ -115,8 +115,9 @@ export default class PoolTogetherNYBW extends Component {
         const _depositAmount = web3.utils.toWei('0.15');
 
         //@dev - Deposit Pool
-        let res = await pool_mock.methods.depositIntoTemporaryAccount(_depositAmount).send({ from: accounts[0] });
-        console.log('=== depositIntoTemporaryAccount() ===\n', res);         
+        let res1 = await dai.methods.approve(POOlMOCK_ADDRESS, _depositAmount).send({ from: accounts[0] });
+        let res2 = await pool_mock.methods.depositIntoTemporaryAccount(_depositAmount).send({ from: accounts[0] });
+        console.log('=== depositIntoTemporaryAccount() ===\n', res2);         
     }
 
     _depositPool = async () => {
