@@ -65,27 +65,9 @@ contract PoolMock is usingBandProtocol, MCDAwarePool, OwnableOriginal(msg.sender
     
     /***
      * @notice - Distribute DAI into winner's wallet address
+     * @notice - Extended contract of reward() in BasePool.sol
      * @param _secret The secret to reveal for the current committed Draw
      * @param _salt The salt that was used to conceal the secret
-     **/
-    function _reward(bytes32 _secret, bytes32 _salt) public payable {
-        /// Get result and identify winners and distribute reward which is inherited from Prediction.sol
-        uint8 gameScore1;
-        uint8 gameScore2;
-        address _poolMock = address(this);
-        uint _drawId = getCurrentCommittedDrawId();
-        (gameScore1, gameScore2) = getResultOfGameScore(_poolMock, _drawId, _secret, _salt);
-        //(gameScore1, gameScore2) = prediction.getResultOfGameScore(_poolMock, _drawId, _secret, _salt);
-
-        /// Lock tokens
-        lockTokens();
-
-        /// Delegate call of reward() in BasePool.sol
-        reward(_secret, _salt);        
-    }
-
-    /***
-     * @notice - Extended contract of reward() in BasePool.sol
      **/
     function selectWinnerAndDistributeReward(bytes32 _secret, bytes32 _salt) public payable {
         /// Get result and identify winners and distribute reward which is inherited from Prediction.sol
