@@ -93,7 +93,8 @@ contract PoolMock is usingBandProtocol, MCDAwarePool, OwnableOriginal(msg.sender
         /// Call result of game score via Oracle
         uint8 _gameScore1;
         uint8 _gameScore2;
-        (_gameScore1, _gameScore2) = oracleQueryScore();
+        (_gameScore1, _gameScore2) = rewardManager.oracleQueryScore();
+        //(_gameScore1, _gameScore2) = oracleQueryScore();
 
         /// Count participants of specified drawId
         uint currentCommittedDrawId = getCurrentCommittedDrawId();
@@ -110,20 +111,20 @@ contract PoolMock is usingBandProtocol, MCDAwarePool, OwnableOriginal(msg.sender
     /***
      * @notice - Oracle by using Band-Protocol
      **/
-    function getQueryPrice() public view returns (uint256 queryPrice) {
-        /// Get the price of querying for one data point (in Wei)
-        uint256 queryPrice = SPORT.queryPrice();
-        return queryPrice;
-    }
+    // function getQueryPrice() public view returns (uint256 queryPrice) {
+    //     /// Get the price of querying for one data point (in Wei)
+    //     uint256 queryPrice = SPORT.queryPrice();
+    //     return queryPrice;
+    // }
 
-    function oracleQueryScore() public payable returns (uint8 gameScore1, uint8 gameScore2) {
-        /// 1st MLB match of the Astros vs the Tigers on August 19, 2019
-        uint8 res1;
-        uint8 res2;
-        (res1, res2) = SPORT.queryScore("MLB/20190819/HOU-DET/1");
-        emit OracleQueryScore(res1, res2);
-        return (res1, res2);
-    }
+    // function oracleQueryScore() public payable returns (uint8 gameScore1, uint8 gameScore2) {
+    //     /// 1st MLB match of the Astros vs the Tigers on August 19, 2019
+    //     uint8 res1;
+    //     uint8 res2;
+    //     (res1, res2) = SPORT.queryScore("MLB/20190819/HOU-DET/1");
+    //     emit OracleQueryScore(res1, res2);
+    //     return (res1, res2);
+    // }
 
 
     /**

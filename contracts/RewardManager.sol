@@ -16,9 +16,29 @@ import { usingBandProtocol, Oracle } from "./band/band-solidity/contracts/Band.s
 import "./pooltogether/PoolMock.sol";
 
 
-contract RewardManager is MCDAwarePool, OwnableOriginal(msg.sender), McStorage, McConstants {  /// MCDAwarePool inherits BasePool.sol 
+contract RewardManager is usingBandProtocol, MCDAwarePool, OwnableOriginal(msg.sender), McStorage, McConstants {  /// MCDAwarePool inherits BasePool.sol 
 
     constructor() public {}
+
+    /***
+     * @notice - Oracle by using Band-Protocol
+     **/
+    function getQueryPrice() public view returns (uint256 queryPrice) {
+        /// Get the price of querying for one data point (in Wei)
+        uint256 queryPrice = SPORT.queryPrice();
+        return queryPrice;
+    }
+
+    function oracleQueryScore() public payable returns (uint8 gameScore1, uint8 gameScore2) {
+        /// 1st MLB match of the Astros vs the Tigers on August 19, 2019
+        uint8 res1;
+        uint8 res2;
+        (res1, res2) = SPORT.queryScore("MLB/20190819/HOU-DET/1");
+        emit OracleQueryScore(res1, res2);
+        return (res1, res2);
+    }
+
+
 
     /***
      * @notice - Extended contract of reward() in BasePool.sol
