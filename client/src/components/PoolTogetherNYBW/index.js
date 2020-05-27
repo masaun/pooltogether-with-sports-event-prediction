@@ -72,7 +72,8 @@ export default class PoolTogetherNYBW extends Component {
     initPool = async () => {
         const { accounts, web3, dai, pool_mock, POOlMOCK_ADDRESS } = this.state;
 
-        const _owner = walletAddressList["WalletAddress1"]; /// OwnerAddress is added as "admin" role
+        const _owner = POOlMOCK_ADDRESS;                      /// OwnerAddress is added as "admin" role
+        //const _owner = walletAddressList["WalletAddress1"]; /// OwnerAddress is added as "admin" role
         const _cToken = tokenAddressList["Kovan"]["cDAI"];
         const _feeFraction = web3.utils.toWei('0.1');
         const _feeBeneficiary = walletAddressList["WalletAddress1"];
@@ -108,7 +109,9 @@ export default class PoolTogetherNYBW extends Component {
         const { accounts, web3, dai, pool_mock, POOlMOCK_ADDRESS, REWARD_MANAGER_ADDRESS } = this.state;
 
         /// Add a right of "Pool/Admin" to contract address of PoolMock.sol and RewardManager.sol
+        let res1 = await pool_mock.methods.removeAdmin(POOlMOCK_ADDRESS).send({ from: accounts[0] });
         let res2 = await pool_mock.methods.removeAdmin(REWARD_MANAGER_ADDRESS).send({ from: accounts[0] });
+        console.log('=== removeAdmin() to PoolMock contract address ===\n', res1); 
         console.log('=== removeAdmin() to RewardManager contract address ===\n', res2); 
     }
 
