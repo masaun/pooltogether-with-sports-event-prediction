@@ -19,7 +19,13 @@ import "./Prediction.sol";
 
 contract RewardManager is usingBandProtocol, MCDAwarePool, OwnableOriginal(msg.sender), McStorage, McConstants {  /// MCDAwarePool inherits BasePool.sol 
 
-    constructor() public {}
+    Prediction public prediction;
+    address PREDICTION;
+
+    constructor(address _prediction) public {
+        prediction = Prediction(_prediction);
+        PREDICTION = _prediction;
+    }
 
     /***
      * @notice - Extended contract of reward() in BasePool.sol
@@ -28,10 +34,10 @@ contract RewardManager is usingBandProtocol, MCDAwarePool, OwnableOriginal(msg.s
      **/
     function extendedReward(bytes32 _secret, bytes32 _salt, uint8 _gameScore1, uint8 _gameScore2) public {
         /// Check game score
-        //Prediction prediction = Prediction(_prediction);
-        //for (i=1; i < prediction.currentPredictionId(); i++) {
-        //    PredictionData memory predictionData = predictionDatas[i];
-        //}
+        Prediction prediction = Prediction(PREDICTION);
+        for (i=1; i < prediction.currentPredictionId(); i++) {
+           PredictionData memory predictionData = predictionDatas[i];
+        }
 
         /// Lock tokens
         lockTokens();

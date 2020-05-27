@@ -1,4 +1,5 @@
 var RewardManager = artifacts.require("RewardManager");
+var Prediction = artifacts.require("Prediction");
 var Blocklock = artifacts.require("Blocklock");
 var DrawManager = artifacts.require("DrawManager");
 var FixidityLib = artifacts.require("FixidityLib");
@@ -8,6 +9,8 @@ var SortitionSumTreeFactory = artifacts.require("SortitionSumTreeFactory");
 var contractAddressList = require('./contractAddress/contractAddress.js');
 var tokenAddressList = require('./tokenAddress/tokenAddress.js');
 var walletAddressList = require('./walletAddress/walletAddress.js');
+
+var _prediction = Prediction.address;
 
 module.exports = async function(deployer, network, accounts) {
     // Initialize owner address if you want to transfer ownership of contract to some other address
@@ -25,7 +28,7 @@ module.exports = async function(deployer, network, accounts) {
     await deployer.link(DrawManager, RewardManager);
     await deployer.link(FixidityLib, RewardManager);
 
-    await deployer.deploy(RewardManager).then(async function(rewardManager) {
+    await deployer.deploy(RewardManager, _prediction).then(async function(rewardManager) {
         if(ownerAddress && ownerAddress!="") {
             console.log(`=== Transfering ownerhip to address ${ownerAddress} ===`)
             await rewardManager.transferOwnership(ownerAddress);
