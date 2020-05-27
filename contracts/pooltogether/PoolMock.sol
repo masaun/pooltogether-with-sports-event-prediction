@@ -15,6 +15,8 @@ import { usingBandProtocol, Oracle } from "../band/band-solidity/contracts/Band.
 /// Own contract
 import "../Prediction.sol";
 import "../RewardManager.sol";
+import "../OracleManager.sol";
+
 
 
 contract PoolMock is usingBandProtocol, MCDAwarePool, OwnableOriginal(msg.sender), McStorage, McConstants {  /// MCDAwarePool inherits BasePool.sol 
@@ -23,15 +25,17 @@ contract PoolMock is usingBandProtocol, MCDAwarePool, OwnableOriginal(msg.sender
     IERC20 public dai;
     ICErc20 public cDai;
     Prediction public prediction;
-    RewardManager public rewardManager; 
+    RewardManager public rewardManager;
+    OracleManager public oracleManager;
 
     address payable PREDICTION;
 
-    constructor(address _erc20, address _cErc20, address payable _prediction, address payable _rewardManager) public {
+    constructor(address _erc20, address _cErc20, address payable _prediction, address payable _rewardManager, address payable _oracleManager) public {
         dai = IERC20(_erc20);
         cDai = ICErc20(_cErc20);
         prediction = Prediction(_prediction);
         rewardManager = RewardManager(_rewardManager);
+        oracleManager = OracleManager(_oracleManager);
 
         PREDICTION = _prediction;
     }
@@ -69,62 +73,10 @@ contract PoolMock is usingBandProtocol, MCDAwarePool, OwnableOriginal(msg.sender
      * @param _secret The secret to reveal for the current committed Draw
      * @param _salt The salt that was used to conceal the secret
      **/
-    function selectWinnerAndDistributeReward(bytes32 _secret, bytes32 _salt) public payable {
-        /// Get result and identify winners and distribute reward which is inherited from Prediction.sol
-        uint8 gameScore1;
-        uint8 gameScore2;
-        address _poolMock = address(this);
-        uint _drawId = getCurrentCommittedDrawId();
-        (gameScore1, gameScore2) = getResultOfGameScore(_poolMock, _drawId, _secret, _salt);
-
+    function selectWinnerAndDistributeReward(bytes32 _secret, bytes32 _salt, uint8 _gameScore1, uint8 _gameScore2) public payable {
         /// Call the extendedReward method instead of the reward method
-        rewardManager.extendedReward(_secret, _salt);
+        rewardManager.extendedReward(_secret, _salt, _gameScore1, _gameScore2);
     }
-
-    /***
-     * @notice - Get result and identify winners and distribute reward 
-     **/
-    function getResultOfGameScore(
-        address _poolMock, 
-        uint _drawId, 
-        bytes32 _secret, 
-        bytes32 _salt
-    ) public payable returns (uint8 _gameScore1, uint8 _gameScore2) {
-        /// Call result of game score via Oracle
-        uint8 _gameScore1;
-        uint8 _gameScore2;
-        (_gameScore1, _gameScore2) = rewardManager.oracleQueryScore();
-        //(_gameScore1, _gameScore2) = oracleQueryScore();
-
-        /// Count participants of specified drawId
-        uint currentCommittedDrawId = getCurrentCommittedDrawId();
-
-        /// Identify winners in all participants of specified drawId
-        require (currentCommittedDrawId >= 1, "currentCommittedDrawId must be more than 1");
-        for (uint i=1; i <= prediction.getCountOfPredictionData(currentCommittedDrawId); i++) {
-            PredictionData memory predictionData = predictionDatas[i];
-        }
-
-        return (_gameScore1, _gameScore2);
-    }
-
-    /***
-     * @notice - Oracle by using Band-Protocol
-     **/
-    // function getQueryPrice() public view returns (uint256 queryPrice) {
-    //     /// Get the price of querying for one data point (in Wei)
-    //     uint256 queryPrice = SPORT.queryPrice();
-    //     return queryPrice;
-    // }
-
-    // function oracleQueryScore() public payable returns (uint8 gameScore1, uint8 gameScore2) {
-    //     /// 1st MLB match of the Astros vs the Tigers on August 19, 2019
-    //     uint8 res1;
-    //     uint8 res2;
-    //     (res1, res2) = SPORT.queryScore("MLB/20190819/HOU-DET/1");
-    //     emit OracleQueryScore(res1, res2);
-    //     return (res1, res2);
-    // }
 
 
     /**

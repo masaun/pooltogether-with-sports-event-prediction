@@ -1,4 +1,5 @@
-var PoolMock = artifacts.require("PoolMock");
+var OracleManager = artifacts.require("OracleManager");
+var Prediction = artifacts.require("Prediction");
 var Blocklock = artifacts.require("Blocklock");
 var DrawManager = artifacts.require("DrawManager");
 var FixidityLib = artifacts.require("FixidityLib");
@@ -11,15 +12,9 @@ var contractAddressList = require('./contractAddress/contractAddress.js');
 var tokenAddressList = require('./tokenAddress/tokenAddress.js');
 var walletAddressList = require('./walletAddress/walletAddress.js');
 
-const _erc20 = tokenAddressList["Kovan"]["DAI"];     // DAI address on Kovan
-const _cErc20 = tokenAddressList["Kovan"]["cDAI"];     // DAI address on Kovan
 const _prediction = Prediction.address;
-const _rewardManager = RewardManager.address;
 
 module.exports = async function(deployer, network, accounts) {
-    // Deployer address
-    let deployerAddress = accounts[0];
-
     // Initialize owner address if you want to transfer ownership of contract to some other address
     let ownerAddress = walletAddressList["WalletAddress1"];
 
@@ -31,15 +26,14 @@ module.exports = async function(deployer, network, accounts) {
     await deployer.deploy(Blocklock);
     await deployer.deploy(DrawManager);
     await deployer.deploy(FixidityLib);
-    await deployer.link(Blocklock, PoolMock);
-    await deployer.link(DrawManager, PoolMock);
-    await deployer.link(FixidityLib, PoolMock);
+    await deployer.link(Blocklock, OracleManager);
+    await deployer.link(DrawManager, OracleManager);
+    await deployer.link(FixidityLib, OracleManager);
 
-    //await deployer.deploy(PoolMock, _erc20, _cErc20, _prediction, _rewardManager, { from: deployerAddress });
-    await deployer.deploy(PoolMock, _erc20, _cErc20, _prediction, _rewardManager).then(async function(poolMock) {
+    await deployer.deploy(OracleManager, _prediction).then(async function(oracleManager) {
         if(ownerAddress && ownerAddress!="") {
             console.log(`=== Transfering ownerhip to address ${ownerAddress} ===`)
-            await poolMock.transferOwnership(ownerAddress);
+            await oracleManager.transferOwnership(ownerAddress);
         }
     });
 };

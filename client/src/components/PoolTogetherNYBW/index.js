@@ -172,34 +172,26 @@ export default class PoolTogetherNYBW extends Component {
      * @notice - Oracle by using Band-Protocol
      **/
     _getQueryPrice = async () => {
-        const { accounts, web3, dai, pool_mock, prediction, reward_manager, POOlMOCK_ADDRESS } = this.state;
+        const { accounts, web3, dai, oracle_manager } = this.state;
 
-        let res = await reward_manager.methods.getQueryPrice().call();
+        let res = await oracle_manager.methods.getQueryPrice().call();
         console.log('=== getQueryPrice() ===\n', res); 
     }    
 
-    _oracleQuerySpotPrice = async () => {
-        const { accounts, web3, dai, pool_mock, prediction, POOlMOCK_ADDRESS } = this.state;
+    _oracleQueryScore = async () => {
+        const { accounts, web3, dai, oracle_manager } = this.state;
 
-        let queryPrice = await prediction.methods.getQueryPrice().call();
-        let res = await prediction.methods.oracleQuerySpotPrice().send({ from: accounts[0], value: queryPrice });
-        console.log('=== oracleQuerySpotPrice() ===\n', res); 
-    }    
-
-    _oracleQuerySpotPriceWithExpiry = async () => {
-        const { accounts, web3, dai, pool_mock, prediction, POOlMOCK_ADDRESS } = this.state;
-
-        let queryPrice = await prediction.methods.getQueryPrice().call();
-        let res = await prediction.methods.oracleQuerySpotPriceWithExpiry().send({ from: accounts[0], value: queryPrice });
-        console.log('=== oracleQuerySpotPriceWithExpiry() ===\n', res); 
+        let queryPrice = await oracle_manager.methods.getQueryPrice().call();
+        let res = await oracle_manager.methods.oracleQueryScore().send({ from: accounts[0], value: queryPrice });
+        console.log('=== oracleQueryScore() ===\n', res); 
     }
 
-    _oracleQueryScore = async () => {
-        const { accounts, web3, dai, pool_mock, prediction, POOlMOCK_ADDRESS } = this.state;
+    _oracleQuerySpotPrice = async () => {
+        const { accounts, web3, dai, oracle_manager } = this.state;
 
-        let queryPrice = await prediction.methods.getQueryPrice().call();
-        let res = await prediction.methods.oracleQueryScore().send({ from: accounts[0], value: queryPrice });
-        console.log('=== oracleQueryScore() ===\n', res); 
+        let queryPrice = await oracle_manager.methods.getQueryPrice().call();
+        let res = await oracle_manager.methods.oracleQuerySpotPrice().send({ from: accounts[0], value: queryPrice });
+        console.log('=== oracleQuerySpotPrice() ===\n', res); 
     }
 
 
@@ -287,6 +279,7 @@ export default class PoolTogetherNYBW extends Component {
      
         let Prediction = {};
         let RewardManager = {};
+        let OracleManager = {};
         let PodMock = {};        
         let PoolMock = {};
         let PoolTokenMock = {};
@@ -295,6 +288,7 @@ export default class PoolTogetherNYBW extends Component {
         try {
           Prediction = require("../../../../build/contracts/Prediction.json");
           RewardManager = require("../../../../build/contracts/RewardManager.json");
+          OracleManager = require("../../../../build/contracts/OracleManager.json");
           PodMock = require("../../../../build/contracts/PodMock.json");
           PoolMock = require("../../../../build/contracts/PoolMock.json");
           PoolTokenMock = require("../../../../build/contracts/PoolTokenMock.json");
@@ -344,7 +338,7 @@ export default class PoolTogetherNYBW extends Component {
             // Create instance of contracts
             let instanceRewardManager = null;
             let deployedNetworkRewardManager = null;
-            let RewardManager_ADDRESS = RewardManager.networks[networkId.toString()].address;
+            let REWARD_MANAGER_ADDRESS = RewardManager.networks[networkId.toString()].address;
             if (RewardManager.networks) {
               deployedNetworkRewardManager = RewardManager.networks[networkId.toString()];
               if (deployedNetworkRewardManager) {
@@ -356,6 +350,21 @@ export default class PoolTogetherNYBW extends Component {
               }
             }
  
+            // Create instance of contracts
+            let instanceOracleManager = null;
+            let deployedNetworkOracleManager = null;
+            let ORACLE_MANAGER_ADDRESS = OracleManager.networks[networkId.toString()].address;
+            if (OracleManager.networks) {
+              deployedNetworkOracleManager = OracleManager.networks[networkId.toString()];
+              if (deployedNetworkOracleManager) {
+                instanceOracleManager = new web3.eth.Contract(
+                  OracleManager.abi,
+                  deployedNetworkOracleManager && deployedNetworkOracleManager.address,
+                );
+                console.log('=== instanceOracleManager ===', instanceOracleManager);
+              }
+            }
+
             // Create instance of contracts
             let instancePodMock = null;
             let deployedNetworkPodMock = null;
@@ -432,6 +441,7 @@ export default class PoolTogetherNYBW extends Component {
                 isMetaMask, 
                 prediction: instancePrediction,
                 reward_manager: instanceRewardManager,
+                oracle_manager: instanceOracleManager,
                 pod_mock: instancePodMock,
                 pool_mock: instancePoolMock,
                 poolToken_mock: instancePoolTokenMock,

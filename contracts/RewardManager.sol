@@ -21,29 +21,9 @@ contract RewardManager is usingBandProtocol, MCDAwarePool, OwnableOriginal(msg.s
     constructor() public {}
 
     /***
-     * @notice - Oracle by using Band-Protocol
-     **/
-    function getQueryPrice() public view returns (uint256 queryPrice) {
-        /// Get the price of querying for one data point (in Wei)
-        uint256 queryPrice = SPORT.queryPrice();
-        return queryPrice;
-    }
-
-    function oracleQueryScore() public payable returns (uint8 gameScore1, uint8 gameScore2) {
-        /// 1st MLB match of the Astros vs the Tigers on August 19, 2019
-        uint8 res1;
-        uint8 res2;
-        (res1, res2) = SPORT.queryScore("MLB/20190819/HOU-DET/1");
-        emit OracleQueryScore(res1, res2);
-        return (res1, res2);
-    }
-
-
-
-    /***
      * @notice - Extended contract of reward() in BasePool.sol
      **/
-    function extendedReward(bytes32 _secret, bytes32 _salt) public {        
+    function extendedReward(bytes32 _secret, bytes32 _salt, uint8 _gameScore1, uint8 _gameScore2) public {        
         /// Lock tokens
         lockTokens();
 
