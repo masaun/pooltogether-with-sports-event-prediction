@@ -32,6 +32,7 @@ export default class PoolTogetherNYBW extends Component {
         this._initPoolToken = this._initPoolToken.bind(this);
         this.initPool = this.initPool.bind(this);
         this.addAdmin = this.addAdmin.bind(this);
+        this.removeAdmin = this.removeAdmin.bind(this);
         this.openNextDraw = this.openNextDraw.bind(this);
         this._depositIntoTemporaryAccount = this._depositIntoTemporaryAccount.bind(this);
         this._depositPool = this._depositPool.bind(this);
@@ -93,16 +94,23 @@ export default class PoolTogetherNYBW extends Component {
         console.log('=== isAdmin() ===\n', res4); 
     }
 
-    addAdmin = async() => {
+    addAdmin = async () => {
         const { accounts, web3, dai, pool_mock, POOlMOCK_ADDRESS, REWARD_MANAGER_ADDRESS } = this.state;
 
         /// Add a right of "Pool/Admin" to contract address of PoolMock.sol and RewardManager.sol
         let res1 = await pool_mock.methods.addAdmin(POOlMOCK_ADDRESS).send({ from: accounts[0] });
         let res2 = await pool_mock.methods.addAdmin(REWARD_MANAGER_ADDRESS).send({ from: accounts[0] });
         console.log('=== addAdmin() to PoolMock contract address ===\n', res1); 
-        console.log('=== addAdmin() to RewardManager contract address ===\n', res1); 
+        console.log('=== addAdmin() to RewardManager contract address ===\n', res2); 
     }
 
+    removeAdmin = async () => {
+        const { accounts, web3, dai, pool_mock, POOlMOCK_ADDRESS, REWARD_MANAGER_ADDRESS } = this.state;
+
+        /// Add a right of "Pool/Admin" to contract address of PoolMock.sol and RewardManager.sol
+        let res2 = await pool_mock.methods.removeAdmin(REWARD_MANAGER_ADDRESS).send({ from: accounts[0] });
+        console.log('=== removeAdmin() to RewardManager contract address ===\n', res2); 
+    }
 
     openNextDraw = async () => {
         const { accounts, web3, dai, pool_mock, POOlMOCK_ADDRESS } = this.state;
@@ -517,6 +525,10 @@ export default class PoolTogetherNYBW extends Component {
                             <Button size={'small'} mt={3} mb={2} onClick={this.initPool}> Init Pool </Button> <br />
 
                             <Button size={'small'} mt={3} mb={2} onClick={this.addAdmin}> Add Admin right </Button> <br />
+
+                            <Button size={'small'} mt={3} mb={2} onClick={this.removeAdmin}> Remove Admin right </Button> <br />
+
+                            <hr />
 
                             <Button size={'small'} mt={3} mb={2} onClick={this.openNextDraw}> Open Next Draw </Button> <br />
 
