@@ -41,8 +41,6 @@ export default class PoolTogetherNYBW extends Component {
 
         /////// Oracle by using Band-Protocol
         this._getQueryPrice = this._getQueryPrice.bind(this);
-        this._oracleQuerySpotPrice = this._oracleQuerySpotPrice.bind(this);
-        this._oracleQuerySpotPriceWithExpiry = this._oracleQuerySpotPriceWithExpiry.bind(this);
         this._oracleQueryScore = this._oracleQueryScore.bind(this);
 
         /////// Getter Functions
@@ -504,10 +502,6 @@ export default class PoolTogetherNYBW extends Component {
                             <hr />
 
                             <Button mainColor="DarkCyan" size={'small'} mt={3} mb={2} onClick={this._getQueryPrice}> Get QueryPrice </Button> <br />
-
-                            <Button size={'small'} mt={3} mb={2} onClick={this._oracleQuerySpotPrice}> Oracle QuerySpotPrice </Button> <br />
-
-                            <Button size={'small'} mt={3} mb={2} onClick={this._oracleQuerySpotPriceWithExpiry}> Oracle QuerySpotPriceWithExpiry </Button> <br />
 
                             <Button size={'small'} mt={3} mb={2} onClick={this._oracleQueryScore}> Oracle QueryScore of Sports </Button> <br />
 
