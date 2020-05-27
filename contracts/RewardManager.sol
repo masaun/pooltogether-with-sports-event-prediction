@@ -22,6 +22,8 @@ contract RewardManager is usingBandProtocol, MCDAwarePool, OwnableOriginal(msg.s
 
     /***
      * @notice - Extended contract of reward() in BasePool.sol
+     * @param _secret The secret to reveal for the current committed Draw
+     * @param _salt The salt that was used to conceal the secret
      **/
     function extendedReward(bytes32 _secret, bytes32 _salt, uint8 _gameScore1, uint8 _gameScore2) public {        
         /// Lock tokens
