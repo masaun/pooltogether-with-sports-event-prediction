@@ -25,13 +25,6 @@ contract RewardManager is MCDAwarePool, OwnableOriginal(msg.sender), McStorage, 
     }
 
 
-    function addAdminRoleAddress(address _admin) public {
-        /// Inherited from BasePool.sol
-        addAdmin(_admin);
-        emit AddAdminRoleAddress(_admin);
-    }
-
-
     /***
      * @notice - Extended contract of reward() in BasePool.sol
      * @param _secret The secret to reveal for the current committed Draw

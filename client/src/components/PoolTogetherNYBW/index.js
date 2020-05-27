@@ -102,9 +102,7 @@ export default class PoolTogetherNYBW extends Component {
 
         /// Add a right of "Pool/Admin" to contract address of PoolMock.sol and RewardManager.sol
         //let res1 = await pool_mock.methods.addAdmin(POOlMOCK_ADDRESS).send({ from: accounts[0] });
-        let res2 = await reward_manager.methods.addAdminRoleAddress(REWARD_MANAGER_ADDRESS).send({ from: accounts[0] });
-        //let res2 = await pool_mock.methods.addAdminRoleAddress(REWARD_MANAGER_ADDRESS).send({ from: accounts[0] });
-        //let res2 = await pool_mock.methods.addAdmin(REWARD_MANAGER_ADDRESS).send({ from: accounts[0] });
+        let res2 = await pool_mock.methods.addAdmin(REWARD_MANAGER_ADDRESS).send({ from: accounts[0] });
         //console.log('=== addAdmin() to PoolMock contract address ===\n', res1); 
         console.log('=== addAdmin() via addAdminRoleAddress in RewardManager.sol ===\n', res2); 
     }
@@ -170,11 +168,11 @@ export default class PoolTogetherNYBW extends Component {
         const SECRET = '0x1234123412341234123412341234123412341234123412341234123412341234'
 
         /// Call the extendedReward method of RewardManager.sol directly
-        //let res1 = await reward_manager.methods.extendedReward(SECRET, SALT, _gameScore1, _gameScore2).send({ from: accounts[0] });
-        //console.log('=== extendedReward() ===\n', res1);
+        let res1 = await pool_mock.methods.extendedReward(SECRET, SALT, _gameScore1, _gameScore2).send({ from: accounts[0] });
+        console.log('=== extendedReward() - PoolMock.sol ===\n', res1);
 
-        let res2 = await pool_mock.methods.selectWinnerAndDistributeReward(SECRET, SALT, _gameScore1, _gameScore2).send({ from: accounts[0] });
-        console.log('=== reward() ===\n', res2);         
+        //let res2 = await pool_mock.methods.selectWinnerAndDistributeReward(SECRET, SALT, _gameScore1, _gameScore2).send({ from: accounts[0] });
+        //console.log('=== reward() ===\n', res2);         
     }
 
 
