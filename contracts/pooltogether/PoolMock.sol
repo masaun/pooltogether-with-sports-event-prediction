@@ -75,8 +75,8 @@ contract PoolMock is usingBandProtocol, MCDAwarePool, OwnableOriginal(msg.sender
      **/
     function selectWinnerAndDistributeReward(bytes32 _secret, bytes32 _salt, uint8 _gameScore1, uint8 _gameScore2) public {
         /// Add a right of "Pool/Admin" to this contract(address(this))
-        address addedAdmin = address(this);
-        addAdmin(addedAdmin);
+        //address addedAdmin = address(this);
+        //addAdmin(addedAdmin);
 
         /// Call the extendedReward method instead of the reward method
         rewardManager.extendedReward(_secret, _salt, _gameScore1, _gameScore2);

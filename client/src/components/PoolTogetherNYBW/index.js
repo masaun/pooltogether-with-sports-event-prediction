@@ -31,6 +31,7 @@ export default class PoolTogetherNYBW extends Component {
 
         this._initPoolToken = this._initPoolToken.bind(this);
         this.initPool = this.initPool.bind(this);
+        this.addAdmin = this.addAdmin.bind(this);
         this.openNextDraw = this.openNextDraw.bind(this);
         this._depositIntoTemporaryAccount = this._depositIntoTemporaryAccount.bind(this);
         this._depositPool = this._depositPool.bind(this);
@@ -91,6 +92,17 @@ export default class PoolTogetherNYBW extends Component {
         let res4 = await pool_mock.methods.isAdmin(_admin).call();
         console.log('=== isAdmin() ===\n', res4); 
     }
+
+    addAdmin = async() => {
+        const { accounts, web3, dai, pool_mock, POOlMOCK_ADDRESS, REWARD_MANAGER_ADDRESS } = this.state;
+
+        /// Add a right of "Pool/Admin" to contract address of PoolMock.sol and RewardManager.sol
+        let res1 = await pool_mock.methods.addAdmin(POOlMOCK_ADDRESS).send({ from: accounts[0] });
+        let res2 = await pool_mock.methods.addAdmin(REWARD_MANAGER_ADDRESS).send({ from: accounts[0] });
+        console.log('=== addAdmin() to PoolMock contract address ===\n', res1); 
+        console.log('=== addAdmin() to RewardManager contract address ===\n', res1); 
+    }
+
 
     openNextDraw = async () => {
         const { accounts, web3, dai, pool_mock, POOlMOCK_ADDRESS } = this.state;
@@ -453,6 +465,8 @@ export default class PoolTogetherNYBW extends Component {
                 dai: instanceDai,
                 bokkypoobahs_datetime_contract: instanceBokkyPooBahsDateTimeContract,
                 PREDICTION_ADDRESS: PREDICTION_ADDRESS,
+                REWARD_MANAGER_ADDRESS: REWARD_MANAGER_ADDRESS,
+                ORACLE_MANAGER_ADDRESS: ORACLE_MANAGER_ADDRESS,
                 DAI_ADDRESS: DAI_ADDRESS,
                 POOlMOCK_ADDRESS: POOlMOCK_ADDRESS
               }, () => {
@@ -501,6 +515,8 @@ export default class PoolTogetherNYBW extends Component {
                             <Button size={'small'} mt={3} mb={2} onClick={this._initPoolToken}> Init PoolToken </Button> <br />
 
                             <Button size={'small'} mt={3} mb={2} onClick={this.initPool}> Init Pool </Button> <br />
+
+                            <Button size={'small'} mt={3} mb={2} onClick={this.addAdmin}> Add Admin right </Button> <br />
 
                             <Button size={'small'} mt={3} mb={2} onClick={this.openNextDraw}> Open Next Draw </Button> <br />
 
