@@ -111,5 +111,10 @@ contract Prediction is OwnableOriginal(msg.sender), McStorage, McConstants {
         return (currentOpenDrawId, currentCommittedDrawId);
     }
 
+    function getCurrentPredictionId() public view returns (uint currentPredictionId) {
+        return currentPredictionId;
+    }
+    
+
 
 }

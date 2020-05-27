@@ -72,15 +72,16 @@ export default class PoolTogetherNYBW extends Component {
     initPool = async () => {
         const { accounts, web3, dai, pool_mock, POOlMOCK_ADDRESS } = this.state;
 
-        const _owner = POOlMOCK_ADDRESS; /// OwnerAddress is added as "Owner" role?
-        //const _owner = walletAddressList["WalletAddress1"]; /// OwnerAddress is added as "Owner" role?
+        //const _owner = POOlMOCK_ADDRESS; /// OwnerAddress is added as "Owner" role?
+        const _owner = walletAddressList["WalletAddress1"]; /// OwnerAddress is added as "Owner" role?
         const _cToken = tokenAddressList["Kovan"]["cDAI"];
         const _feeFraction = web3.utils.toWei('0.1');
         const _feeBeneficiary = walletAddressList["WalletAddress1"];
         const _lockDuration = 55;
         const _cooldownDuration = 90;
-        const _admin = POOlMOCK_ADDRESS;                    /// _addmin is added as "admin" role
-        //const _admin = walletAddressList["WalletAddress1"];
+        //const _admin = "";                                  /// _addmin is added as "admin" role
+        //const _admin = POOlMOCK_ADDRESS;                    /// _addmin is added as "admin" role
+        const _admin = walletAddressList["WalletAddress1"];   /// _addmin is added as "admin" role
  
         //@dev - Init Pool
         let res5 = await pool_mock.methods.init(_owner, 
@@ -169,9 +170,13 @@ export default class PoolTogetherNYBW extends Component {
         /// Select winner and distribute reward
         const SALT = '0x1234123412341234123412341234123412341234123412341234123412341236'
         const SECRET = '0x1234123412341234123412341234123412341234123412341234123412341234'
-        let res2 = await pool_mock.methods.selectWinnerAndDistributeReward(SECRET, SALT, _gameScore1, _gameScore2).send({ from: accounts[0] });
-        //let res = await pool_mock.methods._reward(SECRET, SALT).send({ from: accounts[0], value: queryPrice });
-        console.log('=== reward() ===\n', res2);         
+
+        /// Call the extendedReward method of RewardManager.sol directly
+        let res1 = await reward_manager.methods.extendedReward(SECRET, SALT).send({ from: accounts[0] });
+        console.log('=== extendedReward() ===\n', res1);
+
+        //let res2 = await pool_mock.methods.selectWinnerAndDistributeReward(SECRET, SALT, _gameScore1, _gameScore2).send({ from: accounts[0] });
+        //console.log('=== reward() ===\n', res2);         
     }
 
 

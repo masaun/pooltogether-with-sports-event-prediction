@@ -51,16 +51,6 @@ contract PoolMock is usingBandProtocol, MCDAwarePool, OwnableOriginal(msg.sender
     }
 
     /***
-     * @notice - Temporary account for deposit DAI temporarily
-     **/
-    function depositIntoTemporaryAccount(uint _depositAmount) public returns (bool) {
-        /// All amount are deposited into contract temporarily
-        dai.transferFrom(msg.sender, address(this), _depositAmount);
-
-        /// Set expiration until the end of the gameday
-    }
-
-    /***
      * @notice - Deposit DAI into Pool(=this contract)
      **/
     function _depositPool(uint _depositAmount) public returns (bool) {
@@ -106,5 +96,15 @@ contract PoolMock is usingBandProtocol, MCDAwarePool, OwnableOriginal(msg.sender
         return address(this);
     }
     
+
+    /***
+     * @notice - Test method / Temporary account for deposit DAI temporarily
+     **/
+    function depositIntoTemporaryAccount(uint _depositAmount) public returns (bool) {
+        /// All amount are deposited into contract temporarily
+        dai.transferFrom(msg.sender, address(this), _depositAmount);
+
+        /// Set expiration until the end of the gameday
+    }
     
 }

@@ -35,8 +35,8 @@ contract RewardManager is usingBandProtocol, MCDAwarePool, OwnableOriginal(msg.s
     function extendedReward(bytes32 _secret, bytes32 _salt, uint8 _gameScore1, uint8 _gameScore2) public {
         /// Check game score
         Prediction prediction = Prediction(PREDICTION);
-        for (i=1; i < prediction.currentPredictionId(); i++) {
-           PredictionData memory predictionData = predictionDatas[i];
+        for (uint i=1; i < prediction.getCurrentPredictionId(); i++) {
+            PredictionData memory predictionData = predictionDatas[i];
         }
 
         /// Lock tokens
