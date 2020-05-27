@@ -39,15 +39,6 @@ contract PoolMock is usingBandProtocol, MCDAwarePool, OwnableOriginal(msg.sender
         PREDICTION = _prediction;
     }
 
-
-    function addAdminRoleAddress(address _admin) public {
-        /// Inherited from BasePool.sol
-        addAdmin(_admin);
-        emit AddAdminRoleAddress(_admin);
-    }
-    
-
-
     function _openNextDraw(bytes32 _nextSecretHash) public {
         /// Open Pool
         openNextDraw(_nextSecretHash);
