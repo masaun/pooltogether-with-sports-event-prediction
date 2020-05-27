@@ -14,6 +14,7 @@ import { usingBandProtocol, Oracle } from "./band/band-solidity/contracts/Band.s
 
 /// Own contract
 import "./pooltogether/PoolMock.sol";
+import "./Prediction.sol";
 
 
 contract RewardManager is usingBandProtocol, MCDAwarePool, OwnableOriginal(msg.sender), McStorage, McConstants {  /// MCDAwarePool inherits BasePool.sol 
@@ -25,7 +26,13 @@ contract RewardManager is usingBandProtocol, MCDAwarePool, OwnableOriginal(msg.s
      * @param _secret The secret to reveal for the current committed Draw
      * @param _salt The salt that was used to conceal the secret
      **/
-    function extendedReward(bytes32 _secret, bytes32 _salt, uint8 _gameScore1, uint8 _gameScore2) public {        
+    function extendedReward(bytes32 _secret, bytes32 _salt, uint8 _gameScore1, uint8 _gameScore2) public {
+        /// Check game score
+        //Prediction prediction = Prediction(_prediction);
+        //for (i=1; i < prediction.currentPredictionId(); i++) {
+        //    PredictionData memory predictionData = predictionDatas[i];
+        //}
+
         /// Lock tokens
         lockTokens();
 
