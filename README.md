@@ -3,7 +3,7 @@
 ***
 ## 【Introduction of PoolTogether with Sports Event Prediction】
 - This is a dApp which integrates PoolTogether with sport event oracle
-  - This is combined PoolTogether and Sports Event Prediction.
+  - This is combined lottery of PoolTogether and Sports Event Prediction.
   - User predict sports game score at the gameday.
   - Winner is selected in participants who prediction of sports game score is right.
   - Target of game score prediction is professional sports events (MLB, EPL, NFL, NBA).
