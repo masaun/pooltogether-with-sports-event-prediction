@@ -2,16 +2,16 @@
 
 ***
 ## 【Introduction of PoolTogether with Sports Event Prediction】
-- This is a dApp which integrates PoolTogether with sport event oracle
-  - This is combined lottery of PoolTogether and Sports Event Prediction.
-  - Participants buy ticket which include rights of prediction of target sports game score.
-  - Target of game score prediction is professional sports events (MLB, EPL, NFL, NBA).
+- This is a dApp which integrates PoolTogether with sport event oracle  
+  - This is combined lottery of PoolTogether and Sports Event Prediction.  
+  - Participants buy ticket which include rights of prediction of target sports game score.   
+  - Target of game score prediction is professional sports events (MLB, EPL, NFL, NBA).   
     (Utilize Band-Protocol for getting results of game score / Sport Event Oracle： https://developer.bandprotocol.com/datasets/sport-kovan.html )
 
 &nbsp;
 
 ## 【Flow】：
-- ① Admin choose target league and `1 prediction target game`  (=1 draw) in all of game every gameday.
+- ① Admin choose target league and `1 prediction target game`  (=1 draw) in all of game every gameday.  
   (Draw is opened every gameday)
 
 
@@ -109,9 +109,9 @@ http://127.0.0.1:3000/pooltogether-nybw-hack-2020
 <br>
 
 - [Band-Protocol]
-  - How to create instance of Oracle
+  - How to create instance of Oracle  
     https://developer.bandprotocol.com/devs/data-query.html
 
-  - Sport Events Oracle (Kovan) 
+  - Sport Events Oracle (Kovan)   
     https://developer.bandprotocol.com/datasets/sport-kovan.html
 
