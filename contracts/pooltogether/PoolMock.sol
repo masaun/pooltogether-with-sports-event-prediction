@@ -62,10 +62,8 @@ contract PoolMock is usingBandProtocol, MCDAwarePool, OwnableOriginal(msg.sender
      * @param _salt The salt that was used to conceal the secret
      **/
     function selectWinnerAndDistributeReward(bytes32 _secret, bytes32 _salt, uint8 _gameScore1, uint8 _gameScore2) public {
-        /// Add a right of "Pool/Admin" to this contract(address(this))
-
         /// Call the extendedReward method instead of the reward method
-        rewardManager.extendedReward(_secret, _salt, _gameScore1, _gameScore2);
+        extendedReward(_secret, _salt, _gameScore1, _gameScore2);
     }
 
 
