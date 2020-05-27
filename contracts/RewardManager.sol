@@ -9,15 +9,12 @@ import "./lib/OwnableOriginal.sol";
 import "./storage/McStorage.sol";
 import "./storage/McConstants.sol";
 
-/// Inherit from `usingBandProtocol` to get access to helper functions
-import { usingBandProtocol, Oracle } from "./band/band-solidity/contracts/Band.sol";
-
 /// Own contract
 import "./pooltogether/PoolMock.sol";
 import "./Prediction.sol";
 
 
-contract RewardManager is usingBandProtocol, MCDAwarePool, OwnableOriginal(msg.sender), McStorage, McConstants {  /// MCDAwarePool inherits BasePool.sol 
+contract RewardManager is MCDAwarePool, OwnableOriginal(msg.sender), McStorage, McConstants {  /// MCDAwarePool inherits BasePool.sol 
 
     Prediction public prediction;
     address PREDICTION;

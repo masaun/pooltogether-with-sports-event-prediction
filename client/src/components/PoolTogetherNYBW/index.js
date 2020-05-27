@@ -101,19 +101,20 @@ export default class PoolTogetherNYBW extends Component {
         const { accounts, web3, dai, pool_mock, POOlMOCK_ADDRESS, REWARD_MANAGER_ADDRESS } = this.state;
 
         /// Add a right of "Pool/Admin" to contract address of PoolMock.sol and RewardManager.sol
-        let res1 = await pool_mock.methods.addAdmin(POOlMOCK_ADDRESS).send({ from: accounts[0] });
-        let res2 = await pool_mock.methods.addAdmin(REWARD_MANAGER_ADDRESS).send({ from: accounts[0] });
-        console.log('=== addAdmin() to PoolMock contract address ===\n', res1); 
-        console.log('=== addAdmin() to RewardManager contract address ===\n', res2); 
+        //let res1 = await pool_mock.methods.addAdmin(POOlMOCK_ADDRESS).send({ from: accounts[0] });
+        let res2 = await pool_mock.methods.addAdminRoleAddress(REWARD_MANAGER_ADDRESS).send({ from: accounts[0] });
+        //let res2 = await pool_mock.methods.addAdmin(REWARD_MANAGER_ADDRESS).send({ from: accounts[0] });
+        //console.log('=== addAdmin() to PoolMock contract address ===\n', res1); 
+        console.log('=== addAdmin() via addAdminRoleAddress ===\n', res2); 
     }
 
     removeAdmin = async () => {
         const { accounts, web3, dai, pool_mock, POOlMOCK_ADDRESS, REWARD_MANAGER_ADDRESS } = this.state;
 
         /// Add a right of "Pool/Admin" to contract address of PoolMock.sol and RewardManager.sol
-        let res1 = await pool_mock.methods.removeAdmin(POOlMOCK_ADDRESS).send({ from: accounts[0] });
+        //let res1 = await pool_mock.methods.removeAdmin(POOlMOCK_ADDRESS).send({ from: accounts[0] });
         let res2 = await pool_mock.methods.removeAdmin(REWARD_MANAGER_ADDRESS).send({ from: accounts[0] });
-        console.log('=== removeAdmin() to PoolMock contract address ===\n', res1); 
+        //console.log('=== removeAdmin() to PoolMock contract address ===\n', res1); 
         console.log('=== removeAdmin() to RewardManager contract address ===\n', res2); 
     }
 
@@ -132,17 +133,6 @@ export default class PoolTogetherNYBW extends Component {
         console.log('=== openNextDraw() ===\n', res3);          
     }
 
-    _depositIntoTemporaryAccount = async () => {
-        const { accounts, web3, dai, pool_mock, POOlMOCK_ADDRESS } = this.state;
-
-        const _depositAmount = web3.utils.toWei('0.15');
-
-        //@dev - Deposit Pool
-        let res1 = await dai.methods.approve(POOlMOCK_ADDRESS, _depositAmount).send({ from: accounts[0] });
-        let res2 = await pool_mock.methods.depositIntoTemporaryAccount(_depositAmount).send({ from: accounts[0] });
-        console.log('=== depositIntoTemporaryAccount() ===\n', res2);         
-    }
-
     _depositPool = async () => {
         const { accounts, web3, dai, pool_mock, POOlMOCK_ADDRESS } = this.state;
 
@@ -156,6 +146,13 @@ export default class PoolTogetherNYBW extends Component {
 
     reward = async () => {
         const { accounts, web3, dai, pool_mock, prediction, reward_manager, oracle_manager, POOlMOCK_ADDRESS } = this.state;
+
+        //@dev - Check Admin
+        const _admin = walletAddressList["WalletAddress1"];
+        let isAdmin1 = await pool_mock.methods.isAdmin(_admin).call();
+        let isAdmin2 = await reward_manager.methods.isAdmin(_admin).call();
+        console.log('=== isAdmin() - PoolMock.sol ===\n', isAdmin1);
+        console.log('=== isAdmin() - RewardManager.sol ===\n', isAdmin2);
 
         /// Request result of game score to oracle
         let queryPrice = await oracle_manager.methods.getQueryPrice().call();
@@ -172,7 +169,7 @@ export default class PoolTogetherNYBW extends Component {
         const SECRET = '0x1234123412341234123412341234123412341234123412341234123412341234'
 
         /// Call the extendedReward method of RewardManager.sol directly
-        let res1 = await reward_manager.methods.extendedReward(SECRET, SALT).send({ from: accounts[0] });
+        let res1 = await reward_manager.methods.extendedReward(SECRET, SALT, _gameScore1, _gameScore2).send({ from: accounts[0] });
         console.log('=== extendedReward() ===\n', res1);
 
         //let res2 = await pool_mock.methods.selectWinnerAndDistributeReward(SECRET, SALT, _gameScore1, _gameScore2).send({ from: accounts[0] });
@@ -261,6 +258,17 @@ export default class PoolTogetherNYBW extends Component {
     /***
      * @dev - Test Functions
      **/
+    _depositIntoTemporaryAccount = async () => {
+        const { accounts, web3, dai, pool_mock, POOlMOCK_ADDRESS } = this.state;
+
+        const _depositAmount = web3.utils.toWei('0.15');
+
+        //@dev - Deposit Pool
+        let res1 = await dai.methods.approve(POOlMOCK_ADDRESS, _depositAmount).send({ from: accounts[0] });
+        let res2 = await pool_mock.methods.depositIntoTemporaryAccount(_depositAmount).send({ from: accounts[0] });
+        console.log('=== depositIntoTemporaryAccount() ===\n', res2);         
+    }
+
     _getCurrentOpenDrawId = async () => {
         const { accounts, web3, dai, prediction, pool_mock } = this.state;
 
@@ -275,7 +283,6 @@ export default class PoolTogetherNYBW extends Component {
         let res = await prediction.methods.getCurrentOpenDrawIdPredictionContract(_poolMock).call();
         console.log('=== getCurrentOpenDrawIdPredictionContract() ===\n', res);
     }
-
 
     timestampFromDate = async () => {
         const { accounts, web3, bokkypoobahs_datetime_contract } = this.state;

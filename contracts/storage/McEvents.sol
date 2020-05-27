@@ -34,6 +34,10 @@ contract McEvents {
         uint8 gameScore2
     );    
 
+    event AddAdminRoleAddress(
+        address _admin
+    );
+    
 
 
     /***
