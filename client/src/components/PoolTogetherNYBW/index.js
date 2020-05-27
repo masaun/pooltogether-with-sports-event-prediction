@@ -132,18 +132,20 @@ export default class PoolTogetherNYBW extends Component {
     reward = async () => {
         const { accounts, web3, dai, pool_mock, prediction, reward_manager, oracle_manager, POOlMOCK_ADDRESS } = this.state;
 
+        /// Request result of game score to oracle
         let queryPrice = await oracle_manager.methods.getQueryPrice().call();
         let responseFromOracle = await oracle_manager.methods.oracleQueryScore().send({ from: accounts[0], value: queryPrice });
         console.log('=== oracleQueryScore() ===\n', responseFromOracle);
 
         let _gameScore1 = responseFromOracle.events.OracleQueryScore.returnValues.gameScore1;
         let _gameScore2 = responseFromOracle.events.OracleQueryScore.returnValues.gameScore2;
+        console.log('=== oracleQueryScore() ===\n', responseFromOracle);
+        console.log('=== oracleQueryScore() ===\n', responseFromOracle);
 
+        /// Select winner and distribute reward
         const SALT = '0x1234123412341234123412341234123412341234123412341234123412341236'
         const SECRET = '0x1234123412341234123412341234123412341234123412341234123412341234'
-
-        //@dev - Withdraw DAI from Pool
-        let res2 = await pool_mock.methods.selectWinnerAndDistributeReward(SECRET, SALT, _gameScore1, _gameScore2).send({ from: accounts[0], value: queryPrice });
+        let res2 = await pool_mock.methods.selectWinnerAndDistributeReward(SECRET, SALT, _gameScore1, _gameScore2).send({ from: accounts[0] });
         //let res = await pool_mock.methods._reward(SECRET, SALT).send({ from: accounts[0], value: queryPrice });
         console.log('=== reward() ===\n', res2);         
     }
