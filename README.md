@@ -1,12 +1,15 @@
-# PoolTogether NYBW Hack 2020
+# PoolTogether with Sports Event Lottery
 
 ***
-## 【Introduction of PoolTogether NYBW Hack 2020】
-- This is a dApp
+## 【Introduction of PoolTogether with Sports Game Score Lottery】
+- This is a dApp which integrates PoolTogether with sport event oracle
+  - User predict sports game score at the gameday.
+  - Winner is selected in participants who prediction of sports game score is right.
+  - Target of prediction is professional sports games (MLB, EPL, NFL, NBA).
 
 &nbsp;
 
-## 【User Flow】
+## 【Flow】
 - ① 
 - ②
 - ③
@@ -41,7 +44,7 @@ $ npm run migrate:Kovan
 &nbsp;
 
 
-### Setup frontend
+### Setup frontend（※ In progress）
 1. Move to `./client`
 ```
 $ cd client
@@ -84,3 +87,13 @@ http://127.0.0.1:3000/pooltogether-nybw-hack-2020
 
   - Article abount "v2"  
     https://medium.com/pooltogether/inside-pooltogether-v2-0-e7d0e1b90a08
+
+<br>
+
+- [Band-Protocol]
+  - How to create instance of Oracle
+    https://developer.bandprotocol.com/devs/data-query.html
+
+  - Sport Events Oracle (Kovan) 
+    https://developer.bandprotocol.com/datasets/sport-kovan.html
+

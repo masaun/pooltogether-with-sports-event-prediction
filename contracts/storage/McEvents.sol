@@ -30,10 +30,14 @@ contract McEvents {
     );
 
     event OracleQueryScore(
-        uint8 res1, 
-        uint8 res2
+        uint8 gameScore1, 
+        uint8 gameScore2
     );    
 
+    event AddAdminRoleAddress(
+        address _admin
+    );
+    
 
 
     /***

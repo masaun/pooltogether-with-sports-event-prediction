@@ -32,8 +32,8 @@ contract Prediction is OwnableOriginal(msg.sender), McStorage, McConstants {
     /***
      * @notice - Open next and new draw of game score prediction
      **/
-    function openeNextGameScorePredictionDraw(uint _drawId) public returns (bool) {
-        PredictionData storage predictionData = predictionDatas[_drawId];
+    function openeNextGameScorePredictionDraw(uint _predictionId) public returns (bool) {
+        PredictionData storage predictionData = predictionDatas[_predictionId];
     }
     
 
@@ -110,6 +110,11 @@ contract Prediction is OwnableOriginal(msg.sender), McStorage, McConstants {
 
         return (currentOpenDrawId, currentCommittedDrawId);
     }
+
+    function getCurrentPredictionId() public view returns (uint currentPredictionId) {
+        return currentPredictionId;
+    }
+    
 
 
 }

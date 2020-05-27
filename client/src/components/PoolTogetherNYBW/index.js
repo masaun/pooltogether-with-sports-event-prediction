@@ -31,6 +31,8 @@ export default class PoolTogetherNYBW extends Component {
 
         this._initPoolToken = this._initPoolToken.bind(this);
         this.initPool = this.initPool.bind(this);
+        this.addAdmin = this.addAdmin.bind(this);
+        this.removeAdmin = this.removeAdmin.bind(this);
         this.openNextDraw = this.openNextDraw.bind(this);
         this._depositIntoTemporaryAccount = this._depositIntoTemporaryAccount.bind(this);
         this._depositPool = this._depositPool.bind(this);
@@ -41,8 +43,6 @@ export default class PoolTogetherNYBW extends Component {
 
         /////// Oracle by using Band-Protocol
         this._getQueryPrice = this._getQueryPrice.bind(this);
-        this._oracleQuerySpotPrice = this._oracleQuerySpotPrice.bind(this);
-        this._oracleQuerySpotPriceWithExpiry = this._oracleQuerySpotPriceWithExpiry.bind(this);
         this._oracleQueryScore = this._oracleQueryScore.bind(this);
 
         /////// Getter Functions
@@ -72,13 +72,16 @@ export default class PoolTogetherNYBW extends Component {
     initPool = async () => {
         const { accounts, web3, dai, pool_mock, POOlMOCK_ADDRESS } = this.state;
 
-        const _owner = walletAddressList["WalletAddress1"]; /// OwnerAddress is added as "admin" role
+        //const _owner = POOlMOCK_ADDRESS; /// OwnerAddress is added as "Owner" role?
+        const _owner = walletAddressList["WalletAddress1"]; /// OwnerAddress is added as "Owner" role?
         const _cToken = tokenAddressList["Kovan"]["cDAI"];
         const _feeFraction = web3.utils.toWei('0.1');
         const _feeBeneficiary = walletAddressList["WalletAddress1"];
         const _lockDuration = 55;
         const _cooldownDuration = 90;
-        const _admin = walletAddressList["WalletAddress1"];
+        //const _admin = "";                                  /// _addmin is added as "admin" role
+        //const _admin = POOlMOCK_ADDRESS;                    /// _addmin is added as "admin" role
+        const _admin = walletAddressList["WalletAddress1"];   /// _addmin is added as "admin" role
  
         //@dev - Init Pool
         let res5 = await pool_mock.methods.init(_owner, 
@@ -92,6 +95,26 @@ export default class PoolTogetherNYBW extends Component {
         //@dev - Check Admin
         let res4 = await pool_mock.methods.isAdmin(_admin).call();
         console.log('=== isAdmin() ===\n', res4); 
+    }
+
+    addAdmin = async () => {
+        const { accounts, web3, dai, pool_mock, reward_manager, POOlMOCK_ADDRESS, REWARD_MANAGER_ADDRESS } = this.state;
+
+        /// Add a right of "Pool/Admin" to contract address of PoolMock.sol and RewardManager.sol
+        //let res1 = await pool_mock.methods.addAdmin(POOlMOCK_ADDRESS).send({ from: accounts[0] });
+        let res2 = await pool_mock.methods.addAdmin(REWARD_MANAGER_ADDRESS).send({ from: accounts[0] });
+        //console.log('=== addAdmin() to PoolMock contract address ===\n', res1); 
+        console.log('=== addAdmin() via addAdminRoleAddress in RewardManager.sol ===\n', res2); 
+    }
+
+    removeAdmin = async () => {
+        const { accounts, web3, dai, pool_mock, POOlMOCK_ADDRESS, REWARD_MANAGER_ADDRESS } = this.state;
+
+        /// Add a right of "Pool/Admin" to contract address of PoolMock.sol and RewardManager.sol
+        //let res1 = await pool_mock.methods.removeAdmin(POOlMOCK_ADDRESS).send({ from: accounts[0] });
+        let res2 = await pool_mock.methods.removeAdmin(REWARD_MANAGER_ADDRESS).send({ from: accounts[0] });
+        //console.log('=== removeAdmin() to PoolMock contract address ===\n', res1); 
+        console.log('=== removeAdmin() to RewardManager contract address ===\n', res2); 
     }
 
     openNextDraw = async () => {
@@ -109,39 +132,47 @@ export default class PoolTogetherNYBW extends Component {
         console.log('=== openNextDraw() ===\n', res3);          
     }
 
-    _depositIntoTemporaryAccount = async () => {
-        const { accounts, web3, dai, pool_mock, POOlMOCK_ADDRESS } = this.state;
-
-        const _depositAmount = web3.utils.toWei('0.15');
-
-        //@dev - Deposit Pool
-        let res1 = await dai.methods.approve(POOlMOCK_ADDRESS, _depositAmount).send({ from: accounts[0] });
-        let res2 = await pool_mock.methods.depositIntoTemporaryAccount(_depositAmount).send({ from: accounts[0] });
-        console.log('=== depositIntoTemporaryAccount() ===\n', res2);         
-    }
-
     _depositPool = async () => {
         const { accounts, web3, dai, pool_mock, POOlMOCK_ADDRESS } = this.state;
 
         const _depositAmount = web3.utils.toWei('0.15');
 
         //@dev - Deposit Pool
-        let res6 = await dai.methods.approve(POOlMOCK_ADDRESS, _depositAmount).send({ from: accounts[0] });
+        let res1 = await dai.methods.approve(POOlMOCK_ADDRESS, _depositAmount).send({ from: accounts[0] });
         let res2 = await pool_mock.methods._depositPool(_depositAmount).send({ from: accounts[0] });
         console.log('=== depositPool() ===\n', res2); 
     }
 
     reward = async () => {
-        const { accounts, web3, dai, pool_mock, prediction, POOlMOCK_ADDRESS } = this.state;
+        const { accounts, web3, dai, pool_mock, prediction, reward_manager, oracle_manager, POOlMOCK_ADDRESS } = this.state;
 
-        let queryPrice = await pool_mock.methods.getQueryPrice().call();
+        //@dev - Check Admin
+        const _admin = walletAddressList["WalletAddress1"];
+        let isAdmin1 = await pool_mock.methods.isAdmin(_admin).call();
+        let isAdmin2 = await reward_manager.methods.isAdmin(_admin).call();
+        console.log('=== isAdmin() - PoolMock.sol ===\n', isAdmin1);
+        console.log('=== isAdmin() - RewardManager.sol ===\n', isAdmin2);
 
+        /// Request result of game score to oracle
+        let queryPrice = await oracle_manager.methods.getQueryPrice().call();
+        let responseFromOracle = await oracle_manager.methods.oracleQueryScore().send({ from: accounts[0], value: queryPrice });
+        console.log('=== oracleQueryScore() ===\n', responseFromOracle);
+
+        let _gameScore1 = responseFromOracle.events.OracleQueryScore.returnValues.gameScore1;
+        let _gameScore2 = responseFromOracle.events.OracleQueryScore.returnValues.gameScore2;
+        console.log('=== oracleQueryScore() ===\n', responseFromOracle);
+        console.log('=== oracleQueryScore() ===\n', responseFromOracle);
+
+        /// Select winner and distribute reward
         const SALT = '0x1234123412341234123412341234123412341234123412341234123412341236'
         const SECRET = '0x1234123412341234123412341234123412341234123412341234123412341234'
 
-        //@dev - Withdraw DAI from Pool
-        let res = await pool_mock.methods._reward(SECRET, SALT).send({ from: accounts[0], value: queryPrice });
-        console.log('=== reward() ===\n', res);         
+        /// Call the extendedReward method of RewardManager.sol directly
+        let res1 = await pool_mock.methods.extendedReward(SECRET, SALT, _gameScore1, _gameScore2).send({ from: accounts[0] });
+        console.log('=== extendedReward() - PoolMock.sol ===\n', res1);
+
+        //let res2 = await pool_mock.methods.selectWinnerAndDistributeReward(SECRET, SALT, _gameScore1, _gameScore2).send({ from: accounts[0] });
+        //console.log('=== reward() ===\n', res2);         
     }
 
 
@@ -171,34 +202,26 @@ export default class PoolTogetherNYBW extends Component {
      * @notice - Oracle by using Band-Protocol
      **/
     _getQueryPrice = async () => {
-        const { accounts, web3, dai, pool_mock, prediction, POOlMOCK_ADDRESS } = this.state;
+        const { accounts, web3, dai, oracle_manager } = this.state;
 
-        let res = await prediction.methods.getQueryPrice().call();
+        let res = await oracle_manager.methods.getQueryPrice().call();
         console.log('=== getQueryPrice() ===\n', res); 
     }    
 
-    _oracleQuerySpotPrice = async () => {
-        const { accounts, web3, dai, pool_mock, prediction, POOlMOCK_ADDRESS } = this.state;
+    _oracleQueryScore = async () => {
+        const { accounts, web3, dai, oracle_manager } = this.state;
 
-        let queryPrice = await prediction.methods.getQueryPrice().call();
-        let res = await prediction.methods.oracleQuerySpotPrice().send({ from: accounts[0], value: queryPrice });
-        console.log('=== oracleQuerySpotPrice() ===\n', res); 
-    }    
-
-    _oracleQuerySpotPriceWithExpiry = async () => {
-        const { accounts, web3, dai, pool_mock, prediction, POOlMOCK_ADDRESS } = this.state;
-
-        let queryPrice = await prediction.methods.getQueryPrice().call();
-        let res = await prediction.methods.oracleQuerySpotPriceWithExpiry().send({ from: accounts[0], value: queryPrice });
-        console.log('=== oracleQuerySpotPriceWithExpiry() ===\n', res); 
+        let queryPrice = await oracle_manager.methods.getQueryPrice().call();
+        let res = await oracle_manager.methods.oracleQueryScore().send({ from: accounts[0], value: queryPrice });
+        console.log('=== oracleQueryScore() ===\n', res); 
     }
 
-    _oracleQueryScore = async () => {
-        const { accounts, web3, dai, pool_mock, prediction, POOlMOCK_ADDRESS } = this.state;
+    _oracleQuerySpotPrice = async () => {
+        const { accounts, web3, dai, oracle_manager } = this.state;
 
-        let queryPrice = await prediction.methods.getQueryPrice().call();
-        let res = await prediction.methods.oracleQueryScore().send({ from: accounts[0], value: queryPrice });
-        console.log('=== oracleQueryScore() ===\n', res); 
+        let queryPrice = await oracle_manager.methods.getQueryPrice().call();
+        let res = await oracle_manager.methods.oracleQuerySpotPrice().send({ from: accounts[0], value: queryPrice });
+        console.log('=== oracleQuerySpotPrice() ===\n', res); 
     }
 
 
@@ -234,6 +257,17 @@ export default class PoolTogetherNYBW extends Component {
     /***
      * @dev - Test Functions
      **/
+    _depositIntoTemporaryAccount = async () => {
+        const { accounts, web3, dai, pool_mock, POOlMOCK_ADDRESS } = this.state;
+
+        const _depositAmount = web3.utils.toWei('0.15');
+
+        //@dev - Deposit Pool
+        let res1 = await dai.methods.approve(POOlMOCK_ADDRESS, _depositAmount).send({ from: accounts[0] });
+        let res2 = await pool_mock.methods.depositIntoTemporaryAccount(_depositAmount).send({ from: accounts[0] });
+        console.log('=== depositIntoTemporaryAccount() ===\n', res2);         
+    }
+
     _getCurrentOpenDrawId = async () => {
         const { accounts, web3, dai, prediction, pool_mock } = this.state;
 
@@ -248,7 +282,6 @@ export default class PoolTogetherNYBW extends Component {
         let res = await prediction.methods.getCurrentOpenDrawIdPredictionContract(_poolMock).call();
         console.log('=== getCurrentOpenDrawIdPredictionContract() ===\n', res);
     }
-
 
     timestampFromDate = async () => {
         const { accounts, web3, bokkypoobahs_datetime_contract } = this.state;
@@ -285,13 +318,17 @@ export default class PoolTogetherNYBW extends Component {
         const hotLoaderDisabled = zeppelinSolidityHotLoaderOptions.disabled;
      
         let Prediction = {};
+        let RewardManager = {};
+        let OracleManager = {};
         let PodMock = {};        
         let PoolMock = {};
         let PoolTokenMock = {};
         let Dai = {};
         let BokkyPooBahsDateTimeContract = {};
         try {
-          Prediction = require("../../../../build/contracts/Prediction.json");  // Load artifact-file of StakeholderRegistry
+          Prediction = require("../../../../build/contracts/Prediction.json");
+          RewardManager = require("../../../../build/contracts/RewardManager.json");
+          OracleManager = require("../../../../build/contracts/OracleManager.json");
           PodMock = require("../../../../build/contracts/PodMock.json");
           PoolMock = require("../../../../build/contracts/PoolMock.json");
           PoolTokenMock = require("../../../../build/contracts/PoolTokenMock.json");
@@ -335,6 +372,36 @@ export default class PoolTogetherNYBW extends Component {
                   deployedNetwork && deployedNetwork.address,
                 );
                 console.log('=== instancePrediction ===', instancePrediction);
+              }
+            }
+
+            // Create instance of contracts
+            let instanceRewardManager = null;
+            let deployedNetworkRewardManager = null;
+            let REWARD_MANAGER_ADDRESS = RewardManager.networks[networkId.toString()].address;
+            if (RewardManager.networks) {
+              deployedNetworkRewardManager = RewardManager.networks[networkId.toString()];
+              if (deployedNetworkRewardManager) {
+                instanceRewardManager = new web3.eth.Contract(
+                  RewardManager.abi,
+                  deployedNetworkRewardManager && deployedNetworkRewardManager.address,
+                );
+                console.log('=== instanceRewardManager ===', instanceRewardManager);
+              }
+            }
+ 
+            // Create instance of contracts
+            let instanceOracleManager = null;
+            let deployedNetworkOracleManager = null;
+            let ORACLE_MANAGER_ADDRESS = OracleManager.networks[networkId.toString()].address;
+            if (OracleManager.networks) {
+              deployedNetworkOracleManager = OracleManager.networks[networkId.toString()];
+              if (deployedNetworkOracleManager) {
+                instanceOracleManager = new web3.eth.Contract(
+                  OracleManager.abi,
+                  deployedNetworkOracleManager && deployedNetworkOracleManager.address,
+                );
+                console.log('=== instanceOracleManager ===', instanceOracleManager);
               }
             }
 
@@ -413,12 +480,16 @@ export default class PoolTogetherNYBW extends Component {
                 hotLoaderDisabled,
                 isMetaMask, 
                 prediction: instancePrediction,
+                reward_manager: instanceRewardManager,
+                oracle_manager: instanceOracleManager,
                 pod_mock: instancePodMock,
                 pool_mock: instancePoolMock,
                 poolToken_mock: instancePoolTokenMock,
                 dai: instanceDai,
                 bokkypoobahs_datetime_contract: instanceBokkyPooBahsDateTimeContract,
                 PREDICTION_ADDRESS: PREDICTION_ADDRESS,
+                REWARD_MANAGER_ADDRESS: REWARD_MANAGER_ADDRESS,
+                ORACLE_MANAGER_ADDRESS: ORACLE_MANAGER_ADDRESS,
                 DAI_ADDRESS: DAI_ADDRESS,
                 POOlMOCK_ADDRESS: POOlMOCK_ADDRESS
               }, () => {
@@ -468,17 +539,19 @@ export default class PoolTogetherNYBW extends Component {
 
                             <Button size={'small'} mt={3} mb={2} onClick={this.initPool}> Init Pool </Button> <br />
 
+                            <Button size={'small'} mt={3} mb={2} onClick={this.addAdmin}> Add Admin right </Button> <br />
+
+                            <Button size={'small'} mt={3} mb={2} onClick={this.removeAdmin}> Remove Admin right </Button> <br />
+
+                            <hr />
+
                             <Button size={'small'} mt={3} mb={2} onClick={this.openNextDraw}> Open Next Draw </Button> <br />
 
                             <Button size={'small'} mt={3} mb={2} onClick={this.reward}> Distribute Reward from Pool </Button> <br />
 
                             <hr />
 
-                            <Button size={'small'} mt={3} mb={2} onClick={this._getQueryPrice}> Get QueryPrice </Button> <br />
-
-                            <Button size={'small'} mt={3} mb={2} onClick={this._oracleQuerySpotPrice}> Oracle QuerySpotPrice </Button> <br />
-
-                            <Button size={'small'} mt={3} mb={2} onClick={this._oracleQuerySpotPriceWithExpiry}> Oracle QuerySpotPriceWithExpiry </Button> <br />
+                            <Button mainColor="DarkCyan" size={'small'} mt={3} mb={2} onClick={this._getQueryPrice}> Get QueryPrice </Button> <br />
 
                             <Button size={'small'} mt={3} mb={2} onClick={this._oracleQueryScore}> Oracle QueryScore of Sports </Button> <br />
 
