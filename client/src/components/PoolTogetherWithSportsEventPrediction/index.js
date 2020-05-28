@@ -600,10 +600,8 @@ export default class PoolTogetherWithSportsEventPrediction extends Component {
                               borderColor={"#E8E8E8"}
                         >
                             <h4>User</h4> <br />
-
-                            <Button size={'small'} mt={3} mb={2} onClick={this.gameScorePrediction}> Game Score Prediction </Button> <br />                        
-
-                            <Button size={'small'} mt={3} mb={2} onClick={this._depositPool}> Deposit Pool </Button> <br />
+                            <Button size={'small'} mt={3} mb={2} onClick={this._depositPool}> Buy ticket（Deposit Pool + Game Score Prediction) </Button> <br />
+                            <p>(※ When user push the botton above, gameScorePrediction is also executed in a same transaction)</p> <br />
                         </Card>
                     </Grid>
                 </Grid>
