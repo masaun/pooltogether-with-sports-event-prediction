@@ -60,8 +60,8 @@ contract Prediction is OwnableOriginal(msg.sender), McStorage, McConstants {
         predictionData.userId = _userId;
         predictionData.drawId = _drawId;          /// assign currentOpenDrawId
         predictionData.gameOverview = _query;     /// i.e). "MLB/20190819/HOU-DET/1"
-        predictionData.gameScore1 = _gameScore1;
-        predictionData.gameScore2 = _gameScore2;
+        predictionData.gameScore1 = _predictedGameScore1;
+        predictionData.gameScore2 = _predictedGameScore2;
         predictionData.timestamp = now;
 
         emit GameScorePrediction(predictionData.predictionId,
