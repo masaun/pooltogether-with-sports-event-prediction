@@ -56,7 +56,7 @@ Kovan Test Network
 ```
 (root directory)
 
-$ npm run migrate:Kovan
+$ npm run migrate:kovan
 ```
 
 &nbsp;
@@ -80,7 +80,7 @@ $ npm run client
 
 4. Access to browser by using link 
 ```
-http://127.0.0.1:3000/pooltogether-nybw-hack-2020
+http://127.0.0.1:3000/pooltogether-with-sports-event-prediction
 ```
 
 &nbsp;

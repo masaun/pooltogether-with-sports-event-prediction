@@ -5,8 +5,8 @@ import Footer from "./components/Footer/index.js";
 import Hero from "./components/Hero/index.js";
 import Web3Info from "./components/Web3Info/index.js";
 
-// PoolTogetherNYBW
-import PoolTogetherNYBW from "./components/PoolTogetherNYBW/index.js";
+// PoolTogetherWithSportsEventPrediction
+import PoolTogetherWithSportsEventPrediction from "./components/PoolTogetherWithSportsEventPrediction/index.js";
 
 import { Typography, Grid, TextField } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/styles';
@@ -176,10 +176,10 @@ class App extends Component {
     );
   }
 
-  renderPoolTogetherNYBW() {
+  renderPoolTogetherWithSportsEventPrediction() {
     return (
       <div className={styles.wrapper}>
-        <PoolTogetherNYBW />
+        <PoolTogetherWithSportsEventPrediction />
       </div>
     );
   }
@@ -189,7 +189,7 @@ class App extends Component {
       <div className={styles.App}>
         <Header />
           {this.state.route === '' && this.renderInstructions()}
-          {this.state.route === 'pooltogether-nybw-hack-2020' && this.renderPoolTogetherNYBW()} 
+          {this.state.route === 'pooltogether-with-sports-event-prediction' && this.renderPoolTogetherWithSportsEventPrediction()} 
         <Footer />
       </div>
     );
