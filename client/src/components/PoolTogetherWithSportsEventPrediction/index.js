@@ -550,7 +550,7 @@ export default class PoolTogetherWithSportsEventPrediction extends Component {
                               p={20} 
                               borderColor={"#E8E8E8"}
                         >
-                            <h4>Test Functions for Oracle</h4>
+                            <h4>Test Functions for Oracle (Band-Protocol)</h4>
                             <Button mainColor="DarkCyan" size={'small'} mt={3} mb={2} onClick={this._getQueryPrice}> Get QueryPrice </Button> <br />
 
                             <Button size={'small'} mt={3} mb={2} onClick={this._oracleQueryScore}> Oracle QueryScore of Sports </Button> <br />
