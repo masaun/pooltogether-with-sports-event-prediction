@@ -42,16 +42,17 @@ contract PoolMock is usingBandProtocol, MCDAwarePool, OwnableOriginal(msg.sender
     function _openNextDraw(bytes32 _nextSecretHash) public {
         /// Open Pool
         openNextDraw(_nextSecretHash);
-
-        /// Open next and new draw of game score prediction which is inherited from Prediction.sol
-        uint _drawId = getCurrentOpenDrawId();
-        prediction.openeNextGameScorePredictionDraw(_drawId);
     }
 
     /***
      * @notice - Deposit DAI into Pool(=this contract)
      **/
     function _depositPool(uint _depositAmount) public returns (bool) {
+        /// Predict game score 
+        uint _drawId = getCurrentCommittedDrawId();
+        prediction.openeNextGameScorePredictionDraw(_drawId);
+
+        /// Buy ticket (Deposit DAI into pool)
         depositPool(_depositAmount);  // Delegate call of depositPool() in BasePool.sol
     }
     
