@@ -5,8 +5,8 @@ import Footer from "./components/Footer/index.js";
 import Hero from "./components/Hero/index.js";
 import Web3Info from "./components/Web3Info/index.js";
 
-// PoolTogetherNYBW
-import PoolTogetherNYBW from "./components/PoolTogetherNYBW/index.js";
+// PoolTogetherWithSportsEventPrediction
+import PoolTogetherWithSportsEventPrediction from "./components/PoolTogetherWithSportsEventPrediction/index.js";
 
 import { Typography, Grid, TextField } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/styles';
@@ -53,9 +53,9 @@ class App extends Component {
   componentDidMount = async () => {
     const hotLoaderDisabled = zeppelinSolidityHotLoaderOptions.disabled;
  
-    let StakeholderRegistry = {};
+    let Prediction = {};
     try {
-      StakeholderRegistry = require("../../build/contracts/Prediction.json");          // Load artifact-file of StakeholderRegistry
+      Prediction = require("../../build/contracts/Prediction.json");
     } catch (e) {
       console.log(e);
     }
@@ -82,22 +82,22 @@ class App extends Component {
         let balance = accounts.length > 0 ? await web3.eth.getBalance(accounts[0]): web3.utils.toWei('0');
         balance = web3.utils.fromWei(balance, 'ether');
 
-        let instanceStakeholderRegistry = null;
+        let instancePrediction = null;
         let deployedNetwork = null;
 
         // Create instance of contracts
-        if (StakeholderRegistry.networks) {
-          deployedNetwork = StakeholderRegistry.networks[networkId.toString()];
+        if (Prediction.networks) {
+          deployedNetwork = Prediction.networks[networkId.toString()];
           if (deployedNetwork) {
-            instanceStakeholderRegistry = new web3.eth.Contract(
-              StakeholderRegistry.abi,
+            instancePrediction = new web3.eth.Contract(
+              Prediction.abi,
               deployedNetwork && deployedNetwork.address,
             );
-            console.log('=== instanceStakeholderRegistry ===', instanceStakeholderRegistry);
+            console.log('=== instancePrediction ===', instancePrediction);
           }
         }
 
-        if (StakeholderRegistry) {
+        if (Prediction) {
           // Set web3, accounts, and contract to the state, and then proceed with an
           // example of interacting with the contract's methods.
           this.setState({ 
@@ -109,13 +109,13 @@ class App extends Component {
             networkType, 
             hotLoaderDisabled,
             isMetaMask, 
-            stakeholder_registry: instanceStakeholderRegistry
+            prediction: instancePrediction
           }, () => {
             this.refreshValues(
-              instanceStakeholderRegistry
+              instancePrediction
             );
             setInterval(() => {
-              this.refreshValues(instanceStakeholderRegistry);
+              this.refreshValues(instancePrediction);
             }, 5000);
           });
         }
@@ -138,9 +138,9 @@ class App extends Component {
     }
   }
 
-  refreshValues = (instanceStakeholderRegistry) => {
-    if (instanceStakeholderRegistry) {
-      console.log('refreshValues of instanceStakeholderRegistry');
+  refreshValues = (instancePrediction) => {
+    if (instancePrediction) {
+      console.log('refreshValues of instancePrediction');
     }
   }
 
@@ -176,10 +176,10 @@ class App extends Component {
     );
   }
 
-  renderPoolTogetherNYBW() {
+  renderPoolTogetherWithSportsEventPrediction() {
     return (
       <div className={styles.wrapper}>
-        <PoolTogetherNYBW />
+        <PoolTogetherWithSportsEventPrediction />
       </div>
     );
   }
@@ -189,7 +189,7 @@ class App extends Component {
       <div className={styles.App}>
         <Header />
           {this.state.route === '' && this.renderInstructions()}
-          {this.state.route === 'pooltogether-nybw-hack-2020' && this.renderPoolTogetherNYBW()} 
+          {this.state.route === 'pooltogether-with-sports-event-prediction' && this.renderPoolTogetherWithSportsEventPrediction()} 
         <Footer />
       </div>
     );

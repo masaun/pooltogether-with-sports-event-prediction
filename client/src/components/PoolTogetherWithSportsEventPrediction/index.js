@@ -17,7 +17,7 @@ import { contractAddressList } from '../../data/contractAddress/contractAddress.
 import { tokenAddressList } from '../../data/tokenAddress/tokenAddress.js'
 
 
-export default class PoolTogetherNYBW extends Component {
+export default class PoolTogetherWithSportsEventPrediction extends Component {
     constructor(props) {    
         super(props);
 
@@ -522,7 +522,7 @@ export default class PoolTogetherNYBW extends Component {
             <div className={styles.widgets}>
                 <Grid container style={{ marginTop: 32 }}>
                     <Grid item xs={12}>
-                        <h4>PoolTogether NYBW Hack 2020</h4>
+                        <h4>PoolTogether with Sports Event Prediction</h4>
                     </Grid>
 
                     <Grid item xs={6}>

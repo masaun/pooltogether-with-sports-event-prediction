@@ -7,7 +7,7 @@ const Header = () => (
       <ul>
         <li><a href="/" className={styles.link}><span style={{ padding: "60px" }}> Home </span></a></li>
 
-        <li><a href="/pooltogether-nybw-hack-2020" className={styles.link}> PoolTogether NYBW Hack 2020</a></li>
+        <li><a href="/pooltogether-with-sports-event-prediction" className={styles.link}> PoolTogether with Sports Event Prediction</a></li>
       </ul>
     </nav>
   </div>
