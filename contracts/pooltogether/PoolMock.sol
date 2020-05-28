@@ -47,10 +47,17 @@ contract PoolMock is usingBandProtocol, MCDAwarePool, OwnableOriginal(msg.sender
     /***
      * @notice - Deposit DAI into Pool(=this contract)
      **/
-    function _depositPool(uint _depositAmount) public returns (bool) {
+    function _depositPool(
+        uint _depositAmount,
+        address _userAddress, 
+        string memory _query,  /// i.e). "MLB/20190819/HOU-DET/1"
+        uint _predictedGameScore1, 
+        uint _predictedGameScore2
+    ) public returns (bool) {
         /// Predict game score 
+        address _poolMock = address(this);
         uint _drawId = getCurrentCommittedDrawId();
-        prediction.openeNextGameScorePredictionDraw(_drawId);
+        prediction.gameScorePrediction(_poolMock, _userAddress, _drawId, _query, _predictedGameScore1, _predictedGameScore2);
 
         /// Buy ticket (Deposit DAI into pool)
         depositPool(_depositAmount);  // Delegate call of depositPool() in BasePool.sol
