@@ -177,11 +177,11 @@ export default class PoolTogetherWithSportsEventPrediction extends Component {
         const SECRET = '0x1234123412341234123412341234123412341234123412341234123412341234'
 
         /// Call the extendedReward method of RewardManager.sol directly
-        let res1 = await pool_mock.methods.extendedReward(SECRET, SALT, _gameScore1, _gameScore2).send({ from: accounts[0] });
-        console.log('=== extendedReward() - PoolMock.sol ===\n', res1);
+        //let res1 = await pool_mock.methods.extendedReward(SECRET, SALT, _gameScore1, _gameScore2).send({ from: accounts[0] });
+        //console.log('=== extendedReward() - PoolMock.sol ===\n', res1);
 
-        //let res2 = await pool_mock.methods.selectWinnerAndDistributeReward(SECRET, SALT, _gameScore1, _gameScore2).send({ from: accounts[0] });
-        //console.log('=== reward() ===\n', res2);         
+        let res2 = await pool_mock.methods.selectWinnerAndDistributeReward(SECRET, SALT, _gameScore1, _gameScore2).send({ from: accounts[0] });
+        console.log('=== selectWinnerAndDistributeReward - PoolMock.sol ===\n', res2);         
     }
 
 
