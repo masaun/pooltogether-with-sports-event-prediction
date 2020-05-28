@@ -107,9 +107,11 @@ contract PoolMock is usingBandProtocol, MCDAwarePool, OwnableOriginal(msg.sender
         // Select the winner using the hash as entropy
         address winningAddress;
         //address winningAddress = calculateWinner(entropy);
+
         if (calculateWinner(entropy) != address(0)) {  /// Need to change this condition. Now it just define that condition so far.
             winningAddress = calculateWinner(entropy);
         } else {
+            /// Assign another value into entropy 
             entropy = keccak256(abi.encodePacked(_secret));
         }
 

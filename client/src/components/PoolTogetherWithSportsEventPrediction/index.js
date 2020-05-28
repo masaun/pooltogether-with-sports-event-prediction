@@ -177,11 +177,11 @@ export default class PoolTogetherWithSportsEventPrediction extends Component {
         const SECRET = '0x1234123412341234123412341234123412341234123412341234123412341234'
 
         /// Call the extendedReward method of RewardManager.sol directly
-        let res1 = await pool_mock.methods.extendedReward(SECRET, SALT, _gameScore1, _gameScore2).send({ from: accounts[0] });
-        console.log('=== extendedReward() - PoolMock.sol ===\n', res1);
+        //let res1 = await pool_mock.methods.extendedReward(SECRET, SALT, _gameScore1, _gameScore2).send({ from: accounts[0] });
+        //console.log('=== extendedReward() - PoolMock.sol ===\n', res1);
 
-        //let res2 = await pool_mock.methods.selectWinnerAndDistributeReward(SECRET, SALT, _gameScore1, _gameScore2).send({ from: accounts[0] });
-        //console.log('=== reward() ===\n', res2);         
+        let res2 = await pool_mock.methods.selectWinnerAndDistributeReward(SECRET, SALT, _gameScore1, _gameScore2).send({ from: accounts[0] });
+        console.log('=== selectWinnerAndDistributeReward - PoolMock.sol ===\n', res2);         
     }
 
 
@@ -600,10 +600,8 @@ export default class PoolTogetherWithSportsEventPrediction extends Component {
                               borderColor={"#E8E8E8"}
                         >
                             <h4>User</h4> <br />
-
-                            <Button size={'small'} mt={3} mb={2} onClick={this.gameScorePrediction}> Game Score Prediction </Button> <br />                        
-
-                            <Button size={'small'} mt={3} mb={2} onClick={this._depositPool}> Deposit Pool </Button> <br />
+                            <Button size={'small'} mt={3} mb={2} onClick={this._depositPool}> Buy ticket（Deposit Pool + Game Score Prediction) </Button> <br />
+                            <p>(※ When user push the botton above, depositing into pool and game score prediction are executed in a same transaction)</p> <br />
                         </Card>
                     </Grid>
                 </Grid>
