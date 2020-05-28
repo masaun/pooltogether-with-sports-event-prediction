@@ -30,14 +30,6 @@ contract Prediction is OwnableOriginal(msg.sender), McStorage, McConstants {
     }
 
     /***
-     * @notice - Open next and new draw of game score prediction
-     **/
-    function openeNextGameScorePredictionDraw(uint _predictionId) public returns (bool) {
-        PredictionData storage predictionData = predictionDatas[_predictionId];
-    }
-    
-
-    /***
      * @notice - Game score prediction
      **/
     function gameScorePrediction(
@@ -45,8 +37,8 @@ contract Prediction is OwnableOriginal(msg.sender), McStorage, McConstants {
         address _userAddress, 
         uint _drawId,
         string memory _query,  /// i.e). "MLB/20190819/HOU-DET/1"
-        uint _gameScore1, 
-        uint _gameScore2
+        uint _predictedGameScore1, 
+        uint _predictedGameScore2
     ) public returns (bool) {
         /// Take apart query
         //string memory eventType;        /// i.e). "MLB"
@@ -66,10 +58,10 @@ contract Prediction is OwnableOriginal(msg.sender), McStorage, McConstants {
         PredictionData storage predictionData = predictionDatas[currentPredictionId];
         predictionData.predictionId = currentPredictionId;
         predictionData.userId = _userId;
-        predictionData.drawId = _drawId;   /// assign currentOpenDrawId
-        predictionData.gameOverview = _query; 
-        predictionData.gameScore1 = _gameScore1;
-        predictionData.gameScore2 = _gameScore2;
+        predictionData.drawId = _drawId;          /// assign currentOpenDrawId
+        predictionData.gameOverview = _query;     /// i.e). "MLB/20190819/HOU-DET/1"
+        predictionData.gameScore1 = _predictedGameScore1;
+        predictionData.gameScore2 = _predictedGameScore2;
         predictionData.timestamp = now;
 
         emit GameScorePrediction(predictionData.predictionId,
