@@ -540,7 +540,7 @@ export default class PoolTogetherWithSportsEventPrediction extends Component {
 
                             <Button size={'small'} mt={3} mb={2} onClick={this.openNextDraw}> Open Next Draw </Button> <br />
 
-                            <Button size={'small'} mt={3} mb={2} onClick={this.reward}> Distribute Reward from Pool </Button> <br />
+                            <Button size={'small'} mt={3} mb={2} onClick={this.reward}> Prize Awarded (Distribute Reward) </Button> <br />
                         </Card>
 
                         <Card width={"auto"} 
