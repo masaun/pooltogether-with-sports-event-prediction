@@ -136,10 +136,19 @@ export default class PoolTogetherWithSportsEventPrediction extends Component {
         const { accounts, web3, dai, pool_mock, POOlMOCK_ADDRESS } = this.state;
 
         const _depositAmount = web3.utils.toWei('0.15');
+        const _userAddress = accounts[0];
+        const _drawId = 1;
+        const _query = "MLB/20190819/HOU-DET/1";
+        const _gameScore1 = 5
+        const _gameScore2 = 4
 
         //@dev - Deposit Pool
         let res1 = await dai.methods.approve(POOlMOCK_ADDRESS, _depositAmount).send({ from: accounts[0] });
-        let res2 = await pool_mock.methods._depositPool(_depositAmount).send({ from: accounts[0] });
+        let res2 = await pool_mock.methods._depositPool(_depositAmount,
+                                                        _userAddress, 
+                                                        _query,  /// i.e). "MLB/20190819/HOU-DET/1"
+                                                        _gameScore1, 
+                                                        _gameScore2).send({ from: accounts[0] });            
         console.log('=== depositPool() ===\n', res2); 
     }
 
