@@ -535,34 +535,12 @@ export default class PoolTogetherWithSportsEventPrediction extends Component {
                         >
                             <h4>Admin</h4> <br />
 
-                            <Button size={'small'} mt={3} mb={2} onClick={this._initPoolToken}> Init PoolToken </Button> <br />
-
                             <Button size={'small'} mt={3} mb={2} onClick={this.initPool}> Init Pool </Button> <br />
 
-                            <Button size={'small'} mt={3} mb={2} onClick={this.addAdmin}> Add Admin right </Button> <br />
-
-                            <Button size={'small'} mt={3} mb={2} onClick={this.removeAdmin}> Remove Admin right </Button> <br />
-
-                            <hr />
 
                             <Button size={'small'} mt={3} mb={2} onClick={this.openNextDraw}> Open Next Draw </Button> <br />
 
                             <Button size={'small'} mt={3} mb={2} onClick={this.reward}> Distribute Reward from Pool </Button> <br />
-
-                            <hr />
-
-                            <Button mainColor="DarkCyan" size={'small'} mt={3} mb={2} onClick={this._getQueryPrice}> Get QueryPrice </Button> <br />
-
-                            <Button size={'small'} mt={3} mb={2} onClick={this._oracleQueryScore}> Oracle QueryScore of Sports </Button> <br />
-
-                            <hr />
-                            <Button mainColor="DarkCyan" size={'small'} mt={3} mb={2} onClick={this._getCurrentOpenDrawId}> Get Current Open DrawId </Button> <br />
-
-                            <Button mainColor="DarkCyan" size={'small'} mt={3} mb={2} onClick={this._getBasePool}> Get BasePool </Button> <br />
-
-                            <Button mainColor="DarkCyan" size={'small'} mt={3} mb={2} onClick={this.balanceOfUnderlying}> Balance Of Underlying </Button> <br />
-
-                            <Button mainColor="DarkCyan" size={'small'} mt={3} mb={2} onClick={this._balanceOfContract}> Balance of contract </Button> <br />
                         </Card>
 
                         <Card width={"auto"} 
@@ -572,8 +550,33 @@ export default class PoolTogetherWithSportsEventPrediction extends Component {
                               p={20} 
                               borderColor={"#E8E8E8"}
                         >
-                            <h4>Test Functions</h4> <br />
+                            <h4>Test Functions for Oracle (Band-Protocol)</h4>
+                            <Button mainColor="DarkCyan" size={'small'} mt={3} mb={2} onClick={this._getQueryPrice}> Get QueryPrice </Button> <br />
+
+                            <Button size={'small'} mt={3} mb={2} onClick={this._oracleQueryScore}> Oracle QueryScore of Sports </Button> <br />
+
+                            <hr /><br />
+
+                            <h4>Test Functions for PoolTogether</h4> <br />
+                            <Button size={'small'} mt={3} mb={2} onClick={this._initPoolToken}> Init PoolToken </Button> <br />
+
+                            <Button size={'small'} mt={3} mb={2} onClick={this.addAdmin}> Add Admin right </Button> <br />
+
+                            <Button size={'small'} mt={3} mb={2} onClick={this.removeAdmin}> Remove Admin right </Button> <br />
+
+                            <Button size={'small'} mt={3} mb={2} onClick={this._depositIntoTemporaryAccount}> Deposit Into Temporary Account </Button> <br />
+
+                            <Button mainColor="DarkCyan" size={'small'} mt={3} mb={2} onClick={this._getCurrentOpenDrawId}> Get Current Open DrawId </Button> <br />
+
+                            <Button mainColor="DarkCyan" size={'small'} mt={3} mb={2} onClick={this._getBasePool}> Get BasePool </Button> <br />
+
+                            <Button mainColor="DarkCyan" size={'small'} mt={3} mb={2} onClick={this.balanceOfUnderlying}> Balance Of Underlying </Button> <br />
+
+                            <Button mainColor="DarkCyan" size={'small'} mt={3} mb={2} onClick={this._balanceOfContract}> Balance of contract </Button> <br />
+
                             <Button mainColor="DarkCyan" size={'small'} mt={3} mb={2} onClick={this._getCurrentDrawId}> Get Current DrawId in PredictionContract </Button> <br />
+
+                            <hr />
 
                             <Button mainColor="DarkCyan" size={'small'} mt={3} mb={2} onClick={this.timestampFromDate}> Timestamp From Date </Button> <br />
                         </Card>
@@ -590,8 +593,6 @@ export default class PoolTogetherWithSportsEventPrediction extends Component {
                             <h4>User</h4> <br />
 
                             <Button size={'small'} mt={3} mb={2} onClick={this.gameScorePrediction}> Game Score Prediction </Button> <br />                        
-
-                            <Button size={'small'} mt={3} mb={2} onClick={this._depositIntoTemporaryAccount}> Deposit Into Temporary Account </Button> <br />
 
                             <Button size={'small'} mt={3} mb={2} onClick={this._depositPool}> Deposit Pool </Button> <br />
                         </Card>
